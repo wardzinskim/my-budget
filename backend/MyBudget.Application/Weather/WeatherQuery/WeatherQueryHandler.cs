@@ -3,7 +3,7 @@ using MyBudget.Application.Weather.Model;
 
 namespace MyBudget.Application.Weather.WeatherQuery;
 
-public record WeatherQuery() : Request<WeatherForecast[]>;
+public record WeatherQuery(string? Example = null) : Request<WeatherForecast[]>;
 
 public class WeatherQueryHandler : MediatorRequestHandler<WeatherQuery, WeatherForecast[]>
 {
