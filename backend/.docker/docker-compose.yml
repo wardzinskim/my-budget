@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  mybudget.api:
+    image: ${DOCKER_REGISTRY-}mybudgetapi
+    build:
+      context: ../
+      dockerfile: MyBudget.Api/Dockerfile
+
+  seq:
+    image: datalust/seq:latest
+    ports:
+     - "5341:80"
+    environment:
+      ACCEPT_EULA: "Y"
+    restart: unless-stopped
+    volumes:
+      - seq-data:/data
+
+volumes:
+  seq-data:
