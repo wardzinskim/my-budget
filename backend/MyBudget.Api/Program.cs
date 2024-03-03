@@ -1,5 +1,6 @@
 using Carter;
 using MyBudget.Api.Installers.Abstraction;
+using MyBudget.Api.Installers.ExceptionHandlers;
 using Serilog;
 
 namespace MyBudget.Api;
@@ -29,6 +30,7 @@ public class Program
             app.UseSwaggerUI();
         }
 
+        app.UseExceptionHandler();
         app.UseHttpsRedirection();
         app.UseAuthorization();
         app.MapCarter();

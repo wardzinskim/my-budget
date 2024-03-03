@@ -15,6 +15,7 @@ public class WeatherModule : ICarterModule
             .WithName("GetWeatherForecast")
             .WithTags("weather")
             .Produces<WeatherForecast[]>()
+            .ProducesValidationProblem()
             .WithOpenApi()
             .IncludeInOpenApi();
     }
