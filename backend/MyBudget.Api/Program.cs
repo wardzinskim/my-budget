@@ -1,6 +1,5 @@
-using Carter;
+using Microsoft.AspNetCore.Diagnostics;
 using MyBudget.Api.Installers.Abstraction;
-using MyBudget.Api.Installers.ExceptionHandlers;
 using Serilog;
 
 namespace MyBudget.Api;
@@ -16,25 +15,13 @@ public class Program
         });
 
         // Add services to the container.
-        builder.Services.AddAuthorization();
-
         builder.Install(typeof(Program).Assembly);
 
         var app = builder.Build();
-
         app.UseSerilogRequestLogging();
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
-
-        app.UseExceptionHandler();
         app.UseHttpsRedirection();
-        app.UseAuthorization();
-        app.MapCarter();
-        app.MapHealthChecks("/health");
+        app.Use(typeof(Program).Assembly);
+
         app.Run();
     }
 }

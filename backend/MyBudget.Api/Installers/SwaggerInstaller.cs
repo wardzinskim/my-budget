@@ -12,7 +12,7 @@ public sealed class SwaggerInstaller : IInstaller
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
         {
-            options.SwaggerDoc("v1", new OpenApiInfo { Version = "v1", Title = "MyBudget API", });
+            options.SwaggerDoc("v1", new OpenApiInfo {Version = "v1", Title = "MyBudget API",});
 
             var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
@@ -31,5 +31,14 @@ public sealed class SwaggerInstaller : IInstaller
                 return false;
             });
         });
+    }
+
+    public void Use(WebApplication app)
+    {
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
     }
 }

@@ -1,12 +1,27 @@
-﻿using MyBudget.Api.Installers.Abstraction;
+﻿using Microsoft.AspNetCore.Diagnostics;
+using MyBudget.Api.Installers.Abstraction;
 
 namespace MyBudget.Api.Installers.ExceptionHandlers;
 
-public class ExceptionHandlersInstaller : IInstaller
+public sealed class ExceptionHandlersInstaller : IInstaller
 {
     public void Install(IServiceCollection services, IConfiguration configuration, IHostEnvironment hostingEnvironment)
     {
         services.AddExceptionHandler<ValidationExceptionHandler>();
-        services.AddProblemDetails();
+        services.AddProblemDetails(options =>
+        {
+            options.CustomizeProblemDetails = context =>
+            {
+                context.ProblemDetails.Instance =
+                    context.HttpContext.Features.Get<IExceptionHandlerPathFeature>()?.Path;
+                context.ProblemDetails.Extensions.Add("trace-id", context.HttpContext.TraceIdentifier);
+            };
+        });
+    }
+
+    public void Use(WebApplication app)
+    {
+        app.UseExceptionHandler();
+        app.UseStatusCodePages();
     }
 }

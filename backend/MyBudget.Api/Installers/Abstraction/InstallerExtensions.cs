@@ -24,4 +24,25 @@ public static class InstallerExtensions
 
         return builder;
     }
+
+    public static WebApplication Use(
+        this WebApplication app,
+        Assembly? assembly
+    )
+    {
+        if (assembly is null) return app;
+
+        var installers = assembly.ExportedTypes
+            .Where(t => typeof(IInstaller).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
+            .Select(Activator.CreateInstance)
+            .Cast<IInstaller>()
+            .ToList();
+
+
+        installers.ForEach(installer =>
+            installer.Use(app));
+
+
+        return app;
+    }
 }

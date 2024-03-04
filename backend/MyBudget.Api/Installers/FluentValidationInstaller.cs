@@ -4,7 +4,7 @@ using MyBudget.Application.Weather.WeatherQuery;
 
 namespace MyBudget.Api.Installers;
 
-public class FluentValidationInstaller : IInstaller
+public sealed class FluentValidationInstaller : IInstaller
 {
     public void Install(IServiceCollection services, IConfiguration configuration, IHostEnvironment hostingEnvironment)
     {

@@ -9,4 +9,9 @@ public sealed class CarterInstaller : IInstaller
     {
         services.AddCarter();
     }
+
+    public void Use(WebApplication app)
+    {
+        app.MapCarter();
+    }
 }

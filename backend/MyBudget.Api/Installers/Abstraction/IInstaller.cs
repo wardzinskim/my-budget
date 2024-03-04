@@ -2,7 +2,11 @@
 
 public interface IInstaller
 {
-    void Install(IServiceCollection services,
+    void Install(
+        IServiceCollection services,
         IConfiguration configuration,
-        IHostEnvironment hostingEnvironment);
+        IHostEnvironment hostingEnvironment
+    );
+
+    void Use(WebApplication app) { }
 }

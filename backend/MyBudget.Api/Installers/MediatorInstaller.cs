@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using MassTransit.Middleware;
 using MyBudget.Api.Installers.Abstraction;
 using MyBudget.Api.Installers.MediatorFilters;
 using MyBudget.Application.Weather.WeatherQuery;

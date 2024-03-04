@@ -1,25 +1,22 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using MassTransit;
+using MyBudget.Application.Weather.Model;
+using MyBudget.Application.Weather.WeatherQuery;
+using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace MyBudget.Api.Installers.MediatorFilters;
 
-internal class ValidationFilter<TMessage> : IFilter<ConsumeContext<TMessage>>
+internal class ValidationFilter<TMessage>(IEnumerable<IValidator<TMessage>> validators)
+    : IFilter<ConsumeContext<TMessage>>
     where TMessage : class
 {
-    private readonly IEnumerable<IValidator<TMessage>> validators;
-
-    public ValidationFilter(IEnumerable<IValidator<TMessage>> validators)
-    {
-        this.validators = validators;
-    }
-
     public void Probe(ProbeContext context)
         => context.CreateFilterScope("validation");
 
     public async Task Send(ConsumeContext<TMessage> context, IPipe<ConsumeContext<TMessage>> next)
     {
-        var validationFailures = await ValidateAsync(context.Message);
+        var validationFailures = await ValidateAsync(context.Message, context.CancellationToken);
 
         if (validationFailures.Length == 0)
         {
@@ -30,14 +27,15 @@ internal class ValidationFilter<TMessage> : IFilter<ConsumeContext<TMessage>>
         throw new ValidationException(validationFailures);
     }
 
-    private async Task<ValidationFailure[]> ValidateAsync(TMessage message)
+    private async Task<ValidationFailure[]> ValidateAsync(TMessage message, CancellationToken cancellationToken)
     {
         if (!validators.Any())
-            return [];
 
+            return [];
         var context = new ValidationContext<TMessage>(message);
 
-        var validationResults = await Task.WhenAll(validators.Select(validator => validator.ValidateAsync(context)));
+        var validationResults =
+            await Task.WhenAll(validators.Select(validator => validator.ValidateAsync(context, cancellationToken)));
 
         return validationResults
             .Where(x => !x.IsValid)
