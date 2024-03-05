@@ -38,7 +38,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\MyBudget.Application\MyBudget.Application.csproj" />
+	  <ProjectReference Include="..\Core\MyBudget.Application\MyBudget.Application.csproj" />
+	  <ProjectReference Include="..\Core\MyBudget.Infrastructure\MyBudget.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

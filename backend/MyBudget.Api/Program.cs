@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Diagnostics;
 using MyBudget.Api.Installers.Abstraction;
 using Serilog;
 

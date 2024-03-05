@@ -1,9 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using MassTransit;
-using MyBudget.Application.Weather.Model;
-using MyBudget.Application.Weather.WeatherQuery;
-using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace MyBudget.Api.Installers.MediatorFilters;
 

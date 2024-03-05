@@ -22,11 +22,11 @@ public class WeatherModule : ICarterModule
 
     private static async Task<IResult> GetWeatherForecast(
         IMediator mediator,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         var result = await mediator.SendRequest(new WeatherQuery(), cancellationToken);
 
         return Results.Ok(result);
     }
-
 }
