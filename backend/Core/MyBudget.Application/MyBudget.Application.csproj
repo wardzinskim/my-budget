@@ -15,4 +15,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\MyBudget.SharedKernel\MyBudget.SharedKernel.csproj" />
+    <ProjectReference Include="..\MyBudget.Domain\MyBudget.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

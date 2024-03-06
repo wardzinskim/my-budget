@@ -2,6 +2,7 @@
 using Carter.OpenApi;
 using MassTransit;
 using MassTransit.Mediator;
+using MyBudget.Api.Extensions;
 using MyBudget.Application.Weather.Model;
 using MyBudget.Application.Weather.WeatherQuery;
 
@@ -27,6 +28,6 @@ public class WeatherModule : ICarterModule
     {
         var result = await mediator.SendRequest(new WeatherQuery(), cancellationToken);
 
-        return Results.Ok(result);
+        return result.Match(x => Results.Ok(x));
     }
 }

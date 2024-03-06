@@ -11,6 +11,7 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["MyBudget.Api/MyBudget.Api.csproj", "MyBudget.Api/"]
 COPY ["Core/MyBudget.Application/MyBudget.Application.csproj", "Core/MyBudget.Application/"]
+COPY ["Core/MyBudget.Domain/MyBudget.Domain.csproj", "Core/MyBudget.Domain/"]
 COPY ["Core/MyBudget.Infrastructure/MyBudget.Infrastructure.csproj", "Core/MyBudget.Infrastructure/"]
 RUN dotnet restore "./MyBudget.Api/./MyBudget.Api.csproj"
 COPY . .

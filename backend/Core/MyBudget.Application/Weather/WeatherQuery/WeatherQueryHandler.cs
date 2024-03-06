@@ -1,13 +1,14 @@
 ﻿using MassTransit.Mediator;
 using MyBudget.Application.Weather.Model;
+using MyBudget.SharedKernel;
 
 namespace MyBudget.Application.Weather.WeatherQuery;
 
-public record WeatherQuery(string? Example = null) : Request<WeatherForecast[]>;
+public record WeatherQuery(string? Example = null) : Request<Result<WeatherForecast[]>>;
 
-public class WeatherQueryHandler : MediatorRequestHandler<WeatherQuery, WeatherForecast[]>
+public class WeatherQueryHandler : MediatorRequestHandler<WeatherQuery, Result<WeatherForecast[]>>
 {
-    protected override Task<WeatherForecast[]> Handle(WeatherQuery request, CancellationToken cancellationToken)
+    protected override async Task<Result<WeatherForecast[]>> Handle(WeatherQuery request, CancellationToken cancellationToken)
     {
         var summaries = new[]
         {
@@ -23,6 +24,6 @@ public class WeatherQueryHandler : MediatorRequestHandler<WeatherQuery, WeatherF
                 })
             .ToArray();
 
-        return Task.FromResult(forecast);
+        return forecast;
     }
 }
