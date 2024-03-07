@@ -2,6 +2,7 @@
 using MyBudget.Infrastructure.Database;
 
 namespace MyBudget.Infrastructure.Domain.Budgets;
+
 internal class BudgetRepository(BudgetContext context) : IBudgetRepository
 {
     private readonly BudgetContext _context = context ?? throw new ArgumentNullException(nameof(context));

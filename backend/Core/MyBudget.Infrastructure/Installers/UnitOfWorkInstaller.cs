@@ -6,6 +6,7 @@ using MyBudget.Infrastructure.Domain;
 using MyBudget.SharedKernel;
 
 namespace MyBudget.Infrastructure.Installers;
+
 internal class UnitOfWorkInstaller : IInstaller
 {
     public void Install(IServiceCollection services, IConfiguration configuration, IHostEnvironment hostingEnvironment)

@@ -2,6 +2,7 @@
 using MyBudget.SharedKernel;
 
 namespace MyBudget.Infrastructure.Domain;
+
 internal class UnitOfWork : IUnitOfWork
 {
     private readonly BudgetContext _context;

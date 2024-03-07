@@ -10,7 +10,6 @@ internal sealed class BudgetEntityTypeConfiguration : IEntityTypeConfiguration<B
 {
     public void Configure(EntityTypeBuilder<Budget> builder)
     {
-
         builder.ToTable("Budgets", SchemaName.Budget);
 
         builder.Property(x => x.Id)
@@ -34,7 +33,5 @@ internal sealed class BudgetEntityTypeConfiguration : IEntityTypeConfiguration<B
         builder.Property(x => x.Status)
             .IsRequired()
             .HasConversion<EnumToStringConverter<BudgetStatus>>();
-
-
     }
 }
