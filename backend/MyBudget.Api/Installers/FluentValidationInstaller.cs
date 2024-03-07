@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using MyBudget.Api.Installers.Abstraction;
 using MyBudget.Application.Weather.WeatherQuery;
+using MyBudget.Infrastructure.Abstraction.Installer;
 
 namespace MyBudget.Api.Installers;
 

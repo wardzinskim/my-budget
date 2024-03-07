@@ -1,8 +1,8 @@
-﻿using MyBudget.Domain.Budget.Events;
-using MyBudget.Domain.Budget.Rules;
+﻿using MyBudget.Domain.Budgets.Events;
+using MyBudget.Domain.Budgets.Rules;
 using MyBudget.SharedKernel;
 
-namespace MyBudget.Domain.Budget;
+namespace MyBudget.Domain.Budgets;
 
 public class Budget : Entity, IAggregateRoot
 {

@@ -1,8 +1,8 @@
 ﻿using MassTransit.Mediator;
-using MyBudget.Domain.Budget;
+using MyBudget.Domain.Budgets;
 using MyBudget.SharedKernel;
 
-namespace MyBudget.Application.Budget.CreateBudget;
+namespace MyBudget.Application.Budgets.CreateBudget;
 
 public record CreateBudgetCommand(string Name) : Request<Result>;
 
@@ -14,11 +14,11 @@ public class CreateBudgetCommandHandler : MediatorRequestHandler<CreateBudgetCom
 
     protected override async Task<Result> Handle(CreateBudgetCommand request, CancellationToken cancellationToken)
     {
-        var budgetResult = Domain.Budget.Budget.Create(_idGenerator, _dateTimeProvider, Guid.NewGuid(), request.Name);
+        var budgetResult = Budget.Create(_idGenerator, _dateTimeProvider, Guid.NewGuid(), request.Name);
         if (budgetResult.IsFailure)
             return budgetResult.Error;
 
-        await _budgetRepository.AddAsync(budgetResult.Value);
+        await _budgetRepository.AddAsync(budgetResult.Value, cancellationToken);
 
         return Result.Success();
     }

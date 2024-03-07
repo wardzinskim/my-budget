@@ -1,6 +1,6 @@
 ﻿using Carter.OpenApi;
 using Microsoft.OpenApi.Models;
-using MyBudget.Api.Installers.Abstraction;
+using MyBudget.Infrastructure.Abstraction.Installer;
 using System.Reflection;
 
 namespace MyBudget.Api.Installers;
@@ -12,7 +12,7 @@ public sealed class SwaggerInstaller : IInstaller
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
         {
-            options.SwaggerDoc("v1", new OpenApiInfo {Version = "v1", Title = "MyBudget API",});
+            options.SwaggerDoc("v1", new OpenApiInfo { Version = "v1", Title = "MyBudget API", });
 
             var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));

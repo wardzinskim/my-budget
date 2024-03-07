@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace MyBudget.Application.Budget.CreateBudget;
+namespace MyBudget.Application.Budgets.CreateBudget;
 
 public sealed class CreateBudgetCommandValidator : AbstractValidator<CreateBudgetCommand>
 {

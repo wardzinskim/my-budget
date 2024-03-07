@@ -4,7 +4,7 @@ using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
 using MyBudget.Api.Extensions;
-using MyBudget.Application.Budget.CreateBudget;
+using MyBudget.Application.Budgets.CreateBudget;
 
 namespace MyBudget.Api.Features.Core;
 

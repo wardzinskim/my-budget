@@ -1,11 +1,13 @@
-﻿using System.Reflection;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
+using System.Reflection;
 
-namespace MyBudget.Api.Installers.Abstraction;
+namespace MyBudget.Infrastructure.Abstraction.Installer;
 
 public static class InstallerExtensions
 {
-    public static WebApplicationBuilder Install(
-        this WebApplicationBuilder builder,
+    public static IHostApplicationBuilder Install(
+        this IHostApplicationBuilder builder,
         Assembly? assembly
     )
     {

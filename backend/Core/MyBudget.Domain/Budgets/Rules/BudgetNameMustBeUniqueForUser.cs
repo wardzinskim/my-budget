@@ -1,6 +1,6 @@
 ﻿using MyBudget.SharedKernel;
 
-namespace MyBudget.Domain.Budget.Rules;
+namespace MyBudget.Domain.Budgets.Rules;
 
 internal class BudgetNameMustBeUniqueForUser(string name, Guid userId) : IBusinessRule
 {

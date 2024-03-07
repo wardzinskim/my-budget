@@ -1,4 +1,4 @@
-﻿namespace MyBudget.Domain.Budget;
+﻿namespace MyBudget.Domain.Budgets;
 
 public enum BudgetStatus
 {

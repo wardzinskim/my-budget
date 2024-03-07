@@ -1,4 +1,5 @@
-﻿using MyBudget.Api.Installers.Abstraction;
+﻿
+using MyBudget.Infrastructure.Abstraction.Installer;
 
 namespace MyBudget.Api.Installers;
 
@@ -13,4 +14,5 @@ public sealed class AuthorizationInstaller : IInstaller
     {
         app.UseAuthorization();
     }
+
 }

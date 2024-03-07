@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
-using MyBudget.Api.Installers.Abstraction;
+using MyBudget.Infrastructure.Abstraction.Installer;
 
 namespace MyBudget.Api.Installers.ExceptionHandlers;
 
