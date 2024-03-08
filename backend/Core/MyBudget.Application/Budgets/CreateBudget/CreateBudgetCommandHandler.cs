@@ -8,9 +8,18 @@ public record CreateBudgetCommand(string Name) : Request<Result>;
 
 public class CreateBudgetCommandHandler : MediatorRequestHandler<CreateBudgetCommand, Result>
 {
-    private IIdGenerator _idGenerator;
-    private IDateTimeProvider _dateTimeProvider;
-    private IBudgetRepository _budgetRepository;
+    private readonly IIdGenerator _idGenerator;
+    private readonly IDateTimeProvider _dateTimeProvider;
+    private readonly IBudgetRepository _budgetRepository;
+    private readonly IUnitOfWork _unitOfWork;
+
+    public CreateBudgetCommandHandler(IBudgetRepository budgetRepository, IIdGenerator idGenerator, IDateTimeProvider dateTimeProvider, IUnitOfWork unitOfWork)
+    {
+        _budgetRepository = budgetRepository;
+        _idGenerator = idGenerator;
+        _dateTimeProvider = dateTimeProvider;
+        _unitOfWork = unitOfWork;
+    }
 
     protected override async Task<Result> Handle(CreateBudgetCommand request, CancellationToken cancellationToken)
     {
@@ -19,6 +28,7 @@ public class CreateBudgetCommandHandler : MediatorRequestHandler<CreateBudgetCom
             return budgetResult.Error;
 
         await _budgetRepository.AddAsync(budgetResult.Value, cancellationToken);
+        await _unitOfWork.CommitAsync(cancellationToken);
 
         return Result.Success();
     }

@@ -7,7 +7,7 @@ using MyBudget.Infrastructure.Domain.Budgets;
 
 namespace MyBudget.Infrastructure.Installers;
 
-public class RepositoryInstaller : IInstaller
+public sealed class RepositoryInstaller : IInstaller
 {
     public void Install(IServiceCollection services, IConfiguration configuration, IHostEnvironment hostingEnvironment)
     {

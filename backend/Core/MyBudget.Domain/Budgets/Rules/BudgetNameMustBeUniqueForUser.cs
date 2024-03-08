@@ -14,6 +14,6 @@ internal class BudgetNameMustBeUniqueForUser(string name, Guid userId) : IBusine
 
     public Result Validate()
     {
-        return Result.Failure(Error);
+        return Result.Success();
     }
 }

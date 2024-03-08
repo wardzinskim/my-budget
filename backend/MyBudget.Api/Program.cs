@@ -22,7 +22,6 @@ public class Program
         var app = builder.Build();
         app.UseSerilogRequestLogging();
         app.UseHttpsRedirection();
-        InstallerExtensions.Use(app, typeof(Program).Assembly);
         app.Use(typeof(Program).Assembly)
            .Use(typeof(RepositoryInstaller).Assembly);
 
