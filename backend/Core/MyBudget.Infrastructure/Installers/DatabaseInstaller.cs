@@ -18,7 +18,12 @@ public sealed class DatabaseInstaller : IInstaller
         services.AddDbContextPool<BudgetContext>(dbContextOptions =>
         {
             dbContextOptions
-                .UseMySql(configuration.GetConnectionString("Default"), serverVersion);
+                .UseMySql(configuration.GetConnectionString("Default"), serverVersion, mysqlOptions =>
+                {
+                    mysqlOptions.SchemaBehavior(
+                        Pomelo.EntityFrameworkCore.MySql.Infrastructure.MySqlSchemaBehavior.Translate,
+                        (schema, table) => $"{schema}.{table}");
+                });
         });
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
