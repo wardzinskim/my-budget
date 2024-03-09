@@ -10,5 +10,6 @@ public sealed class SharedKernelInstaller : IInstaller
     {
         services.AddScoped<IIdGenerator, IdGenerator>();
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+        services.AddScoped<IRequestContext, DummyRequestContext>();
     }
 }

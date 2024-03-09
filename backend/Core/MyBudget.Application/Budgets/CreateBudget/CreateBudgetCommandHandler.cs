@@ -9,8 +9,7 @@ public record CreateBudgetCommand(string Name) : Request<Result>;
 
 public class CreateBudgetCommandHandler : MediatorRequestHandler<CreateBudgetCommand, Result>
 {
-    private Guid OwnerId = Guid.Parse("9e56ca7a-671b-48ff-a739-8f35acdf58a3");
-
+    private readonly IRequestContext _requestContext;
     private readonly IIdGenerator _idGenerator;
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly IBudgetRepository _budgetRepository;
@@ -22,7 +21,8 @@ public class CreateBudgetCommandHandler : MediatorRequestHandler<CreateBudgetCom
         IIdGenerator idGenerator,
         IDateTimeProvider dateTimeProvider,
         IUnitOfWork unitOfWork,
-        IBudgetNameUniquenessChecker budgetNameUniquenessChecker
+        IBudgetNameUniquenessChecker budgetNameUniquenessChecker,
+        IRequestContext requestContext
     )
     {
         _budgetRepository = budgetRepository;
@@ -30,6 +30,7 @@ public class CreateBudgetCommandHandler : MediatorRequestHandler<CreateBudgetCom
         _dateTimeProvider = dateTimeProvider;
         _unitOfWork = unitOfWork;
         _budgetNameUniquenessChecker = budgetNameUniquenessChecker;
+        _requestContext = requestContext;
     }
 
     protected override async Task<Result> Handle(CreateBudgetCommand request, CancellationToken cancellationToken)
@@ -38,11 +39,11 @@ public class CreateBudgetCommandHandler : MediatorRequestHandler<CreateBudgetCom
                 _idGenerator,
                 _dateTimeProvider,
                 _budgetNameUniquenessChecker,
-                OwnerId,
+                _requestContext.UserId,
                 request.Name,
                 cancellationToken)
             .ConfigureAwait(false);
-        
+
         if (budgetResult.IsFailure)
             return budgetResult.Error;
 
