@@ -2,5 +2,5 @@
 
 public interface IBusinessRule
 {
-    Result Validate();
+    ValueTask<Result> ValidateAsync(CancellationToken cancellationToken = default);
 }

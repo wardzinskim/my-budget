@@ -2,7 +2,7 @@
 
 namespace MyBudget.Domain.Budgets.Rules;
 
-internal class BudgetNameMustBeUniqueForUser(string name, Guid userId) : IBusinessRule
+internal class BudgetNameMustBeUniqueForUser(string name, Guid userId, IBudgetNameUniquenessChecker budgetNameUniquenessChecker) : IBusinessRule
 {
     private static readonly Error Error =
         new BusinessRuleValidationError(nameof(BudgetNameMustBeUniqueForUser),
@@ -12,8 +12,7 @@ internal class BudgetNameMustBeUniqueForUser(string name, Guid userId) : IBusine
     private readonly string _name = name;
     private readonly Guid _userId = userId;
 
-    public Result Validate()
-    {
-        return Result.Success();
-    }
+    public async ValueTask<Result> ValidateAsync(CancellationToken cancellationToken = default)
+       => await budgetNameUniquenessChecker.IsUniqueAsync(_userId, _name, cancellationToken).ConfigureAwait(false) ? (Result)Error : Result.Success();
+
 }

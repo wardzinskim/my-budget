@@ -26,16 +26,19 @@ public class Budget : Entity, IAggregateRoot
     public BudgetStatus Status { get; private set; }
 
 
-    public static Result<Budget> Create(
+    public static async Task<Result<Budget>> Create(
         IIdGenerator idGenerator,
         IDateTimeProvider dateTimeProvider,
+        IBudgetNameUniquenessChecker budgetNameUniquenessChecker,
         Guid ownerId,
-        string name
+        string name,
+        CancellationToken cancellationToken = default
     )
     {
-        var result = CheckRules(
-            new BudgetNameMustBeUniqueForUser(name, ownerId)
-        );
+        var result = await CheckRulesAsync(
+            cancellationToken,
+            new BudgetNameMustBeUniqueForUser(name, ownerId, budgetNameUniquenessChecker)
+        ).ConfigureAwait(false);
 
         if (result.IsFailure)
         {

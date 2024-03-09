@@ -15,11 +15,13 @@ public abstract class Entity
         => _domainEvents.Clear();
 
 
-    protected static Result CheckRules(params IBusinessRule[] rules)
+    protected static async ValueTask<Result> CheckRulesAsync(
+        CancellationToken cancellationToken = default,
+        params IBusinessRule[] rules)
     {
         foreach (var rule in rules)
         {
-            var result = rule.Validate();
+            var result = await rule.ValidateAsync(cancellationToken).ConfigureAwait(false);
             if (result.IsFailure) return result;
         }
 
