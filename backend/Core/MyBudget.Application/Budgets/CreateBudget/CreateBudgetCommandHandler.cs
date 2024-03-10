@@ -1,11 +1,11 @@
 ﻿using MassTransit.Mediator;
 using MyBudget.Domain.Budgets;
+using MyBudget.Infrastructure.Abstractions.Features;
 using MyBudget.SharedKernel;
-using System.Xml.Serialization;
 
 namespace MyBudget.Application.Budgets.CreateBudget;
 
-public record CreateBudgetCommand(string Name) : Request<Result>;
+public record CreateBudgetCommand(string Name) : Request<Result>, ICommand;
 
 public class CreateBudgetCommandHandler : MediatorRequestHandler<CreateBudgetCommand, Result>
 {
@@ -14,13 +14,11 @@ public class CreateBudgetCommandHandler : MediatorRequestHandler<CreateBudgetCom
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly IBudgetRepository _budgetRepository;
     private readonly IBudgetNameUniquenessChecker _budgetNameUniquenessChecker;
-    private readonly IUnitOfWork _unitOfWork;
 
     public CreateBudgetCommandHandler(
         IBudgetRepository budgetRepository,
         IIdGenerator idGenerator,
         IDateTimeProvider dateTimeProvider,
-        IUnitOfWork unitOfWork,
         IBudgetNameUniquenessChecker budgetNameUniquenessChecker,
         IRequestContext requestContext
     )
@@ -28,7 +26,6 @@ public class CreateBudgetCommandHandler : MediatorRequestHandler<CreateBudgetCom
         _budgetRepository = budgetRepository;
         _idGenerator = idGenerator;
         _dateTimeProvider = dateTimeProvider;
-        _unitOfWork = unitOfWork;
         _budgetNameUniquenessChecker = budgetNameUniquenessChecker;
         _requestContext = requestContext;
     }
@@ -48,7 +45,6 @@ public class CreateBudgetCommandHandler : MediatorRequestHandler<CreateBudgetCom
             return budgetResult.Error;
 
         await _budgetRepository.AddAsync(budgetResult.Value, cancellationToken);
-        await _unitOfWork.CommitAsync(cancellationToken);
 
         return Result.Success();
     }

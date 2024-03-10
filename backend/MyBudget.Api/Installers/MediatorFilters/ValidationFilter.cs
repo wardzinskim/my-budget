@@ -4,7 +4,10 @@ using MassTransit;
 
 namespace MyBudget.Api.Installers.MediatorFilters;
 
-internal class ValidationFilter<TMessage>(IEnumerable<IValidator<TMessage>> validators)
+internal class ValidationFilter<TMessage>(
+    IEnumerable<IValidator<TMessage>> validators,
+    ILogger<ValidationFilter<TMessage>> logger
+)
     : IFilter<ConsumeContext<TMessage>>
     where TMessage : class
 {
@@ -13,6 +16,7 @@ internal class ValidationFilter<TMessage>(IEnumerable<IValidator<TMessage>> vali
 
     public async Task Send(ConsumeContext<TMessage> context, IPipe<ConsumeContext<TMessage>> next)
     {
+        logger.LogDebug("Create Validation filter scope");
         var validationFailures = await ValidateAsync(context.Message, context.CancellationToken);
 
         if (validationFailures.Length == 0)
