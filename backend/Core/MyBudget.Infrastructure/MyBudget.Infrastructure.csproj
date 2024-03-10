@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\MyBudget.Infrastructure.Abstractions\MyBudget.Infrastructure.Abstractions.csproj" />
+      <ProjectReference Include="..\MyBudget.Application\MyBudget.Application.csproj" />
       <ProjectReference Include="..\MyBudget.Domain\MyBudget.Domain.csproj" />
     </ItemGroup>
 

@@ -3,7 +3,7 @@ using MyBudget.Domain.Budgets;
 
 namespace MyBudget.Infrastructure.Database;
 
-internal class BudgetContext : DbContext
+public class BudgetContext : DbContext
 {
     public DbSet<Budget> Budgets { get; set; }
 

@@ -7,7 +7,7 @@ namespace MyBudget.Application.Budgets.CreateBudget;
 
 public record CreateBudgetCommand(string Name) : Request<Result>, ICommand;
 
-public class CreateBudgetCommandHandler : MediatorRequestHandler<CreateBudgetCommand, Result>
+public sealed class CreateBudgetCommandHandler : MediatorRequestHandler<CreateBudgetCommand, Result>
 {
     private readonly IRequestContext _requestContext;
     private readonly IIdGenerator _idGenerator;

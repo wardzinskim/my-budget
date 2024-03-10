@@ -4,6 +4,7 @@ using MyBudget.Api.Installers.MediatorFilters;
 using MyBudget.Application.Weather.WeatherQuery;
 using MyBudget.Infrastructure.Abstraction.Installer;
 using MyBudget.Infrastructure.Abstractions.Features;
+using MyBudget.Infrastructure.Application.Budgets;
 using MyBudget.SharedKernel;
 
 namespace MyBudget.Api.Installers;
@@ -15,6 +16,7 @@ public sealed class MediatorInstaller : IInstaller
         services.AddMediator(configure =>
         {
             configure.AddConsumers(typeof(WeatherQuery).Assembly);
+            configure.AddConsumers(typeof(GetBudgetsQueryHandler).Assembly);
 
             configure.ConfigureMediator((context, cfg) =>
             {
