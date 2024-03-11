@@ -32,6 +32,7 @@ internal sealed class BudgetEntityTypeConfiguration : IEntityTypeConfiguration<B
 
         builder.Property(x => x.Status)
             .IsRequired()
-            .HasConversion<EnumToStringConverter<BudgetStatus>>();
+            .HasConversion<string>()
+            .HasMaxLength(16);
     }
 }

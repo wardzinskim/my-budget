@@ -17,7 +17,13 @@ public sealed class GetBudgetsQueryHandler(BudgetContext context, IRequestContex
         GetBudgetsQuery request,
         CancellationToken cancellationToken
     )
-        => await _context.Budgets.Where(x => x.OwnerId == _requestContext.UserId)
-            .Select(x => new BudgetDTO(x.Id, x.Name, x.Description))
+    {
+
+        var result = await _context.Budgets.Where(x => x.OwnerId == _requestContext.UserId)
+            .Select(x => new { x.Id, x.Name, x.Description, x.Status })
             .ToListAsync(cancellationToken).ConfigureAwait(false);
+
+        return result
+            .Select(x => new BudgetDTO(x.Id, x.Name, x.Description, (BudgetDTOStatus)x.Status)).ToList();
+    }
 }

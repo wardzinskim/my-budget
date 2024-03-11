@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -29,7 +28,7 @@ public partial class InitialCreate : Migration
                     .Annotation("MySql:CharSet", "utf8mb4"),
                 CreationDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                 OwnerId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                Status = table.Column<string>(type: "longtext", nullable: false)
+                Status = table.Column<string>(type: "varchar(16)", maxLength: 16, nullable: false)
                     .Annotation("MySql:CharSet", "utf8mb4")
             },
             constraints: table =>

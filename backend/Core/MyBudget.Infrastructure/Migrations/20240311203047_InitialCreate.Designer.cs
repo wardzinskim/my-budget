@@ -12,7 +12,7 @@ using MyBudget.Infrastructure.Database;
 namespace MyBudget.Infrastructure.Migrations
 {
     [DbContext(typeof(BudgetContext))]
-    [Migration("20240308135431_InitialCreate")]
+    [Migration("20240311203047_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -47,7 +47,8 @@ namespace MyBudget.Infrastructure.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(16)
+                        .HasColumnType("varchar(16)");
 
                     b.HasKey("Id");
 
