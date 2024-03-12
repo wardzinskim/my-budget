@@ -22,7 +22,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBudget.Infrastructure", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBudget.SharedKernel", "MyBudget.SharedKernel\MyBudget.SharedKernel.csproj", "{46C76DE1-19C6-4A3E-96FA-136BD7EA1763}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBudget.Infrastructure.Abstractions", "MyBudget.Infrastructure.Abstractions\MyBudget.Infrastructure.Abstractions.csproj", "{C582883F-7E12-4669-AD8F-14552EC1A841}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBudget.Infrastructure.Abstractions", "MyBudget.Infrastructure.Abstractions\MyBudget.Infrastructure.Abstractions.csproj", "{C582883F-7E12-4669-AD8F-14552EC1A841}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBudget.Api.Tests", "MyBudget.Api.Tests\MyBudget.Api.Tests.csproj", "{D256ACF1-AAEC-4CE9-8947-85DEE4D85FF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +60,10 @@ Global
 		{C582883F-7E12-4669-AD8F-14552EC1A841}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C582883F-7E12-4669-AD8F-14552EC1A841}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C582883F-7E12-4669-AD8F-14552EC1A841}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D256ACF1-AAEC-4CE9-8947-85DEE4D85FF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D256ACF1-AAEC-4CE9-8947-85DEE4D85FF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D256ACF1-AAEC-4CE9-8947-85DEE4D85FF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D256ACF1-AAEC-4CE9-8947-85DEE4D85FF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
