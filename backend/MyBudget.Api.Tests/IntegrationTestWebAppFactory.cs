@@ -15,6 +15,9 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsy
         .WithImage("mysql:8.3.0")
         .Build();
 
+    private RequestContextMock _requestContextMock = new RequestContextMock();
+
+    public Guid UserId { get => _requestContextMock.UserId; set => _requestContextMock.UserId = value; }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -37,7 +40,7 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsy
                     });
             });
 
-            services.AddScoped<IRequestContext, RequestContextMock>();
+            services.AddScoped<IRequestContext>(x => _requestContextMock);
 
         });
     }

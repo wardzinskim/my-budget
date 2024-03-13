@@ -9,9 +9,11 @@ public abstract class BudgetsIntegrationTest : IClassFixture<IntegrationTestWebA
 
     protected readonly HttpClient _httpClient;
     protected readonly BudgetContext _dbContext;
+    protected readonly IntegrationTestWebAppFactory _application;
 
     protected BudgetsIntegrationTest(IntegrationTestWebAppFactory application)
     {
+        _application = application;
         _httpClient = application.CreateClient();
         _scope = application.Services.CreateScope();
         _dbContext = _scope.ServiceProvider.GetRequiredService<BudgetContext>();

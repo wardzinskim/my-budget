@@ -6,7 +6,7 @@ namespace MyBudget.Domain.Budgets;
 
 public class Budget : Entity, IAggregateRoot
 {
-    private Budget(Guid id, Guid ownerId, DateTime creationDate, string name)
+    protected internal Budget(Guid id, Guid ownerId, DateTime creationDate, string name)
     {
         Id = id;
         Name = name;
