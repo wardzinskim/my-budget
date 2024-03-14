@@ -34,7 +34,9 @@ public class GetBudgetTests(IntegrationTestWebAppFactory application) : BudgetsI
         var response = await _httpClient.GetAsync("/budget");
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var budgets = await response.Content.ReadFromJsonAsync<BudgetDTO[]>();
+
+        var budgets = await response.Content.ReadFromJsonAsync<BudgetDTO[]>(Constants.DefaultJsonSerializerOptions);
+
         Assert.NotNull(budgets);
         Assert.Single(budgets);
         Assert.Equal(budget.Name, budgets.Single().Name);
