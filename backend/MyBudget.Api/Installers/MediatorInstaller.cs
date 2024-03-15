@@ -1,7 +1,7 @@
 ﻿using MassTransit;
 using MassTransit.Internals;
 using MyBudget.Api.Installers.MediatorFilters;
-using MyBudget.Application.Weather.WeatherQuery;
+using MyBudget.Application.Budgets.CreateBudget;
 using MyBudget.Infrastructure.Abstraction.Installer;
 using MyBudget.Infrastructure.Abstractions.Features;
 using MyBudget.Infrastructure.Application.Budgets;
@@ -15,7 +15,7 @@ public sealed class MediatorInstaller : IInstaller
     {
         services.AddMediator(configure =>
         {
-            configure.AddConsumers(typeof(WeatherQuery).Assembly);
+            configure.AddConsumers(typeof(CreateBudgetCommandHandler).Assembly);
             configure.AddConsumers(typeof(GetBudgetsQueryHandler).Assembly);
 
             configure.ConfigureMediator((context, cfg) =>
