@@ -25,6 +25,9 @@ public class Budget : Entity, IAggregateRoot
     public Guid OwnerId { get; init; }
     public BudgetStatus Status { get; private set; }
 
+    private readonly List<TransferCategory> _categories;
+    public IEnumerable<TransferCategory> Categories => _categories.AsReadOnly();
+
 
     public static async Task<Result<Budget>> Create(
         IIdGenerator idGenerator,
@@ -46,5 +49,19 @@ public class Budget : Entity, IAggregateRoot
         }
 
         return new Budget(idGenerator.NextId(), ownerId, dateTimeProvider.UtcNow, name);
+    }
+
+
+    public Result AddTransferCategory(string name)
+    {
+        var result = CheckRulesAsync(default, new TransferCategoryMustBeUniqueForBudget(name, _categories)).ConfigureAwait(false).GetAwaiter().GetResult();
+
+        if (result.IsFailure)
+        {
+            return result.Error;
+        }
+
+        _categories.Add(TransferCategory.Create(name));
+        return Result.Success();
     }
 }
