@@ -5,6 +5,7 @@ using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
 using MyBudget.Api.Extensions;
 using MyBudget.Application.Budgets.CreateBudget;
+using MyBudget.Application.Budgets.CreateBudgetCategory;
 using MyBudget.Application.Budgets.GetBudgets;
 using MyBudget.Application.Budgets.Model;
 
@@ -30,6 +31,14 @@ public class BudgetModule : ICarterModule
             .WithOpenApi()
             .IncludeInOpenApi();
 
+        app.MapPost("/budget/category", CreateBudgetCategory)
+          .WithName(nameof(CreateBudgetCategory))
+          .WithTags("budget")
+          .Produces(StatusCodes.Status201Created)
+          .ProducesValidationProblem()
+          .WithOpenApi()
+          .IncludeInOpenApi();
+
     }
 
     private static async Task<IResult> CreateBudget(
@@ -53,4 +62,16 @@ public class BudgetModule : ICarterModule
 
         return result.Match(x => Results.Ok(x));
     }
+
+    private static async Task<IResult> CreateBudgetCategory(
+       IMediator mediator,
+       [FromBody] CreateBudgetCategoryCommand command,
+       CancellationToken cancellationToken
+   )
+    {
+        var result = await mediator.SendRequest(command, cancellationToken);
+
+        return result.Match(Results.Created);
+    }
+
 }

@@ -13,6 +13,7 @@ public class Budget : Entity, IAggregateRoot
         OwnerId = ownerId;
         Status = BudgetStatus.Open;
         CreationDate = creationDate;
+        _categories = [];
 
         AddDomainEvent(new BudgetCreatedEvent(Id, OwnerId));
     }
@@ -62,6 +63,8 @@ public class Budget : Entity, IAggregateRoot
         }
 
         _categories.Add(TransferCategory.Create(name));
+        AddDomainEvent(new BudgetCategoryCreatedEvent(Id, name));
+
         return Result.Success();
     }
 }
