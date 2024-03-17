@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyBudget.Domain.Budgets;
 using MyBudget.Infrastructure.Database;
 
@@ -34,5 +33,24 @@ internal sealed class BudgetEntityTypeConfiguration : IEntityTypeConfiguration<B
             .IsRequired()
             .HasConversion<string>()
             .HasMaxLength(16);
+
+        builder.OwnsMany(x => x.Categories, b =>
+        {
+            b.WithOwner()
+                .HasForeignKey("BudgetId");
+
+            b.ToTable("Categories", SchemaName.Budget);
+
+            b.Property(x => x.Name)
+                .HasMaxLength(32)
+                .IsRequired();
+
+            b.Property(x => x.Status)
+                .IsRequired()
+                .HasConversion<string>()
+                .HasMaxLength(16);
+
+            b.HasKey("BudgetId", "Name");
+        });
     }
 }
