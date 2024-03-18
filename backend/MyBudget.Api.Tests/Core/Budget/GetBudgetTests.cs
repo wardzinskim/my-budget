@@ -26,7 +26,7 @@ public class GetBudgetTests(IntegrationTestWebAppFactory application) : BudgetsI
         var faker = new Faker();
 
         var budget =
-            new Domain.Budgets.Budget(Guid.NewGuid(), _application.UserId, DateTime.Now, faker.Random.String(10));
+            new Domain.Budgets.Budget(Guid.NewGuid(), _application.UserId, DateTime.Now, faker.Random.String2(10));
 
         await _dbContext.Budgets.AddAsync(budget);
         await _dbContext.SaveChangesAsync();

@@ -55,7 +55,8 @@ public class Budget : Entity, IAggregateRoot
 
     public Result AddTransferCategory(string name)
     {
-        var result = CheckRulesAsync(default, new TransferCategoryMustBeUniqueForBudget(name, _categories)).ConfigureAwait(false).GetAwaiter().GetResult();
+        var result = CheckRulesAsync(default, new TransferCategoryMustBeUniqueForBudget(name, _categories))
+            .ConfigureAwait(false).GetAwaiter().GetResult();
 
         if (result.IsFailure)
         {
@@ -65,6 +66,19 @@ public class Budget : Entity, IAggregateRoot
         _categories.Add(TransferCategory.Create(name));
         AddDomainEvent(new BudgetCategoryCreatedEvent(Id, name));
 
+        return Result.Success();
+    }
+
+    public Result ArchiveTransferCategory(string name)
+    {
+        TransferCategory? category = _categories.SingleOrDefault(x => x.Name == name);
+        if (category is null)
+        {
+            return BudgetsErrors.BudgetCategoryNotFound;
+        }
+
+        category.Archive();
+        AddDomainEvent(new BudgetCategoryArchivedEvent(Id, name));
         return Result.Success();
     }
 }

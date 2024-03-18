@@ -14,7 +14,7 @@ public class PostBudgetTests(IntegrationTestWebAppFactory application) : Budgets
     public async Task POST_budget_create_budget()
     {
         var faker = new Faker();
-        var budgetName = faker.Random.String(50);
+        var budgetName = faker.Random.String2(50);
 
         var response = await _httpClient.PostAsJsonAsync("/budget", new CreateBudgetCommand(budgetName));
 
@@ -30,7 +30,7 @@ public class PostBudgetTests(IntegrationTestWebAppFactory application) : Budgets
     public async Task POST_budget_with_too_long_name_returns_validation_error()
     {
         var faker = new Faker();
-        var budgetName = faker.Random.String(501);
+        var budgetName = faker.Random.String2(501);
 
         var response = await _httpClient.PostAsJsonAsync("/budget", new CreateBudgetCommand(budgetName));
 
@@ -61,7 +61,7 @@ public class PostBudgetTests(IntegrationTestWebAppFactory application) : Budgets
     public async Task POST_budget_with_duplicated_name_return_validation_error()
     {
         var faker = new Faker();
-        var budgetName = faker.Random.String(50);
+        var budgetName = faker.Random.String2(50);
 
         var response = await _httpClient.PostAsJsonAsync("/budget", new CreateBudgetCommand(budgetName));
 

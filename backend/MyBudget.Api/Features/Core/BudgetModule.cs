@@ -4,6 +4,7 @@ using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
 using MyBudget.Api.Extensions;
+using MyBudget.Application.Budgets.ArchiveBudgetCategory;
 using MyBudget.Application.Budgets.CreateBudget;
 using MyBudget.Application.Budgets.CreateBudgetCategory;
 using MyBudget.Application.Budgets.GetBudgets;
@@ -32,14 +33,22 @@ public class BudgetModule : ICarterModule
             .IncludeInOpenApi();
 
         app.MapPost("/budget/category", CreateBudgetCategory)
-          .WithName(nameof(CreateBudgetCategory))
-          .WithTags("budget")
-          .Produces(StatusCodes.Status201Created)
-          .ProducesProblem(StatusCodes.Status404NotFound)
-          .ProducesValidationProblem()
-          .WithOpenApi()
-          .IncludeInOpenApi();
+            .WithName(nameof(CreateBudgetCategory))
+            .WithTags("budget")
+            .Produces(StatusCodes.Status201Created)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesValidationProblem()
+            .WithOpenApi()
+            .IncludeInOpenApi();
 
+        app.MapPut("/budget/{BudgetId:guid}/category/{Name}/archive", ArchiveBudgetCategory)
+            .WithName(nameof(ArchiveBudgetCategory))
+            .WithTags("budget")
+            .Produces(StatusCodes.Status204NoContent)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesValidationProblem()
+            .WithOpenApi()
+            .IncludeInOpenApi();
     }
 
     private static async Task<IResult> CreateBudget(
@@ -65,14 +74,25 @@ public class BudgetModule : ICarterModule
     }
 
     private static async Task<IResult> CreateBudgetCategory(
-       IMediator mediator,
-       [FromBody] CreateBudgetCategoryCommand command,
-       CancellationToken cancellationToken
-   )
+        IMediator mediator,
+        [FromBody] CreateBudgetCategoryCommand command,
+        CancellationToken cancellationToken
+    )
     {
         var result = await mediator.SendRequest(command, cancellationToken);
 
         return result.Match(Results.Created);
     }
 
+
+    private static async Task<IResult> ArchiveBudgetCategory(
+        IMediator mediator,
+        [AsParameters] ArchiveBudgetCategoryCommand command,
+        CancellationToken cancellationToken
+    )
+    {
+        var result = await mediator.SendRequest(command, cancellationToken);
+
+        return result.Match(Results.NoContent);
+    }
 }

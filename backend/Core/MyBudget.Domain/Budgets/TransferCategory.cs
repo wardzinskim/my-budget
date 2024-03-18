@@ -9,7 +9,12 @@ public record TransferCategory
     }
 
     public string Name { get; init; }
-    public TransferCategoryStatus Status { get; init; }
+    public TransferCategoryStatus Status { get; private set; }
+
+    internal void Archive()
+    {
+        Status = TransferCategoryStatus.Archived;
+    }
 
     internal static TransferCategory Create(string name)
     {

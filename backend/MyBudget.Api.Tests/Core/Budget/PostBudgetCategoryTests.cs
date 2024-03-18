@@ -32,7 +32,7 @@ public class PostBudgetCategoryTests(IntegrationTestWebAppFactory application) :
     {
         //arrange
         var faker = new Faker();
-        var categoryName = faker.Random.String(501);
+        var categoryName = faker.Random.String2(501);
 
         //act
         var response = await _httpClient.PostAsJsonAsync("/budget/category",
@@ -70,15 +70,15 @@ public class PostBudgetCategoryTests(IntegrationTestWebAppFactory application) :
 
 
     [Fact]
-    public async Task POST_budget_category_crate_category()
+    public async Task POST_budget_category_create_category()
     {
         //arrange
         var faker = new Faker();
         var budgetId = Guid.NewGuid();
-        var categoryName = faker.Random.String(10);
+        var categoryName = faker.Random.String2(10);
 
         var budget =
-            new Domain.Budgets.Budget(budgetId, _application.UserId, DateTime.Now, faker.Random.String(10));
+            new Domain.Budgets.Budget(budgetId, _application.UserId, DateTime.Now, faker.Random.String2(10));
 
         await _dbContext.Budgets.AddAsync(budget);
         await _dbContext.SaveChangesAsync();
@@ -92,11 +92,47 @@ public class PostBudgetCategoryTests(IntegrationTestWebAppFactory application) :
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-        budget = await _dbContext.Budgets.Include(x => x.Categories).FirstOrDefaultAsync(x => x.Id == budgetId);
+        _dbContext.ChangeTracker.Clear();
+        budget = await _dbContext.Budgets
+            .SingleOrDefaultAsync(x => x.Id == budgetId);
 
         Assert.NotNull(budget);
         Assert.Single(budget.Categories);
         Assert.Equal(categoryName, budget.Categories.First().Name);
         Assert.Equal(Domain.Budgets.TransferCategoryStatus.Active, budget.Categories.First().Status);
+    }
+
+    [Fact]
+    public async Task POST_budget_category_with_duplicated_name_return_validation_error()
+    {
+        //arrange
+        var faker = new Faker();
+        var budgetId = Guid.NewGuid();
+        var categoryName = faker.Random.String2(10);
+
+        var budget =
+            new Domain.Budgets.Budget(budgetId, _application.UserId, DateTime.Now, faker.Random.String2(10));
+
+        await _dbContext.Budgets.AddAsync(budget);
+        await _dbContext.SaveChangesAsync();
+
+        //act
+        var response = await _httpClient.PostAsJsonAsync("/budget/category",
+            new CreateBudgetCategoryCommand(budgetId, categoryName));
+
+        Assert.NotNull(response);
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+
+        response = await _httpClient.PostAsJsonAsync("/budget/category",
+            new CreateBudgetCategoryCommand(budgetId, categoryName));
+
+
+        //assert
+        Assert.NotNull(response);
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        var problemDetail = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+        Assert.NotNull(problemDetail);
+        Assert.Equal(StatusCodes.Status400BadRequest, problemDetail.Status);
+        Assert.Equal("transfer_category_must_be_unique_for_budget", problemDetail.Extensions["code"]!.ToString());
     }
 }
