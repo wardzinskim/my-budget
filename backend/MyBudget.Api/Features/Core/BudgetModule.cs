@@ -35,6 +35,7 @@ public class BudgetModule : ICarterModule
           .WithName(nameof(CreateBudgetCategory))
           .WithTags("budget")
           .Produces(StatusCodes.Status201Created)
+          .ProducesProblem(StatusCodes.Status404NotFound)
           .ProducesValidationProblem()
           .WithOpenApi()
           .IncludeInOpenApi();
