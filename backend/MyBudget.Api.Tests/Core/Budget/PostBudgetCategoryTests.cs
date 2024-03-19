@@ -135,4 +135,33 @@ public class PostBudgetCategoryTests(IntegrationTestWebAppFactory application) :
         Assert.Equal(StatusCodes.Status400BadRequest, problemDetail.Status);
         Assert.Equal("transfer_category_must_be_unique_for_budget", problemDetail.Extensions["code"]!.ToString());
     }
+
+    [Fact]
+    public async Task POST_budget_category_in_not_my_budget_returns_403()
+    {
+        //arrange
+        var faker = new Faker();
+        var budgetId = Guid.NewGuid();
+        var categoryName = faker.Random.String2(10);
+
+        var budget =
+            new Domain.Budgets.Budget(budgetId, Guid.NewGuid(), DateTime.Now, faker.Random.String2(10));
+
+        await _dbContext.Budgets.AddAsync(budget);
+        await _dbContext.SaveChangesAsync();
+
+
+        //act
+        var response = await _httpClient.PostAsJsonAsync("/budget/category",
+            new CreateBudgetCategoryCommand(budgetId, categoryName));
+
+        //assert
+        Assert.NotNull(response);
+        Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+
+        var problemDetail = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+        Assert.NotNull(problemDetail);
+        Assert.Equal(StatusCodes.Status403Forbidden, problemDetail.Status);
+        Assert.Equal("budget_access_denied", problemDetail.Extensions["code"]!.ToString());
+    }
 }

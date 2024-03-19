@@ -22,6 +22,7 @@ public static class ResultExtensions
                 NotFoundError => StatusCodes.Status404NotFound,
                 BadRequestError => StatusCodes.Status400BadRequest,
                 BusinessRuleValidationError => StatusCodes.Status400BadRequest,
+                ForbiddenError => StatusCodes.Status403Forbidden,
                 _ => StatusCodes.Status500InternalServerError,
             },
             Extensions = {["code"] = error.Code.Underscore()}

@@ -7,21 +7,25 @@ namespace MyBudget.Application.Budgets.ArchiveBudgetCategory;
 
 public record ArchiveBudgetCategoryCommand(Guid BudgetId, string Name) : Request<Result>, ICommand;
 
-public sealed class ArchiveBudgetCategoryCommandHandler : MediatorRequestHandler<ArchiveBudgetCategoryCommand, Result>
+public sealed class ArchiveBudgetCategoryCommandHandler(
+    IBudgetRepository budgetRepository,
+    IRequestContext requestContext
+) : MediatorRequestHandler<ArchiveBudgetCategoryCommand, Result>
 {
-    private readonly IBudgetRepository _budgetRepository;
-
-    public ArchiveBudgetCategoryCommandHandler(IBudgetRepository budgetRepository)
+    protected override async Task<Result> Handle(
+        ArchiveBudgetCategoryCommand request,
+        CancellationToken cancellationToken
+    )
     {
-        _budgetRepository = budgetRepository;
-    }
-
-    protected override async Task<Result> Handle(ArchiveBudgetCategoryCommand request, CancellationToken cancellationToken)
-    {
-        var budget = await _budgetRepository.GetAsync(request.BudgetId, cancellationToken);
+        var budget = await budgetRepository.GetAsync(request.BudgetId, cancellationToken);
         if (budget is null)
         {
             return BudgetsErrors.BudgetNotFound;
+        }
+
+        if (budget.OwnerId != requestContext.UserId)
+        {
+            return BudgetsErrors.BudgetAccessDenied;
         }
 
         var result = budget.ArchiveTransferCategory(request.Name);

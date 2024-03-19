@@ -7,7 +7,10 @@ namespace MyBudget.Application.Budgets.CreateBudgetCategory;
 
 public record CreateBudgetCategoryCommand(Guid BudgetId, string Name) : Request<Result>, ICommand;
 
-public sealed class CreateBudgetCategoryCommandHandler(IBudgetRepository budgetRepository)
+public sealed class CreateBudgetCategoryCommandHandler(
+    IBudgetRepository budgetRepository,
+    IRequestContext requestContext
+)
     : MediatorRequestHandler<CreateBudgetCategoryCommand, Result>
 {
     protected override async Task<Result> Handle(
@@ -20,6 +23,11 @@ public sealed class CreateBudgetCategoryCommandHandler(IBudgetRepository budgetR
         if (budget is null)
         {
             return BudgetsErrors.BudgetNotFound;
+        }
+
+        if (budget.OwnerId != requestContext.UserId)
+        {
+            return BudgetsErrors.BudgetAccessDenied;
         }
 
         var result = budget.AddTransferCategory(request.Name);

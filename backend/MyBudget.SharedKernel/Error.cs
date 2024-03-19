@@ -10,3 +10,5 @@ public record NotFoundError(string Code, string Description) : Error(Code, Descr
 public record BadRequestError(string Code, string Description) : Error(Code, Description);
 
 public record BusinessRuleValidationError(string Code, string Description) : Error(Code, Description);
+
+public record ForbiddenError(string Code, string Description) : Error(Code, Description);
