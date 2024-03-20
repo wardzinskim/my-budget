@@ -4,15 +4,14 @@ using MyBudget.SharedKernel;
 
 namespace MyBudget.Domain.Budgets;
 
-public class Budget : Entity, IAggregateRoot
+public class Budget : Entity, IAggregateRoot, IAuditable
 {
-    protected internal Budget(Guid id, Guid ownerId, DateTime creationDate, string name)
+    protected internal Budget(Guid id, Guid ownerId, string name)
     {
         Id = id;
         Name = name;
         OwnerId = ownerId;
         Status = BudgetStatus.Open;
-        CreationDate = creationDate;
         _categories = [];
 
         AddDomainEvent(new BudgetCreatedEvent(Id, OwnerId));
@@ -22,7 +21,8 @@ public class Budget : Entity, IAggregateRoot
     public Guid Id { get; init; }
     public string Name { get; init; }
     public string? Description { get; private set; }
-    public DateTime CreationDate { get; init; }
+    public DateTime CreationDate { get; }
+    public DateTime? LastUpdated { get; }
     public Guid OwnerId { get; init; }
     public BudgetStatus Status { get; private set; }
 
@@ -32,7 +32,6 @@ public class Budget : Entity, IAggregateRoot
 
     public static async Task<Result<Budget>> Create(
         IIdGenerator idGenerator,
-        IDateTimeProvider dateTimeProvider,
         IBudgetNameUniquenessChecker budgetNameUniquenessChecker,
         Guid ownerId,
         string name,
@@ -49,7 +48,7 @@ public class Budget : Entity, IAggregateRoot
             return result.Error;
         }
 
-        return new Budget(idGenerator.NextId(), ownerId, dateTimeProvider.UtcNow, name);
+        return new Budget(idGenerator.NextId(), ownerId, name);
     }
 
 

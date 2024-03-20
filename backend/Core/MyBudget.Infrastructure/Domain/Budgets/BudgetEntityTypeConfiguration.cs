@@ -26,6 +26,8 @@ internal sealed class BudgetEntityTypeConfiguration : IEntityTypeConfiguration<B
         builder.Property(x => x.CreationDate)
             .IsRequired();
 
+        builder.Property(x => x.LastUpdated);
+
         builder.Property(x => x.OwnerId)
             .IsRequired();
 

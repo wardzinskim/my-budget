@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyBudget.Infrastructure.Abstraction.Installer;
 using MyBudget.Infrastructure.Database;
+using MyBudget.Infrastructure.Database.Interceptors;
 using MyBudget.Infrastructure.Domain;
 using MyBudget.SharedKernel;
 
@@ -15,7 +16,9 @@ public sealed class DatabaseInstaller : IInstaller
     {
         var serverVersion = new MySqlServerVersion(new Version(8, 3, 0));
 
-        services.AddDbContextPool<BudgetContext>(dbContextOptions =>
+        services.AddSingleton<AuditableInterceptor>();
+
+        services.AddDbContextPool<BudgetContext>((sp, dbContextOptions) =>
         {
             dbContextOptions
                 .UseMySql(configuration.GetConnectionString("Default"), serverVersion, mysqlOptions =>
@@ -24,6 +27,7 @@ public sealed class DatabaseInstaller : IInstaller
                         Pomelo.EntityFrameworkCore.MySql.Infrastructure.MySqlSchemaBehavior.Translate,
                         (schema, table) => $"{schema}.{table}");
                 });
+            dbContextOptions.AddInterceptors(sp.GetRequiredService<AuditableInterceptor>());
         });
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();

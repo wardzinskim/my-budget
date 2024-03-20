@@ -11,21 +11,18 @@ public sealed class CreateBudgetCommandHandler : MediatorRequestHandler<CreateBu
 {
     private readonly IRequestContext _requestContext;
     private readonly IIdGenerator _idGenerator;
-    private readonly IDateTimeProvider _dateTimeProvider;
     private readonly IBudgetRepository _budgetRepository;
     private readonly IBudgetNameUniquenessChecker _budgetNameUniquenessChecker;
 
     public CreateBudgetCommandHandler(
         IBudgetRepository budgetRepository,
         IIdGenerator idGenerator,
-        IDateTimeProvider dateTimeProvider,
         IBudgetNameUniquenessChecker budgetNameUniquenessChecker,
         IRequestContext requestContext
     )
     {
         _budgetRepository = budgetRepository;
         _idGenerator = idGenerator;
-        _dateTimeProvider = dateTimeProvider;
         _budgetNameUniquenessChecker = budgetNameUniquenessChecker;
         _requestContext = requestContext;
     }
@@ -34,7 +31,6 @@ public sealed class CreateBudgetCommandHandler : MediatorRequestHandler<CreateBu
     {
         var budgetResult = await Budget.Create(
                 _idGenerator,
-                _dateTimeProvider,
                 _budgetNameUniquenessChecker,
                 _requestContext.UserId,
                 request.Name,
