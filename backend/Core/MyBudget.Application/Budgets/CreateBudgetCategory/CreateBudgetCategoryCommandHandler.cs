@@ -25,9 +25,10 @@ public sealed class CreateBudgetCategoryCommandHandler(
             return BudgetsErrors.BudgetNotFound;
         }
 
-        if (budget.OwnerId != requestContext.UserId)
+        var access = budget.HasAccess(requestContext.UserId);
+        if (access.IsFailure)
         {
-            return BudgetsErrors.BudgetAccessDenied;
+            return access.Error;
         }
 
         var result = budget.AddTransferCategory(request.Name);

@@ -1,6 +1,8 @@
-﻿namespace MyBudget.Domain.Budgets;
+﻿using MyBudget.SharedKernel;
 
-public record TransferCategory
+namespace MyBudget.Domain.Budgets;
+
+public record TransferCategory : ValueObject
 {
     private TransferCategory(string name)
     {

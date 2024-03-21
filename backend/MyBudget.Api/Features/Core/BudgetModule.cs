@@ -9,6 +9,7 @@ using MyBudget.Application.Budgets.CreateBudget;
 using MyBudget.Application.Budgets.CreateBudgetCategory;
 using MyBudget.Application.Budgets.GetBudgets;
 using MyBudget.Application.Budgets.Model;
+using MyBudget.Application.Budgets.Transfers.CreateExpense;
 
 namespace MyBudget.Api.Features.Core;
 
@@ -49,6 +50,16 @@ public class BudgetModule : ICarterModule
             .ProducesValidationProblem()
             .WithOpenApi()
             .IncludeInOpenApi();
+
+        app.MapPost("/budget/transfer", AddExpense)
+            .WithName(nameof(AddExpense))
+            .WithTags("budget")
+            .Produces(StatusCodes.Status201Created)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesValidationProblem()
+            .WithOpenApi()
+            .IncludeInOpenApi();
+
     }
 
     private static async Task<IResult> CreateBudget(
@@ -94,5 +105,16 @@ public class BudgetModule : ICarterModule
         var result = await mediator.SendRequest(command, cancellationToken);
 
         return result.Match(Results.NoContent);
+    }
+
+    private static async Task<IResult> AddExpense(
+        IMediator mediator,
+        [FromBody] CreateExpenseCommand command,
+        CancellationToken cancellationToken
+        )
+    {
+        var result = await mediator.SendRequest(command, cancellationToken);
+
+        return result.Match(Results.Created);
     }
 }

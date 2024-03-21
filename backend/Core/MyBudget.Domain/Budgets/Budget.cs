@@ -1,18 +1,20 @@
 ﻿using MyBudget.Domain.Budgets.Events;
 using MyBudget.Domain.Budgets.Rules;
+using MyBudget.Domain.Budgets.Transfers;
 using MyBudget.SharedKernel;
 
 namespace MyBudget.Domain.Budgets;
 
 public class Budget : Entity, IAggregateRoot, IAuditable
 {
-    protected internal Budget(Guid id, Guid ownerId, string name)
+    private Budget(Guid id, Guid ownerId, string name)
     {
         Id = id;
         Name = name;
         OwnerId = ownerId;
         Status = BudgetStatus.Open;
         _categories = [];
+        _transfers = [];
 
         AddDomainEvent(new BudgetCreatedEvent(Id, OwnerId));
     }
@@ -27,7 +29,13 @@ public class Budget : Entity, IAggregateRoot, IAuditable
     public BudgetStatus Status { get; private set; }
 
     private readonly List<TransferCategory> _categories;
-    public IEnumerable<TransferCategory> Categories => _categories.AsReadOnly();
+    public IEnumerable<TransferCategory> Categories => _categories.AsEnumerable();
+
+    private readonly List<Transfer> _transfers;
+
+    public IEnumerable<Transfer> Transfers => _transfers.AsEnumerable();
+    public IEnumerable<Transfer> Expenses => _transfers.Where(x => x.Type == TransferType.Expense).AsEnumerable();
+    public IEnumerable<Transfer> Incomes => _transfers.Where(x => x.Type == TransferType.Income).AsEnumerable();
 
 
     public static async Task<Result<Budget>> Create(
@@ -79,5 +87,27 @@ public class Budget : Entity, IAggregateRoot, IAuditable
         category.Archive();
         AddDomainEvent(new BudgetCategoryArchivedEvent(Id, name));
         return Result.Success();
+    }
+
+    public Result HasAccess(Guid userId)
+    {
+        return OwnerId == userId ? Result.Success() : Result.Failure(BudgetsErrors.BudgetAccessDenied);
+    }
+
+    public Result<Transfer> AddExpense(
+        IIdGenerator idGenerator,
+        string name,
+        decimal value,
+        string currency,
+        DateTime expenseDate
+    )
+    {
+        var transfer = Transfer.Create(idGenerator, Id, TransferType.Expense, name, value, currency, expenseDate);
+
+        if (transfer.IsFailure) return transfer.Error;
+
+        _transfers.Add(transfer.Value);
+
+        return transfer.Value;
     }
 }

@@ -78,7 +78,7 @@ public class PostBudgetCategoryTests(IntegrationTestWebAppFactory application) :
         var categoryName = faker.Random.String2(10);
 
         var budget =
-            new Domain.Budgets.Budget(budgetId, _application.UserId, faker.Random.String2(10));
+            FakeBudgetBuilder.Build(budgetId, _application.UserId, faker.Random.String2(10));
 
         await _dbContext.Budgets.AddAsync(budget);
         await _dbContext.SaveChangesAsync();
@@ -111,7 +111,7 @@ public class PostBudgetCategoryTests(IntegrationTestWebAppFactory application) :
         var categoryName = faker.Random.String2(10);
 
         var budget =
-            new Domain.Budgets.Budget(budgetId, _application.UserId, faker.Random.String2(10));
+            FakeBudgetBuilder.Build(budgetId, _application.UserId, faker.Random.String2(10));
 
         await _dbContext.Budgets.AddAsync(budget);
         await _dbContext.SaveChangesAsync();
@@ -145,7 +145,7 @@ public class PostBudgetCategoryTests(IntegrationTestWebAppFactory application) :
         var categoryName = faker.Random.String2(10);
 
         var budget =
-            new Domain.Budgets.Budget(budgetId, Guid.NewGuid(), faker.Random.String2(10));
+            FakeBudgetBuilder.Build(budgetId, Guid.NewGuid(), faker.Random.String2(10));
 
         await _dbContext.Budgets.AddAsync(budget);
         await _dbContext.SaveChangesAsync();
