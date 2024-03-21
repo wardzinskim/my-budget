@@ -33,7 +33,7 @@ public class BudgetModule : ICarterModule
             .WithOpenApi()
             .IncludeInOpenApi();
 
-        app.MapPost("/budget/category", CreateBudgetCategory)
+        app.MapPost("/budget/{id:guid}/category", CreateBudgetCategory)
             .WithName(nameof(CreateBudgetCategory))
             .WithTags("budget")
             .Produces(StatusCodes.Status201Created)
@@ -42,7 +42,7 @@ public class BudgetModule : ICarterModule
             .WithOpenApi()
             .IncludeInOpenApi();
 
-        app.MapPut("/budget/{BudgetId:guid}/category/{Name}/archive", ArchiveBudgetCategory)
+        app.MapPut("/budget/{id:guid}/category/{name}/archive", ArchiveBudgetCategory)
             .WithName(nameof(ArchiveBudgetCategory))
             .WithTags("budget")
             .Produces(StatusCodes.Status204NoContent)
@@ -51,7 +51,7 @@ public class BudgetModule : ICarterModule
             .WithOpenApi()
             .IncludeInOpenApi();
 
-        app.MapPost("/budget/transfer", AddExpense)
+        app.MapPost("/budget/{id:guid}/transfer", AddExpense)
             .WithName(nameof(AddExpense))
             .WithTags("budget")
             .Produces(StatusCodes.Status201Created)
@@ -59,38 +59,37 @@ public class BudgetModule : ICarterModule
             .ProducesValidationProblem()
             .WithOpenApi()
             .IncludeInOpenApi();
-
     }
 
     private static async Task<IResult> CreateBudget(
         IMediator mediator,
-        [FromBody] CreateBudgetCommand command,
+        [FromBody] CreateBudgetRequest request,
         CancellationToken cancellationToken
     )
     {
-        var result = await mediator.SendRequest(command, cancellationToken);
+        var result = await mediator.SendRequest(new CreateBudgetCommand(request.Name), cancellationToken);
 
         return result.Match(Results.Created);
     }
 
     private static async Task<IResult> GetBudgets(
         IMediator mediator,
-        [AsParameters] GetBudgetsQuery query,
         CancellationToken cancellationToken
     )
     {
-        var result = await mediator.SendRequest(query, cancellationToken);
+        var result = await mediator.SendRequest(new GetBudgetsQuery(), cancellationToken);
 
         return result.Match(x => Results.Ok(x));
     }
 
     private static async Task<IResult> CreateBudgetCategory(
         IMediator mediator,
-        [FromBody] CreateBudgetCategoryCommand command,
+        [FromRoute] Guid id,
+        [FromBody] CreateBudgetCategoryRequest request,
         CancellationToken cancellationToken
     )
     {
-        var result = await mediator.SendRequest(command, cancellationToken);
+        var result = await mediator.SendRequest(new CreateBudgetCategoryCommand(id, request.Name), cancellationToken);
 
         return result.Match(Results.Created);
     }
@@ -98,22 +97,26 @@ public class BudgetModule : ICarterModule
 
     private static async Task<IResult> ArchiveBudgetCategory(
         IMediator mediator,
-        [AsParameters] ArchiveBudgetCategoryCommand command,
+        [FromRoute] Guid id,
+        [FromRoute] string name,
         CancellationToken cancellationToken
     )
     {
-        var result = await mediator.SendRequest(command, cancellationToken);
+        var result = await mediator.SendRequest(new ArchiveBudgetCategoryCommand(id, name), cancellationToken);
 
         return result.Match(Results.NoContent);
     }
 
     private static async Task<IResult> AddExpense(
         IMediator mediator,
-        [FromBody] CreateExpenseCommand command,
+        [FromRoute] Guid id,
+        [FromBody] CreateTransferRequest request,
         CancellationToken cancellationToken
-        )
+    )
     {
-        var result = await mediator.SendRequest(command, cancellationToken);
+        var result = await mediator.SendRequest(
+            new CreateExpenseCommand(id, request.Name, request.Value, request.Currency, request.Date),
+            cancellationToken);
 
         return result.Match(Results.Created);
     }

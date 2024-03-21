@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MyBudget.Application.Budgets.CreateBudget;
+using MyBudget.Api.Features.Core;
 using System.Net;
 using System.Net.Http.Json;
 
@@ -16,7 +16,7 @@ public class PostBudgetTests(IntegrationTestWebAppFactory application) : Budgets
         var faker = new Faker();
         var budgetName = faker.Random.String2(50);
 
-        var response = await _httpClient.PostAsJsonAsync("/budget", new CreateBudgetCommand(budgetName));
+        var response = await _httpClient.PostAsJsonAsync("/budget", new CreateBudgetRequest(budgetName));
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
@@ -32,7 +32,7 @@ public class PostBudgetTests(IntegrationTestWebAppFactory application) : Budgets
         var faker = new Faker();
         var budgetName = faker.Random.String2(501);
 
-        var response = await _httpClient.PostAsJsonAsync("/budget", new CreateBudgetCommand(budgetName));
+        var response = await _httpClient.PostAsJsonAsync("/budget", new CreateBudgetRequest(budgetName));
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -46,7 +46,7 @@ public class PostBudgetTests(IntegrationTestWebAppFactory application) : Budgets
     [Fact]
     public async Task POST_budget_with_empty_name_returns_validation_error()
     {
-        var response = await _httpClient.PostAsJsonAsync("/budget", new CreateBudgetCommand(string.Empty));
+        var response = await _httpClient.PostAsJsonAsync("/budget", new CreateBudgetRequest(string.Empty));
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
@@ -63,12 +63,12 @@ public class PostBudgetTests(IntegrationTestWebAppFactory application) : Budgets
         var faker = new Faker();
         var budgetName = faker.Random.String2(50);
 
-        var response = await _httpClient.PostAsJsonAsync("/budget", new CreateBudgetCommand(budgetName));
+        var response = await _httpClient.PostAsJsonAsync("/budget", new CreateBudgetRequest(budgetName));
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-        response = await _httpClient.PostAsJsonAsync("/budget", new CreateBudgetCommand(budgetName));
+        response = await _httpClient.PostAsJsonAsync("/budget", new CreateBudgetRequest(budgetName));
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         var problemDetail = await response.Content.ReadFromJsonAsync<ProblemDetails>();

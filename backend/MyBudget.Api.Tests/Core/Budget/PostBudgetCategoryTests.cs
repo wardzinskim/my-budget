@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MyBudget.Api.Features.Core;
 using MyBudget.Application.Budgets.CreateBudgetCategory;
 using System.Net;
 using System.Net.Http.Json;
@@ -14,8 +15,8 @@ public class PostBudgetCategoryTests(IntegrationTestWebAppFactory application) :
     public async Task POST_budget_category_no_budget_returns_404()
     {
         //act
-        var response = await _httpClient.PostAsJsonAsync("/budget/category",
-            new CreateBudgetCategoryCommand(Guid.NewGuid(), "asd"));
+        var response = await _httpClient.PostAsJsonAsync($"/budget/{Guid.NewGuid()}/category",
+            new CreateBudgetCategoryRequest("asd"));
 
         //assert
         Assert.NotNull(response);
@@ -35,8 +36,8 @@ public class PostBudgetCategoryTests(IntegrationTestWebAppFactory application) :
         var categoryName = faker.Random.String2(501);
 
         //act
-        var response = await _httpClient.PostAsJsonAsync("/budget/category",
-            new CreateBudgetCategoryCommand(Guid.NewGuid(), categoryName));
+        var response = await _httpClient.PostAsJsonAsync($"/budget/{Guid.NewGuid()}/category",
+            new CreateBudgetCategoryRequest(categoryName));
 
         //assert
         Assert.NotNull(response);
@@ -54,8 +55,8 @@ public class PostBudgetCategoryTests(IntegrationTestWebAppFactory application) :
     public async Task POST_budget_category_with_empty_name_returns_validation_error()
     {
         //act
-        var response = await _httpClient.PostAsJsonAsync("/budget/category",
-            new CreateBudgetCategoryCommand(Guid.NewGuid(), null!));
+        var response = await _httpClient.PostAsJsonAsync($"/budget/{Guid.NewGuid()}/category",
+            new CreateBudgetCategoryRequest(null!));
 
         //assert
         Assert.NotNull(response);
@@ -85,8 +86,8 @@ public class PostBudgetCategoryTests(IntegrationTestWebAppFactory application) :
 
 
         //act
-        var response = await _httpClient.PostAsJsonAsync("/budget/category",
-            new CreateBudgetCategoryCommand(budgetId, categoryName));
+        var response = await _httpClient.PostAsJsonAsync($"/budget/{budgetId}/category",
+            new CreateBudgetCategoryRequest(categoryName));
 
         //assert
         Assert.NotNull(response);
@@ -117,14 +118,14 @@ public class PostBudgetCategoryTests(IntegrationTestWebAppFactory application) :
         await _dbContext.SaveChangesAsync();
 
         //act
-        var response = await _httpClient.PostAsJsonAsync("/budget/category",
-            new CreateBudgetCategoryCommand(budgetId, categoryName));
+        var response = await _httpClient.PostAsJsonAsync($"/budget/{budgetId}/category",
+            new CreateBudgetCategoryRequest(categoryName));
 
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-        response = await _httpClient.PostAsJsonAsync("/budget/category",
-            new CreateBudgetCategoryCommand(budgetId, categoryName));
+        response = await _httpClient.PostAsJsonAsync($"/budget/{budgetId}/category",
+            new CreateBudgetCategoryRequest(categoryName));
 
 
         //assert
@@ -152,8 +153,8 @@ public class PostBudgetCategoryTests(IntegrationTestWebAppFactory application) :
 
 
         //act
-        var response = await _httpClient.PostAsJsonAsync("/budget/category",
-            new CreateBudgetCategoryCommand(budgetId, categoryName));
+        var response = await _httpClient.PostAsJsonAsync($"/budget/{budgetId}/category",
+            new CreateBudgetCategoryRequest(categoryName));
 
         //assert
         Assert.NotNull(response);
