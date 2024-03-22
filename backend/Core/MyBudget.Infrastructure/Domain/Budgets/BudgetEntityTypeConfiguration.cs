@@ -100,8 +100,5 @@ internal sealed class BudgetEntityTypeConfiguration : IEntityTypeConfiguration<B
             });
         });
 
-
-        builder.Ignore(x => x.Expenses);
-        builder.Ignore(x => x.Incomes);
     }
 }

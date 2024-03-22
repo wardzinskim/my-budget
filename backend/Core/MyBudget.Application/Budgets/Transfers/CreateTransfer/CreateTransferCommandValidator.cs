@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace MyBudget.Application.Budgets.Transfers.CreateExpense;
+namespace MyBudget.Application.Budgets.Transfers.CreateTransfer;
 
-public class CreateExpenseCommandValidator : AbstractValidator<CreateExpenseCommand>
+public class CreateTransferCommandValidator : AbstractValidator<CreateTransferCommand>
 {
-    public CreateExpenseCommandValidator()
+    public CreateTransferCommandValidator()
     {
         RuleFor(x => x.Name)
             .NotEmpty()
@@ -19,6 +19,9 @@ public class CreateExpenseCommandValidator : AbstractValidator<CreateExpenseComm
             .GreaterThanOrEqualTo(0);
 
         RuleFor(x => x.BudgetId)
+            .NotEmpty();
+
+        RuleFor(x => x.Type)
             .NotEmpty();
     }
 }

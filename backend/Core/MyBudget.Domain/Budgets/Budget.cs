@@ -34,9 +34,6 @@ public class Budget : Entity, IAggregateRoot, IAuditable
     private readonly List<Transfer> _transfers;
 
     public IEnumerable<Transfer> Transfers => _transfers.AsEnumerable();
-    public IEnumerable<Transfer> Expenses => _transfers.Where(x => x.Type == TransferType.Expense).AsEnumerable();
-    public IEnumerable<Transfer> Incomes => _transfers.Where(x => x.Type == TransferType.Income).AsEnumerable();
-
 
     public static async Task<Result<Budget>> Create(
         IIdGenerator idGenerator,
@@ -94,15 +91,16 @@ public class Budget : Entity, IAggregateRoot, IAuditable
         return OwnerId == userId ? Result.Success() : Result.Failure(BudgetsErrors.BudgetAccessDenied);
     }
 
-    public Result<Transfer> AddExpense(
+    public Result<Transfer> AddTransfer(
         IIdGenerator idGenerator,
+        TransferType type,
         string name,
         decimal value,
         string currency,
         DateTime expenseDate
     )
     {
-        var transfer = Transfer.Create(idGenerator, Id, TransferType.Expense, name, value, currency, expenseDate);
+        var transfer = Transfer.Create(idGenerator, Id, type, name, value, currency, expenseDate);
 
         if (transfer.IsFailure) return transfer.Error;
 
@@ -110,4 +108,5 @@ public class Budget : Entity, IAggregateRoot, IAuditable
 
         return transfer.Value;
     }
+
 }

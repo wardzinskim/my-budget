@@ -10,6 +10,7 @@ using MyBudget.Application.Budgets.CreateBudgetCategory;
 using MyBudget.Application.Budgets.GetBudgets;
 using MyBudget.Application.Budgets.Model;
 using MyBudget.Application.Budgets.Transfers.CreateExpense;
+using MyBudget.Application.Budgets.Transfers.GetTransfers;
 
 namespace MyBudget.Api.Features.Core;
 
@@ -38,6 +39,7 @@ public class BudgetModule : ICarterModule
             .WithTags("budget")
             .Produces(StatusCodes.Status201Created)
             .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesValidationProblem()
             .WithOpenApi()
             .IncludeInOpenApi();
@@ -47,15 +49,27 @@ public class BudgetModule : ICarterModule
             .WithTags("budget")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesValidationProblem()
             .WithOpenApi()
             .IncludeInOpenApi();
 
-        app.MapPost("/budget/{id:guid}/transfer", AddExpense)
-            .WithName(nameof(AddExpense))
+        app.MapPost("/budget/{id:guid}/transfer", AddTransfer)
+            .WithName(nameof(AddTransfer))
             .WithTags("budget")
             .Produces(StatusCodes.Status201Created)
             .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status403Forbidden)
+            .ProducesValidationProblem()
+            .WithOpenApi()
+            .IncludeInOpenApi();
+
+        app.MapGet("/budget/{id:guid}/transfer", GetTransfers)
+            .WithName(nameof(GetTransfers))
+            .WithTags("budget")
+            .Produces(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesValidationProblem()
             .WithOpenApi()
             .IncludeInOpenApi();
@@ -107,7 +121,7 @@ public class BudgetModule : ICarterModule
         return result.Match(Results.NoContent);
     }
 
-    private static async Task<IResult> AddExpense(
+    private static async Task<IResult> AddTransfer(
         IMediator mediator,
         [FromRoute] Guid id,
         [FromBody] CreateTransferRequest request,
@@ -115,9 +129,21 @@ public class BudgetModule : ICarterModule
     )
     {
         var result = await mediator.SendRequest(
-            new CreateExpenseCommand(id, request.Name, request.Value, request.Currency, request.Date),
+            new CreateTransferCommand(id, request.Type, request.Name, request.Value, request.Currency, request.Date),
             cancellationToken);
 
         return result.Match(Results.Created);
+    }
+
+    private static async Task<IResult> GetTransfers(
+        IMediator mediator,
+        [AsParameters] GetTransfersRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+        var result = await mediator.SendRequest(
+            new GetTransfersQuery(request.Id, request.Type, request.DateFrom, request.DateTo), cancellationToken);
+
+        return result.Match(x => Results.Ok(x));
     }
 }

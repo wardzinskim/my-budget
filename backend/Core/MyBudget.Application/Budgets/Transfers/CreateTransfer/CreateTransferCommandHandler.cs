@@ -1,21 +1,23 @@
 ﻿using MassTransit.Mediator;
+using MyBudget.Application.Budgets.Model;
 using MyBudget.Domain.Budgets;
+using MyBudget.Domain.Budgets.Transfers;
 using MyBudget.Infrastructure.Abstractions.Features;
 using MyBudget.SharedKernel;
 
-namespace MyBudget.Application.Budgets.Transfers.CreateExpense;
+namespace MyBudget.Application.Budgets.Transfers.CreateTransfer;
 
-public record CreateExpenseCommand(Guid BudgetId, string Name, decimal Value, string Currency, DateTime? Date = null)
+public record CreateTransferCommand(Guid BudgetId, TransferDTOType Type, string Name, decimal Value, string Currency, DateTime? Date = null)
     : Request<Result>, ICommand;
 
-public sealed class CreateExpenseCommandHandler : MediatorRequestHandler<CreateExpenseCommand, Result>
+public sealed class CreateTransferCommandHandler : MediatorRequestHandler<CreateTransferCommand, Result>
 {
     private readonly IBudgetRepository _budgetRepository;
     private readonly IRequestContext _requestContext;
     private readonly IIdGenerator _idGenerator;
     private readonly IDateTimeProvider _dateProvider;
 
-    public CreateExpenseCommandHandler(
+    public CreateTransferCommandHandler(
         IBudgetRepository budgetRepository,
         IRequestContext requestContext,
         IIdGenerator idGenerator,
@@ -28,7 +30,7 @@ public sealed class CreateExpenseCommandHandler : MediatorRequestHandler<CreateE
         _dateProvider = dateProvider;
     }
 
-    protected override async Task<Result> Handle(CreateExpenseCommand request, CancellationToken cancellationToken)
+    protected override async Task<Result> Handle(CreateTransferCommand request, CancellationToken cancellationToken)
     {
         var budget = await _budgetRepository.GetAsync(request.BudgetId, cancellationToken).ConfigureAwait(false);
         if (budget is null)
@@ -42,7 +44,7 @@ public sealed class CreateExpenseCommandHandler : MediatorRequestHandler<CreateE
             return access.Error;
         }
 
-        var transfer = budget.AddExpense(_idGenerator, request.Name, request.Value, request.Currency,
+        var transfer = budget.AddTransfer(_idGenerator, (TransferType)request.Type, request.Name, request.Value, request.Currency,
             request.Date ?? _dateProvider.UtcNow);
         if (transfer.IsFailure)
         {

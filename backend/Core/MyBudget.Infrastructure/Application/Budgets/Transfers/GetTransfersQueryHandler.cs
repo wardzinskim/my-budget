@@ -1,5 +1,4 @@
 ﻿using MassTransit.Mediator;
-using Microsoft.EntityFrameworkCore;
 using MyBudget.Application.Budgets.Transfers.GetTransfers;
 using MyBudget.Infrastructure.Database;
 using MyBudget.SharedKernel;
@@ -19,6 +18,5 @@ public sealed class GetTransfersQueryHandler : MediatorRequestHandler<GetTransfe
     {
         throw new NotImplementedException();
 
-        _dbContext.Budgets.Include(x => x.Expenses).Where(x => x.Id == request.BudgetId);
     }
 }
