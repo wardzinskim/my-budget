@@ -100,5 +100,8 @@ internal sealed class BudgetEntityTypeConfiguration : IEntityTypeConfiguration<B
             });
         });
 
+        builder.Navigation(x => x.Transfers)
+            .AutoInclude(false);
+
     }
 }

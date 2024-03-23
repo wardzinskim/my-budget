@@ -1,5 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using MyBudget.Infrastructure.Database;
+using System.Net;
+using System.Net.Http.Json;
 
 namespace MyBudget.Api.Tests.Core;
 
@@ -32,5 +36,27 @@ public abstract class BudgetsIntegrationTest : IDisposable
     {
         _scope?.Dispose();
         _dbContext?.Dispose();
+    }
+
+    protected async Task AssertBudgetNotExistsAsync(HttpResponseMessage? response)
+    {
+        Assert.NotNull(response);
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+
+        var problemDetail = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+        Assert.NotNull(problemDetail);
+        Assert.Equal(StatusCodes.Status404NotFound, problemDetail.Status);
+        Assert.Equal("budget_not_found", problemDetail.Extensions["code"]!.ToString());
+    }
+
+    protected async Task AssertBudgetForbiddenAsync(HttpResponseMessage? response)
+    {
+        Assert.NotNull(response);
+        Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+
+        var problemDetail = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+        Assert.NotNull(problemDetail);
+        Assert.Equal(StatusCodes.Status403Forbidden, problemDetail.Status);
+        Assert.Equal("budget_access_denied", problemDetail.Extensions["code"]!.ToString());
     }
 }

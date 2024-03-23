@@ -21,7 +21,5 @@ public class CreateTransferCommandValidator : AbstractValidator<CreateTransferCo
         RuleFor(x => x.BudgetId)
             .NotEmpty();
 
-        RuleFor(x => x.Type)
-            .NotEmpty();
     }
 }

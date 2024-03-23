@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyBudget.Api.Features.Core;
-using MyBudget.Application.Budgets.CreateBudgetCategory;
 using System.Net;
 using System.Net.Http.Json;
 
@@ -19,13 +18,7 @@ public class PostBudgetCategoryTests(IntegrationTestWebAppFactory application) :
             new CreateBudgetCategoryRequest("asd"));
 
         //assert
-        Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-
-        var problemDetail = await response.Content.ReadFromJsonAsync<ProblemDetails>();
-        Assert.NotNull(problemDetail);
-        Assert.Equal(StatusCodes.Status404NotFound, problemDetail.Status);
-        Assert.Equal("budget_not_found", problemDetail.Extensions["code"]!.ToString());
+        await AssertBudgetNotExistsAsync(response);
     }
 
     [Fact]
@@ -138,7 +131,7 @@ public class PostBudgetCategoryTests(IntegrationTestWebAppFactory application) :
     }
 
     [Fact]
-    public async Task POST_budget_category_in_not_my_budget_returns_403()
+    public async Task POST_budget_category_is_not_my_budget_returns_403()
     {
         //arrange
         var faker = new Faker();
@@ -157,12 +150,6 @@ public class PostBudgetCategoryTests(IntegrationTestWebAppFactory application) :
             new CreateBudgetCategoryRequest(categoryName));
 
         //assert
-        Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
-
-        var problemDetail = await response.Content.ReadFromJsonAsync<ProblemDetails>();
-        Assert.NotNull(problemDetail);
-        Assert.Equal(StatusCodes.Status403Forbidden, problemDetail.Status);
-        Assert.Equal("budget_access_denied", problemDetail.Extensions["code"]!.ToString());
+        await AssertBudgetForbiddenAsync(response);
     }
 }

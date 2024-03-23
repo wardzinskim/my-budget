@@ -9,7 +9,7 @@ using MyBudget.Application.Budgets.CreateBudget;
 using MyBudget.Application.Budgets.CreateBudgetCategory;
 using MyBudget.Application.Budgets.GetBudgets;
 using MyBudget.Application.Budgets.Model;
-using MyBudget.Application.Budgets.Transfers.CreateExpense;
+using MyBudget.Application.Budgets.Transfers.CreateTransfer;
 using MyBudget.Application.Budgets.Transfers.GetTransfers;
 
 namespace MyBudget.Api.Features.Core;
@@ -70,7 +70,6 @@ public class BudgetModule : ICarterModule
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status403Forbidden)
-            .ProducesValidationProblem()
             .WithOpenApi()
             .IncludeInOpenApi();
     }
