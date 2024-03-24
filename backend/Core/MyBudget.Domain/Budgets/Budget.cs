@@ -1,7 +1,9 @@
 ﻿using MyBudget.Domain.Budgets.Events;
 using MyBudget.Domain.Budgets.Rules;
 using MyBudget.Domain.Budgets.Transfers;
+using MyBudget.Domain.Budgets.Transfers.Events;
 using MyBudget.SharedKernel;
+using System.Xml.Linq;
 
 namespace MyBudget.Domain.Budgets;
 
@@ -109,4 +111,22 @@ public class Budget : Entity, IAggregateRoot, IAuditable
         return transfer.Value;
     }
 
+
+    public Result DeleteTransfer(Guid transferId)
+    {
+        var result = CheckRulesAsync(default, new TransferMustExistsBeforeDeletion(_transfers, transferId))
+            .ConfigureAwait(false).GetAwaiter().GetResult();
+
+        if (result.IsFailure)
+        {
+            return result.Error;
+        }
+
+        var transfer = _transfers.First(x => x.Id == transferId);
+
+        _transfers.Remove(transfer);
+
+        AddDomainEvent(new TransferDeletedEvent(Id, transferId, transfer.Type, transfer.Value));
+        return Result.Success();
+    }
 }

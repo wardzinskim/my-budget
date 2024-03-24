@@ -20,7 +20,7 @@ public class GetBudgetTransferTests(IntegrationTestWebAppFactory application) : 
 
 
     [Fact]
-    public async Task GET_budget_transfers_no_budgets_return_403()
+    public async Task GET_budget_transfers_is_not_my_budget_returns_403()
     {
         //arrange
         var faker = new Faker();

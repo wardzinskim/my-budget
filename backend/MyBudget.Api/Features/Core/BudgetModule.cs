@@ -10,6 +10,7 @@ using MyBudget.Application.Budgets.CreateBudgetCategory;
 using MyBudget.Application.Budgets.GetBudgets;
 using MyBudget.Application.Budgets.Model;
 using MyBudget.Application.Budgets.Transfers.CreateTransfer;
+using MyBudget.Application.Budgets.Transfers.DeleteTransfer;
 using MyBudget.Application.Budgets.Transfers.GetTransfers;
 
 namespace MyBudget.Api.Features.Core;
@@ -66,6 +67,15 @@ public class BudgetModule : ICarterModule
 
         app.MapGet("/budget/{id:guid}/transfer", GetTransfers)
             .WithName(nameof(GetTransfers))
+            .WithTags("budget")
+            .Produces(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status403Forbidden)
+            .WithOpenApi()
+            .IncludeInOpenApi();
+
+        app.MapDelete("/budget/{id:guid}/transfer/{transferId:guid}", DeleteTransfer)
+            .WithName(nameof(DeleteTransfer))
             .WithTags("budget")
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
@@ -144,5 +154,19 @@ public class BudgetModule : ICarterModule
             new GetTransfersQuery(request.Id, request.Type, request.DateFrom, request.DateTo), cancellationToken);
 
         return result.Match(x => Results.Ok(x));
+    }
+
+
+    private static async Task<IResult> DeleteTransfer(
+        IMediator mediator,
+        [FromRoute] Guid id,
+        [FromRoute] Guid transferId,
+        CancellationToken cancellationToken
+    )
+    {
+        var result = await mediator.SendRequest(
+            new DeleteTransferCommand(id, transferId));
+
+        return result.Match(() => Results.Ok());
     }
 }
