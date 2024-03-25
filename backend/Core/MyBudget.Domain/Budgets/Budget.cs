@@ -3,7 +3,6 @@ using MyBudget.Domain.Budgets.Rules;
 using MyBudget.Domain.Budgets.Transfers;
 using MyBudget.Domain.Budgets.Transfers.Events;
 using MyBudget.SharedKernel;
-using System.Xml.Linq;
 
 namespace MyBudget.Domain.Budgets;
 
@@ -96,13 +95,10 @@ public class Budget : Entity, IAggregateRoot, IAuditable
     public Result<Transfer> AddTransfer(
         IIdGenerator idGenerator,
         TransferType type,
-        string name,
-        decimal value,
-        string currency,
-        DateTime expenseDate
+        TransferData data
     )
     {
-        var transfer = Transfer.Create(idGenerator, Id, type, name, value, currency, expenseDate);
+        var transfer = Transfer.Create(idGenerator, Id, type, data.Name, data.Value, data.Currency, data.TransferDate);
 
         if (transfer.IsFailure) return transfer.Error;
 
@@ -127,6 +123,25 @@ public class Budget : Entity, IAggregateRoot, IAuditable
         _transfers.Remove(transfer);
 
         AddDomainEvent(new TransferDeletedEvent(Id, transferId, transfer.Type, transfer.Value));
+        return Result.Success();
+    }
+
+    public Result UpdateTransfer(Guid transferId, TransferData data)
+    {
+        var result = CheckRulesAsync(default, new TransferMustExistsBeforeDeletion(_transfers, transferId))
+            .ConfigureAwait(false).GetAwaiter().GetResult();
+
+        if (result.IsFailure)
+        {
+            return result.Error;
+        }
+
+        var transfer = _transfers.First(x => x.Id == transferId);
+
+        var updateResult = transfer.Update(data);
+        if (updateResult.IsFailure)
+            return updateResult.Error;
+
         return Result.Success();
     }
 }

@@ -28,7 +28,6 @@ public sealed class DeleteTransferCommandHandler(IBudgetRepository budgetReposit
             return access.Error;
         }
 
-
         var result = budget.DeleteTransfer(request.TransferId);
         if (result.IsFailure) return result.Error;
 

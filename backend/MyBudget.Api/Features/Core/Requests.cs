@@ -7,7 +7,15 @@ public record CreateBudgetRequest(string Name);
 
 public record CreateBudgetCategoryRequest(string Name);
 
-public record CreateTransferRequest(TransferDTOType Type, string Name, decimal Value, string Currency, DateTime? Date = null);
+public record CreateTransferRequest(
+    TransferDTOType Type,
+    string Name,
+    decimal Value,
+    string Currency,
+    DateTime? Date = null
+);
+
+public record UpdateTransferRequest(string Name, decimal Value, string Currency, DateTime Date);
 
 public record GetTransfersRequest(
     [FromRoute] Guid Id,

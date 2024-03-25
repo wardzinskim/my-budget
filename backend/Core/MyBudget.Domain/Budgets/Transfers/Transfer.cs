@@ -38,6 +38,17 @@ public class Transfer : Entity, IAuditable
     public string? Category { get; private set; }
     public string Name { get; private set; }
 
+    internal Result Update(TransferData data)
+    {
+        var money = Money.Of(data.Value, data.Currency);
+        if (money.IsFailure) return money.Error;
+
+        TransferDate = data.TransferDate;
+        Name = data.Name;
+        Value = money.Value;
+
+        return Result.Success();
+    }
 
     internal static Result<Transfer> Create(
         IIdGenerator idGenerator,

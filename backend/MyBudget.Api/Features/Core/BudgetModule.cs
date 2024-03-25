@@ -12,6 +12,7 @@ using MyBudget.Application.Budgets.Model;
 using MyBudget.Application.Budgets.Transfers.CreateTransfer;
 using MyBudget.Application.Budgets.Transfers.DeleteTransfer;
 using MyBudget.Application.Budgets.Transfers.GetTransfers;
+using MyBudget.Application.Budgets.Transfers.UpdateTransfer;
 
 namespace MyBudget.Api.Features.Core;
 
@@ -80,6 +81,16 @@ public class BudgetModule : ICarterModule
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status403Forbidden)
+            .WithOpenApi()
+            .IncludeInOpenApi();
+
+        app.MapPut("/budget/{id:guid}/transfer/{transferId:guid}", UpdateTransfer)
+            .WithName(nameof(UpdateTransfer))
+            .WithTags("budget")
+            .Produces(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status403Forbidden)
+            .ProducesValidationProblem()
             .WithOpenApi()
             .IncludeInOpenApi();
     }
@@ -156,7 +167,6 @@ public class BudgetModule : ICarterModule
         return result.Match(x => Results.Ok(x));
     }
 
-
     private static async Task<IResult> DeleteTransfer(
         IMediator mediator,
         [FromRoute] Guid id,
@@ -166,6 +176,21 @@ public class BudgetModule : ICarterModule
     {
         var result = await mediator.SendRequest(
             new DeleteTransferCommand(id, transferId));
+
+        return result.Match(() => Results.Ok());
+    }
+
+    private static async Task<IResult> UpdateTransfer(
+        IMediator mediator,
+        [FromRoute] Guid id,
+        [FromRoute] Guid transferId,
+        [FromBody] UpdateTransferRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+        var result = await mediator.SendRequest(
+            new UpdateTransferCommand(id, transferId, request.Name, request.Value, request.Currency, request.Date),
+            cancellationToken);
 
         return result.Match(() => Results.Ok());
     }

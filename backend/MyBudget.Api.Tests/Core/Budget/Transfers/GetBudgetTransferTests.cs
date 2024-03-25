@@ -54,9 +54,9 @@ public class GetBudgetTransferTests(IntegrationTestWebAppFactory application) : 
             FakeBudgetBuilder.Build(budgetId, _application.UserId, faker.Random.String2(10));
 
         budget.AddTransfer(new IdGeneratorMock(transfer1), Domain.Budgets.Transfers.TransferType.Expense,
-            faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.Now.AddDays(-1));
+            new(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.Now.AddDays(-1)));
         budget.AddTransfer(new IdGeneratorMock(transfer2), Domain.Budgets.Transfers.TransferType.Expense,
-            faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.Now.AddDays(-40));
+            new(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.Now.AddDays(-40)));
 
         await _dbContext.Budgets.AddAsync(budget);
         await _dbContext.SaveChangesAsync();
@@ -91,9 +91,9 @@ public class GetBudgetTransferTests(IntegrationTestWebAppFactory application) : 
             FakeBudgetBuilder.Build(budgetId, _application.UserId, faker.Random.String2(10));
 
         budget.AddTransfer(new IdGeneratorMock(transfer1), Domain.Budgets.Transfers.TransferType.Income,
-            faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.Now.AddDays(-1));
+            new(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.Now.AddDays(-1)));
         budget.AddTransfer(new IdGeneratorMock(transfer2), Domain.Budgets.Transfers.TransferType.Expense,
-            faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.Now.AddDays(-1));
+            new(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.Now.AddDays(-1)));
 
         await _dbContext.Budgets.AddAsync(budget);
         await _dbContext.SaveChangesAsync();

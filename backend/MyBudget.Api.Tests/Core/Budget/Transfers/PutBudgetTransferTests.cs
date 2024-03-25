@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MyBudget.Api.Features.Core;
 using MyBudget.Api.Tests.Mocks;
 using MyBudget.Domain.Budgets.Transfers;
 using System.Net;
@@ -9,13 +10,17 @@ using System.Net.Http.Json;
 
 namespace MyBudget.Api.Tests.Core.Budget.Transfers;
 
-public class DeleteBudgetTransferTests(IntegrationTestWebAppFactory application) : BudgetsIntegrationTest(application)
+public class PutBudgetTransferTests(IntegrationTestWebAppFactory application) : BudgetsIntegrationTest(application)
 {
     [Fact]
-    public async Task DELETE_budget_transfers_no_budgets_return_404()
+    public async Task PUT_budget_transfers_no_budgets_return_404()
     {
+        //arrange
+        var faker = new Faker();
+
         //act
-        var response = await _httpClient.DeleteAsync($"/budget/{Guid.NewGuid()}/transfer/{Guid.NewGuid()}");
+        var response = await _httpClient.PutAsJsonAsync($"/budget/{Guid.NewGuid()}/transfer/{Guid.NewGuid()}",
+            new UpdateTransferRequest(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.UtcNow));
 
         //assert
         await AssertBudgetNotExistsAsync(response);
@@ -23,7 +28,7 @@ public class DeleteBudgetTransferTests(IntegrationTestWebAppFactory application)
 
 
     [Fact]
-    public async Task DELETE_budget_transfer_is_not_my_budget_returns_403()
+    public async Task PUT_budget_transfer_is_not_my_budget_returns_403()
     {
         //arrange
         var faker = new Faker();
@@ -37,7 +42,8 @@ public class DeleteBudgetTransferTests(IntegrationTestWebAppFactory application)
 
 
         //act
-        var response = await _httpClient.DeleteAsync($"/budget/{budgetId}/transfer/{Guid.NewGuid()}");
+        var response = await _httpClient.PutAsJsonAsync($"/budget/{budgetId}/transfer/{Guid.NewGuid()}",
+            new UpdateTransferRequest(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.UtcNow));
 
         //assert
         await AssertBudgetForbiddenAsync(response);
@@ -45,7 +51,7 @@ public class DeleteBudgetTransferTests(IntegrationTestWebAppFactory application)
 
 
     [Fact]
-    public async Task DELETE_budget_transfer_no_transfer_return_404()
+    public async Task PUT_budget_transfer_no_transfer_return_404()
     {
         //arrange
         var faker = new Faker();
@@ -60,7 +66,8 @@ public class DeleteBudgetTransferTests(IntegrationTestWebAppFactory application)
 
 
         //act
-        var response = await _httpClient.DeleteAsync($"/budget/{budgetId}/transfer/{Guid.NewGuid()}");
+        var response = await _httpClient.PutAsJsonAsync($"/budget/{budgetId}/transfer/{Guid.NewGuid()}",
+            new UpdateTransferRequest(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.UtcNow));
 
         //assert
         Assert.NotNull(response);
@@ -74,20 +81,20 @@ public class DeleteBudgetTransferTests(IntegrationTestWebAppFactory application)
 
 
     [Fact]
-    public async Task DELETE_budget_transfer_successfully_deleted()
+    public async Task PUT_budget_transfer_successfully_updated()
     {
         //arrange
         var faker = new Faker();
         var budgetId = Guid.NewGuid();
         var transferId = Guid.NewGuid();
+        var requestBody =
+            new UpdateTransferRequest(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.UtcNow);
 
         var budget =
             FakeBudgetBuilder.Build(budgetId, _application.UserId, faker.Random.String2(10));
 
         budget.AddTransfer(new IdGeneratorMock(transferId), TransferType.Income,
-            new(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.UtcNow));
-        budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Income,
-            new(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.UtcNow));
+            new(faker.Random.String2(10), faker.Random.Decimal(), "USD", DateTime.UtcNow));
 
 
         await _dbContext.Budgets.AddAsync(budget);
@@ -96,7 +103,8 @@ public class DeleteBudgetTransferTests(IntegrationTestWebAppFactory application)
 
 
         //act
-        var response = await _httpClient.DeleteAsync($"/budget/{budgetId}/transfer/{transferId}");
+        var response = await _httpClient.PutAsJsonAsync($"/budget/{budgetId}/transfer/{transferId}", requestBody);
+
 
         //assert
         Assert.NotNull(response);
@@ -110,6 +118,10 @@ public class DeleteBudgetTransferTests(IntegrationTestWebAppFactory application)
 
         Assert.NotNull(budget);
         Assert.Single(budget.Transfers);
-        Assert.NotEqual(transferId, budget.Transfers.Single().Id);
+        Assert.Equal(transferId, budget.Transfers.Single().Id);
+        Assert.Equal(requestBody.Name, budget.Transfers.Single().Name);
+        Assert.Equal(requestBody.Value, budget.Transfers.Single().Value.Value);
+        Assert.Equal(requestBody.Currency, budget.Transfers.Single().Value.Currency);
+        Assert.Equal(requestBody.Date, budget.Transfers.Single().TransferDate, TimeSpan.FromSeconds(1.0));
     }
 }

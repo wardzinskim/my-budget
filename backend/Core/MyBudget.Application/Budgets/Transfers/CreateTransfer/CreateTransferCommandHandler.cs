@@ -7,7 +7,14 @@ using MyBudget.SharedKernel;
 
 namespace MyBudget.Application.Budgets.Transfers.CreateTransfer;
 
-public record CreateTransferCommand(Guid BudgetId, TransferDTOType Type, string Name, decimal Value, string Currency, DateTime? Date = null)
+public record CreateTransferCommand(
+    Guid BudgetId,
+    TransferDTOType Type,
+    string Name,
+    decimal Value,
+    string Currency,
+    DateTime? Date = null
+)
     : Request<Result>, ICommand;
 
 public sealed class CreateTransferCommandHandler : MediatorRequestHandler<CreateTransferCommand, Result>
@@ -44,8 +51,8 @@ public sealed class CreateTransferCommandHandler : MediatorRequestHandler<Create
             return access.Error;
         }
 
-        var transfer = budget.AddTransfer(_idGenerator, (TransferType)request.Type, request.Name, request.Value, request.Currency,
-            request.Date ?? _dateProvider.UtcNow);
+        var transfer = budget.AddTransfer(_idGenerator, (TransferType)request.Type,
+            new(request.Name, request.Value, request.Currency, request.Date ?? _dateProvider.UtcNow));
         if (transfer.IsFailure)
         {
             return transfer.Error;
