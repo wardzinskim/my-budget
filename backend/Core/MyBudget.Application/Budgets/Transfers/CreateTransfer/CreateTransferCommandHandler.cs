@@ -13,9 +13,9 @@ public record CreateTransferCommand(
     string Name,
     decimal Value,
     string Currency,
+    string? Category = null,
     DateTime? Date = null
-)
-    : Request<Result>, ICommand;
+) : Request<Result>, ICommand;
 
 public sealed class CreateTransferCommandHandler : MediatorRequestHandler<CreateTransferCommand, Result>
 {
@@ -52,7 +52,7 @@ public sealed class CreateTransferCommandHandler : MediatorRequestHandler<Create
         }
 
         var transfer = budget.AddTransfer(_idGenerator, (TransferType)request.Type,
-            new(request.Name, request.Value, request.Currency, request.Date ?? _dateProvider.UtcNow));
+            new(request.Name, request.Value, request.Currency, request.Date ?? _dateProvider.UtcNow, request.Category));
         if (transfer.IsFailure)
         {
             return transfer.Error;

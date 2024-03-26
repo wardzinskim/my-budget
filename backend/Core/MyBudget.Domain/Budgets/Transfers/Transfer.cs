@@ -12,7 +12,8 @@ public class Transfer : Entity, IAuditable
         TransferType type,
         string name,
         Money value,
-        DateTime transferDate
+        DateTime transferDate,
+        string? category
     )
     {
         Id = id;
@@ -21,6 +22,7 @@ public class Transfer : Entity, IAuditable
         Value = value;
         TransferDate = transferDate;
         Name = name;
+        Category = category;
 
         AddDomainEvent(new TransferCreatedEvent(BudgetId, Id));
     }
@@ -46,6 +48,7 @@ public class Transfer : Entity, IAuditable
         TransferDate = data.TransferDate;
         Name = data.Name;
         Value = money.Value;
+        Category = data.Category;
 
         return Result.Success();
     }
@@ -57,12 +60,13 @@ public class Transfer : Entity, IAuditable
         string name,
         decimal value,
         string currency,
-        DateTime transferDate
+        DateTime transferDate,
+        string? category
     )
     {
         var money = Money.Of(value, currency);
         if (money.IsFailure) return money.Error;
 
-        return new Transfer(idGenerator.NextId(), budgetId, type, name, money.Value, transferDate);
+        return new Transfer(idGenerator.NextId(), budgetId, type, name, money.Value, transferDate, category);
     }
 }

@@ -21,5 +21,8 @@ public class CreateTransferCommandValidator : AbstractValidator<CreateTransferCo
         RuleFor(x => x.BudgetId)
             .NotEmpty();
 
+        RuleFor(x => x.Category)
+            .MaximumLength(32);
+
     }
 }

@@ -6,7 +6,8 @@ public record TransferDTO(
     decimal Value,
     string Currency,
     TransferDTOType Type,
-    string Name
+    string Name,
+    string? Category
 );
 
 public enum TransferDTOType

@@ -88,14 +88,15 @@ public class PutBudgetTransferTests(IntegrationTestWebAppFactory application) : 
         var budgetId = Guid.NewGuid();
         var transferId = Guid.NewGuid();
         var requestBody =
-            new UpdateTransferRequest(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.UtcNow);
+            new UpdateTransferRequest(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.UtcNow,
+                "CATEGORY");
 
         var budget =
             FakeBudgetBuilder.Build(budgetId, _application.UserId, faker.Random.String2(10));
 
         budget.AddTransfer(new IdGeneratorMock(transferId), TransferType.Income,
             new(faker.Random.String2(10), faker.Random.Decimal(), "USD", DateTime.UtcNow));
-
+        budget.AddTransferCategory("CATEGORY");
 
         await _dbContext.Budgets.AddAsync(budget);
         await _dbContext.SaveChangesAsync();
@@ -123,5 +124,6 @@ public class PutBudgetTransferTests(IntegrationTestWebAppFactory application) : 
         Assert.Equal(requestBody.Value, budget.Transfers.Single().Value.Value);
         Assert.Equal(requestBody.Currency, budget.Transfers.Single().Value.Currency);
         Assert.Equal(requestBody.Date, budget.Transfers.Single().TransferDate, TimeSpan.FromSeconds(1.0));
+        Assert.Equal(requestBody.Category, budget.Transfers.Single().Category);
     }
 }

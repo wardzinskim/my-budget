@@ -44,7 +44,13 @@ public sealed class GetTransfersQueryHandler(
         }
 
         return new TransfersQueryResponse(dateFrom, dateTo,
-            budget.Transfers.Select(x => new TransferDTO(x.Id, x.TransferDate, x.Value.Value, x.Value.Currency,
-                (TransferDTOType)x.Type, x.Name)));
+            budget.Transfers.Select(x => new TransferDTO(
+                x.Id,
+                x.TransferDate,
+                x.Value.Value,
+                x.Value.Currency,
+                (TransferDTOType)x.Type,
+                x.Name,
+                x.Category)));
     }
 }

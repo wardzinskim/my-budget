@@ -12,10 +12,17 @@ public record CreateTransferRequest(
     string Name,
     decimal Value,
     string Currency,
+    string? Category = null,
     DateTime? Date = null
 );
 
-public record UpdateTransferRequest(string Name, decimal Value, string Currency, DateTime Date);
+public record UpdateTransferRequest(
+    string Name,
+    decimal Value,
+    string Currency,
+    DateTime Date,
+    string? Category = null
+);
 
 public record GetTransfersRequest(
     [FromRoute] Guid Id,

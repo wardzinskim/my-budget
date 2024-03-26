@@ -69,7 +69,7 @@ public class BudgetModule : ICarterModule
         app.MapGet("/budget/{id:guid}/transfer", GetTransfers)
             .WithName(nameof(GetTransfers))
             .WithTags("budget")
-            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status200OK, typeof(TransfersQueryResponse))
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status403Forbidden)
             .WithOpenApi()
@@ -149,7 +149,8 @@ public class BudgetModule : ICarterModule
     )
     {
         var result = await mediator.SendRequest(
-            new CreateTransferCommand(id, request.Type, request.Name, request.Value, request.Currency, request.Date),
+            new CreateTransferCommand(id, request.Type, request.Name, request.Value, request.Currency, request.Category,
+                request.Date),
             cancellationToken);
 
         return result.Match(Results.Created);
@@ -189,7 +190,8 @@ public class BudgetModule : ICarterModule
     )
     {
         var result = await mediator.SendRequest(
-            new UpdateTransferCommand(id, transferId, request.Name, request.Value, request.Currency, request.Date),
+            new UpdateTransferCommand(id, transferId, request.Name, request.Value, request.Currency, request.Date,
+                request.Category),
             cancellationToken);
 
         return result.Match(() => Results.Ok());

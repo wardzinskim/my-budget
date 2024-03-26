@@ -1,6 +1,5 @@
 ﻿using MassTransit.Mediator;
 using MyBudget.Domain.Budgets;
-using MyBudget.Domain.Budgets.Transfers;
 using MyBudget.Infrastructure.Abstractions.Features;
 using MyBudget.SharedKernel;
 
@@ -12,7 +11,8 @@ public record UpdateTransferCommand(
     string Name,
     decimal Value,
     string Currency,
-    DateTime Date
+    DateTime Date,
+    string? Category = null
 )
     : Request<Result>, ICommand;
 
@@ -33,7 +33,7 @@ public sealed class UpdateTransferCommandHandler(IBudgetRepository budgetReposit
         }
 
         var result = budget.UpdateTransfer(request.TransferId,
-            new(request.Name, request.Value, request.Currency, request.Date));
+            new(request.Name, request.Value, request.Currency, request.Date, request.Category));
         if (result.IsFailure) return result;
 
         return Result.Success();

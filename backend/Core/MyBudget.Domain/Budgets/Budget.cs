@@ -98,7 +98,16 @@ public class Budget : Entity, IAggregateRoot, IAuditable
         TransferData data
     )
     {
-        var transfer = Transfer.Create(idGenerator, Id, type, data.Name, data.Value, data.Currency, data.TransferDate);
+        var result = CheckRulesAsync(default, new TransferCategoryMustBeDefined(_categories, data.Category))
+            .ConfigureAwait(false).GetAwaiter().GetResult();
+
+        if (result.IsFailure)
+        {
+            return result.Error;
+        }
+
+        var transfer = Transfer.Create(idGenerator, Id, type, data.Name, data.Value, data.Currency, data.TransferDate,
+            data.Category);
 
         if (transfer.IsFailure) return transfer.Error;
 
@@ -110,7 +119,7 @@ public class Budget : Entity, IAggregateRoot, IAuditable
 
     public Result DeleteTransfer(Guid transferId)
     {
-        var result = CheckRulesAsync(default, new TransferMustExistsBeforeDeletion(_transfers, transferId))
+        var result = CheckRulesAsync(default, new TransferMustExists(_transfers, transferId))
             .ConfigureAwait(false).GetAwaiter().GetResult();
 
         if (result.IsFailure)
@@ -128,7 +137,9 @@ public class Budget : Entity, IAggregateRoot, IAuditable
 
     public Result UpdateTransfer(Guid transferId, TransferData data)
     {
-        var result = CheckRulesAsync(default, new TransferMustExistsBeforeDeletion(_transfers, transferId))
+        var result = CheckRulesAsync(default,
+                new TransferMustExists(_transfers, transferId),
+                new TransferCategoryMustBeDefined(_categories, data.Category))
             .ConfigureAwait(false).GetAwaiter().GetResult();
 
         if (result.IsFailure)
