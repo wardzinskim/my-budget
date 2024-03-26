@@ -14,13 +14,9 @@ internal class TransferCategoryMustBeUniqueForBudget(string name, IEnumerable<Tr
         new BusinessRuleValidationError(nameof(TransferCategoryMustBeUniqueForBudget),
             "Category with this name already exists.");
 
-    public ValueTask<Result> ValidateAsync(CancellationToken cancellationToken = default)
-    {
-        if (_transferCategories.Any(x => x.Name == _name))
-        {
-            return ValueTask.FromResult(Result.Failure(Error));
-        }
 
-        return ValueTask.FromResult(Result.Success());
+    public Result Validate()
+    {
+        return _transferCategories.Any(x => x.Name == _name) ? Result.Failure(Error) : Result.Success();
     }
 }

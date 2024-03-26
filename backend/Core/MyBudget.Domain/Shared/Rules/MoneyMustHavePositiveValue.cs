@@ -8,9 +8,9 @@ internal class MoneyMustHavePositiveValue(decimal value) : IBusinessRule
         new BusinessRuleValidationError(nameof(MoneyMustHavePositiveValue),
             "Money value must be positive.");
 
-    public ValueTask<Result> ValidateAsync(CancellationToken cancellationToken = default)
+    public Result Validate()
     {
-        if (value >= 0) return ValueTask.FromResult(Result.Success());
-        return ValueTask.FromResult(Result.Failure(Error));
+        if (value >= 0) return Result.Success();
+        return Result.Failure(Error);
     }
 }

@@ -16,10 +16,8 @@ public record Money : ValueObject
 
     public static Result<Money> Of(decimal value, string currency)
     {
-        var result = CheckRulesAsync(default,
-                new MoneyMustHavePositiveValue(value),
-                new MoneyMustHaveCurrency(currency))
-            .ConfigureAwait(false).GetAwaiter().GetResult();
+        var result = CheckRules(new MoneyMustHavePositiveValue(value),
+            new MoneyMustHaveCurrency(currency));
 
         if (result.IsFailure)
         {

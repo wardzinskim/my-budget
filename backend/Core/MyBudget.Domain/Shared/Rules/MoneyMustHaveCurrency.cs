@@ -8,10 +8,10 @@ internal class MoneyMustHaveCurrency(string currency) : IBusinessRule
         new BusinessRuleValidationError(nameof(MoneyMustHaveCurrency),
             "Money value must have currency.");
 
-    public ValueTask<Result> ValidateAsync(CancellationToken cancellationToken = default)
-    {
-        if (!string.IsNullOrWhiteSpace(currency)) return ValueTask.FromResult(Result.Success());
 
-        return ValueTask.FromResult(Result.Failure(Error));
+    public Result Validate()
+    {
+        if (!string.IsNullOrWhiteSpace(currency)) return Result.Success();
+        return Result.Failure(Error);
     }
 }

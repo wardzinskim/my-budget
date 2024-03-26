@@ -9,14 +9,11 @@ internal class TransferCategoryMustBeDefined(IEnumerable<TransferCategory> trans
         new BusinessRuleValidationError(nameof(TransferCategoryMustBeDefined),
             "Selected category is not defined in budget");
 
-    public ValueTask<Result> ValidateAsync(CancellationToken cancellationToken = default)
+    public Result Validate()
     {
-        if (category is null ||
-            transferCategories.Any(x => x.Name == category && x.Status == TransferCategoryStatus.Active))
-        {
-            return ValueTask.FromResult(Result.Success());
-        }
-
-        return ValueTask.FromResult(Result.Failure(Error));
+        return category is null ||
+               transferCategories.Any(x => x.Name == category && x.Status == TransferCategoryStatus.Active)
+            ? Result.Success()
+            : Result.Failure(Error);
     }
 }
