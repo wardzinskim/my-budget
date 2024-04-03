@@ -18,6 +18,7 @@
     "glob": "^10.3.12",
     "prettier": "^3.2.5",
     "turbo": "^1.13.0",
+    "vite-plugin-checker": "^0.6.4",
     "vite-plugin-dts": "^3.8.1",
     "vite-plugin-lib-inject-css": "^2.0.1"
   },

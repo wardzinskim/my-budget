@@ -1,1 +1,2 @@
-export { Button } from './components/Button'
+export { Button } from './components/Button';
+export { ThemeProvider } from './components/theme';
