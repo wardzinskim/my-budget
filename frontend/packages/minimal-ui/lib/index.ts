@@ -1,2 +1,1 @@
-export { Button } from './components/Button';
-export { ThemeProvider } from './components/theme';
+export { ThemeProvider } from './theme/index.jsx';

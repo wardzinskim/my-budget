@@ -1,11 +1,17 @@
 import { PaletteOptions, alpha } from '@mui/material/styles';
+import {
+  ColorPartial,
+  CommonColors,
+  SimplePaletteColorOptions,
+  TypeAction,
+} from '@mui/material/styles/createPalette';
 
 // ----------------------------------------------------------------------
 
 // SETUP COLORS
 
-export const grey = {
-  0: '#FFFFFF',
+export const grey: ColorPartial = {
+  // 0: '#FFFFFF',
   100: '#F9FAFB',
   200: '#F4F6F8',
   300: '#DFE3E8',
@@ -17,71 +23,71 @@ export const grey = {
   900: '#161C24',
 };
 
-export const primary = {
-  lighter: '#D0ECFE',
+export const primary: SimplePaletteColorOptions = {
+  // lighter: '#D0ECFE',
   light: '#73BAFB',
   main: '#1877F2',
   dark: '#0C44AE',
-  darker: '#042174',
+  // darker: '#042174',
   contrastText: '#FFFFFF',
 };
 
-export const secondary = {
-  lighter: '#EFD6FF',
+export const secondary: SimplePaletteColorOptions = {
+  // lighter: '#EFD6FF',
   light: '#C684FF',
   main: '#8E33FF',
   dark: '#5119B7',
-  darker: '#27097A',
+  // darker: '#27097A',
   contrastText: '#FFFFFF',
 };
 
-export const info = {
-  lighter: '#CAFDF5',
+export const info: SimplePaletteColorOptions = {
+  // lighter: '#CAFDF5',
   light: '#61F3F3',
   main: '#00B8D9',
   dark: '#006C9C',
-  darker: '#003768',
+  // darker: '#003768',
   contrastText: '#FFFFFF',
 };
 
-export const success = {
-  lighter: '#C8FAD6',
+export const success: SimplePaletteColorOptions = {
+  // lighter: '#C8FAD6',
   light: '#5BE49B',
   main: '#00A76F',
   dark: '#007867',
-  darker: '#004B50',
+  // darker: '#004B50',
   contrastText: '#FFFFFF',
 };
 
-export const warning = {
-  lighter: '#FFF5CC',
+export const warning: SimplePaletteColorOptions = {
+  // lighter: '#FFF5CC',
   light: '#FFD666',
   main: '#FFAB00',
   dark: '#B76E00',
-  darker: '#7A4100',
+  // darker: '#7A4100',
   contrastText: grey[800],
 };
 
-export const error = {
-  lighter: '#FFE9D5',
+export const error: SimplePaletteColorOptions = {
+  // lighter: '#FFE9D5',
   light: '#FFAC82',
   main: '#FF5630',
   dark: '#B71D18',
-  darker: '#7A0916',
+  // darker: '#7A0916',
   contrastText: '#FFFFFF',
 };
 
-export const common = {
+export const common: Partial<CommonColors> = {
   black: '#000000',
   white: '#FFFFFF',
 };
 
-export const action = {
-  hover: alpha(grey[500], 0.08),
-  selected: alpha(grey[500], 0.16),
-  disabled: alpha(grey[500], 0.8),
-  disabledBackground: alpha(grey[500], 0.24),
-  focus: alpha(grey[500], 0.24),
+export const action: Partial<TypeAction> = {
+  hover: alpha(grey[500]!, 0.08),
+  selected: alpha(grey[500]!, 0.16),
+  disabled: alpha(grey[500]!, 0.8),
+  disabledBackground: alpha(grey[500]!, 0.24),
+  focus: alpha(grey[500]!, 0.24),
   hoverOpacity: 0.08,
   disabledOpacity: 0.48,
 };
@@ -95,7 +101,7 @@ const base = {
   error,
   grey,
   common,
-  divider: alpha(grey[500], 0.2),
+  divider: alpha(grey[500]!, 0.2),
   action,
 };
 

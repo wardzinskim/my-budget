@@ -5,9 +5,9 @@ import { grey } from './palette';
 // ----------------------------------------------------------------------
 
 export function shadows(): Shadows {
-  const transparent1 = alpha(grey[500], 0.2);
-  const transparent2 = alpha(grey[500], 0.14);
-  const transparent3 = alpha(grey[500], 0.12);
+  const transparent1 = alpha(grey[500]!, 0.2);
+  const transparent2 = alpha(grey[500]!, 0.14);
+  const transparent3 = alpha(grey[500]!, 0.12);
 
   return [
     'none',

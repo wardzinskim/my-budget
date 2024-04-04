@@ -42,6 +42,7 @@ export const typography: TypographyOptions = {
   fontWeightMedium: 500,
   // fontWeightSemiBold: 600,
   fontWeightBold: 700,
+
   h1: {
     fontWeight: 800,
     lineHeight: 80 / 64,

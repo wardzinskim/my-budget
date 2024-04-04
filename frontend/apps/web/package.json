@@ -12,11 +12,14 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@iconify/react": "^4.1.1",
     "@mui/material": "^5.15.14",
     "@repo/minimal-ui": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-helmet-async": "^2.0.4"
+    "react-helmet-async": "^2.0.4",
+    "react-router-dom": "^6.22.3",
+    "simplebar-react": "^3.2.4"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
