@@ -7,30 +7,42 @@ import Avatar from '@mui/material/Avatar';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import ListItemButton from '@mui/material/ListItemButton';
-import { Query, useResponsive } from '../../hooks/use-responsive';
-import { usePathname } from '../../routes/hooks';
-import { NavItem, navConfig } from './config-navigation';
-import { RouterLink } from '../../routes/components';
+import { Query, useResponsive } from '../hooks/use-responsive';
+import { usePathname } from '../routes/hooks';
+import { RouterLink } from '../routes/components';
 import { NAV } from './config-layout';
-import { account } from '../../_mock/account';
-import Scrollbar from '../../components/scrollbar';
-import { Logo } from '../../components/logo';
+import { account } from '../_mock/account';
+import { Logo, Scrollbar, SvgColor } from '../components';
 
 // ----------------------------------------------------------------------
 
+const icon = (name: string) => (
+  <SvgColor
+    src={`/assets/icons/navbar/${name}.svg`}
+    sx={{ width: 1, height: 1 }}
+  />
+);
+
+export interface NavItem {
+  title: string;
+  path: string;
+  icon: string;
+}
+
 interface NavProps {
+  items: Array<NavItem>;
   openNav: boolean;
   onCloseNav: () => void;
 }
 
-export const Nav: React.FC<NavProps> = ({ openNav, onCloseNav }) => {
+export const Nav: React.FC<NavProps> = (props) => {
   const pathname = usePathname();
 
-  const upLg = useResponsive(Query.UP, 'lg', 'xl');
+  const upLg = useResponsive(Query.UP, 'lg');
 
   useEffect(() => {
-    if (openNav) {
-      onCloseNav();
+    if (props.openNav) {
+      props.onCloseNav();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
@@ -62,7 +74,7 @@ export const Nav: React.FC<NavProps> = ({ openNav, onCloseNav }) => {
 
   const renderMenu = (
     <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
-      {navConfig.map((item) => (
+      {props.items.map((item) => (
         <NavItem key={item.title} item={item} />
       ))}
     </Stack>
@@ -107,8 +119,8 @@ export const Nav: React.FC<NavProps> = ({ openNav, onCloseNav }) => {
         </Box>
       ) : (
         <Drawer
-          open={openNav}
-          onClose={onCloseNav}
+          open={props.openNav}
+          onClose={props.onCloseNav}
           PaperProps={{
             sx: {
               width: NAV.WIDTH,
@@ -143,10 +155,10 @@ function NavItem({ item }: NavItemProps) {
         typography: 'body2',
         color: 'text.secondary',
         textTransform: 'capitalize',
-        fontWeight: 'fontWeightMedium',
+        fontWeight: 'fontWeightRegular',
         ...(active && {
           color: 'primary.main',
-          fontWeight: 'fontWeightSemiBold',
+          fontWeight: 'fontWeightMedium',
           bgcolor: (theme) => alpha(theme.palette.primary.main, 0.08),
           '&:hover': {
             bgcolor: (theme) => alpha(theme.palette.primary.main, 0.16),
@@ -155,7 +167,7 @@ function NavItem({ item }: NavItemProps) {
       }}
     >
       <Box component="span" sx={{ width: 24, height: 24, mr: 2 }}>
-        {item.icon}
+        {icon(item.icon)}
       </Box>
 
       <Box component="span">{item.title} </Box>

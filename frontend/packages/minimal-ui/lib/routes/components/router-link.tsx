@@ -6,8 +6,10 @@ interface RouterLinkProps {
   href: To;
 }
 
-const RouterLink = forwardRef(({ href, ...other }: RouterLinkProps, ref) => (
-  <Link ref={ref} to={href} {...other} />
-));
+const RouterLink = forwardRef<HTMLAnchorElement, RouterLinkProps>(
+  ({ href, ...other }: RouterLinkProps, ref) => (
+    <Link ref={ref} to={href} {...other} />
+  )
+);
 
 export default RouterLink;

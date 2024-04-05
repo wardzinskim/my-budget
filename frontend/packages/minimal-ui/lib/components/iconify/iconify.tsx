@@ -11,7 +11,7 @@ interface IconifyProps {
   width?: number;
 }
 
-const Iconify = forwardRef(
+export const Iconify = forwardRef(
   ({ icon, width = 20, sx, ...other }: IconifyProps, ref) => (
     <Box
       ref={ref}
@@ -23,5 +23,3 @@ const Iconify = forwardRef(
     />
   )
 );
-
-export default Iconify;

@@ -16,34 +16,40 @@ export function useResponsive(
   end?: Breakpoint
 ) {
   const theme = useTheme();
+  const upMediaQuery = useMediaQuery(theme.breakpoints.up(start));
+  const downMediaQuery = useMediaQuery(theme.breakpoints.down(start));
+  const betweenMediaQuery = useMediaQuery(
+    theme.breakpoints.between(start, end!)
+  );
+  const defaultMediaQuery = useMediaQuery(theme.breakpoints.only(start));
 
   if (query === Query.UP) {
-    return useMediaQuery(theme.breakpoints.up(start));
+    return upMediaQuery;
   }
 
   if (query === Query.DOWN) {
-    return useMediaQuery(theme.breakpoints.down(start));
+    return downMediaQuery;
   }
 
   if (query === Query.BETWEEN) {
-    return useMediaQuery(theme.breakpoints.between(start, end!));
+    return betweenMediaQuery;
   }
 
-  return useMediaQuery(theme.breakpoints.only(start));
+  return defaultMediaQuery;
 }
 
 // ----------------------------------------------------------------------
 
-export function useWidth() {
-  const theme = useTheme();
+// export function useWidth() {
+//   const theme = useTheme();
 
-  const keys = [...theme.breakpoints.keys].reverse();
+//   const keys = [...theme.breakpoints.keys].reverse();
 
-  return (
-    keys.reduce((output: Breakpoint, key) => {
-      const matches = useMediaQuery(theme.breakpoints.up(key));
+//   return (
+//     keys.reduce((output: Breakpoint, key) => {
+//       const matches = useMediaQuery(theme.breakpoints.up(key));
 
-      return !output && matches ? key : output;
-    }, 'xs') || 'xs'
-  );
-}
+//       return !output && matches ? key : output;
+//     }, 'xs') || 'xs'
+//   );
+// }

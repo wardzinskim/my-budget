@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
-import { Outlet, Navigate, useRoutes } from 'react-router-dom';
-import { DashboardLayout } from '../layouts/dashboard';
+import { Outlet, useRoutes } from 'react-router-dom';
+import { NavItem } from '../../lib/layouts/nav';
+import { Layout } from '../../lib/layouts';
 
 export const IndexPage = lazy(() => import('../pages/app'));
 // export const BlogPage = lazy(() => import('src/pages/blog'));
@@ -11,15 +12,48 @@ export const IndexPage = lazy(() => import('../pages/app'));
 
 // ----------------------------------------------------------------------
 
+const navConfig: Array<NavItem> = [
+  {
+    title: 'dashboard',
+    path: '/',
+    icon: 'ic_analytics',
+  },
+  {
+    title: 'user',
+    path: '/user',
+    icon: 'ic_user',
+  },
+  {
+    title: 'product',
+    path: '/products',
+    icon: 'ic_cart',
+  },
+  {
+    title: 'blog',
+    path: '/blog',
+    icon: 'ic_blog',
+  },
+  {
+    title: 'login',
+    path: '/login',
+    icon: 'ic_lock',
+  },
+  {
+    title: 'Not found',
+    path: '/404',
+    icon: 'ic_disabled',
+  },
+];
+
 export default function Router() {
   const routes = useRoutes([
     {
       element: (
-        <DashboardLayout>
+        <Layout navigationItems={navConfig}>
           <Suspense>
             <Outlet />
           </Suspense>
-        </DashboardLayout>
+        </Layout>
       ),
       children: [
         { element: <IndexPage />, index: true },

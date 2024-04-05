@@ -12,7 +12,7 @@ interface LogoProps {
   sx: SxProps<Theme>;
 }
 
-export const Logo = forwardRef(
+export const Logo = forwardRef<unknown, LogoProps>(
   ({ disabledLink = false, sx, ...other }: LogoProps, ref) => {
     const theme = useTheme();
 

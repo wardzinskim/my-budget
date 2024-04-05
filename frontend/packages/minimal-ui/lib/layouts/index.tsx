@@ -2,17 +2,17 @@ import { useState } from 'react';
 
 import Box from '@mui/material/Box';
 
-import { Nav } from './nav';
+import { Nav, NavItem } from './nav';
 import { Main } from './main';
 import { Header } from './header';
 
 // ----------------------------------------------------------------------
 
-interface DashboardLayoutProps extends React.PropsWithChildren {}
+interface LayoutProps extends React.PropsWithChildren {
+  navigationItems: Array<NavItem>;
+}
 
-export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
-  children,
-}) => {
+export const Layout: React.FC<LayoutProps> = (props) => {
   const [openNav, setOpenNav] = useState<boolean>(false);
 
   return (
@@ -26,9 +26,13 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           flexDirection: { xs: 'column', lg: 'row' },
         }}
       >
-        <Nav openNav={openNav} onCloseNav={() => setOpenNav(false)} />
+        <Nav
+          openNav={openNav}
+          onCloseNav={() => setOpenNav(false)}
+          items={props.navigationItems}
+        />
 
-        <Main>{children}</Main>
+        <Main>{props.children}</Main>
       </Box>
     </>
   );

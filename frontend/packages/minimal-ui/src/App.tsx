@@ -1,6 +1,6 @@
 import './App.css';
 import { ThemeProvider } from '../lib';
-import Router from '../lib/routes/sections';
+import Router from './routes/sections';
 
 function App() {
   return (

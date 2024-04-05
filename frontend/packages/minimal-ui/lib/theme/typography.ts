@@ -38,8 +38,9 @@ export const secondaryFont = 'Barlow, sans-serif';
 export const typography: TypographyOptions = {
   fontFamily: primaryFont,
   // fontSecondaryFamily: secondaryFont,
-  fontWeightRegular: 400,
-  fontWeightMedium: 500,
+  fontWeightLight: 400,
+  fontWeightRegular: 500,
+  fontWeightMedium: 600,
   // fontWeightSemiBold: 600,
   fontWeightBold: 700,
 

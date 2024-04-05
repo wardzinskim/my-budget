@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import { NAV, HEADER } from './config-layout';
 import React from 'react';
 import { SxProps, Theme } from '@mui/material';
-import { Query, useResponsive } from '../../hooks/use-responsive';
+import { Query, useResponsive } from '../hooks/use-responsive';
 
 // ----------------------------------------------------------------------
 

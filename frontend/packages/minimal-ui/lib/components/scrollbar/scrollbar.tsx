@@ -1,4 +1,4 @@
-import { memo, forwardRef } from 'react';
+import { forwardRef } from 'react';
 
 import Box from '@mui/material/Box';
 
@@ -10,7 +10,7 @@ import { SxProps, Theme } from '@mui/material';
 interface ScrollbarProps extends React.PropsWithChildren {
   sx: SxProps<Theme>;
 }
-const Scrollbar = forwardRef(
+export const Scrollbar = forwardRef<unknown, ScrollbarProps>(
   ({ children, sx, ...other }: ScrollbarProps, ref) => {
     const userAgent =
       typeof navigator === 'undefined' ? 'SSR' : navigator.userAgent;
@@ -44,5 +44,3 @@ const Scrollbar = forwardRef(
     );
   }
 );
-
-export default memo(Scrollbar);

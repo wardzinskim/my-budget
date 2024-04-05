@@ -7,8 +7,7 @@ import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
-
-import Iconify from '../../../components/iconify';
+import { Iconify } from '../../components';
 
 // ----------------------------------------------------------------------
 

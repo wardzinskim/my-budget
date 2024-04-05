@@ -18,7 +18,7 @@ export default defineConfig({
     }),
     ,
     libInjectCss(),
-    dts({ include: ['lib', 'src'] }),
+    dts({ include: ['lib'] }),
   ],
   publicDir: 'public',
   build: {
@@ -28,7 +28,17 @@ export default defineConfig({
       formats: ['es'],
     },
     rollupOptions: {
-      external: ['react', 'react/jsx-runtime', '@mui/material'],
+      external: [
+        'react',
+        'react/jsx-runtime',
+        /@mui\/material\/.*/,
+        'react-router-dom',
+        'simplebar-react',
+        'date-fns',
+        '@iconify/react',
+        // '@emotion/react',
+        // '@emotion/styled',
+      ],
       input: Object.fromEntries(
         glob.sync('lib/**/*.{ts,tsx}').map((file) => [
           // The name of the entry point

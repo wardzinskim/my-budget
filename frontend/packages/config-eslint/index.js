@@ -22,6 +22,8 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
+    'react/prop-types': 'off',
+    'react/display-name': 'off',
   },
   parserOptions: {
     ecmaVersion: 'latest',
