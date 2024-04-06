@@ -20,7 +20,7 @@ export default function Router() {
       ),
       children: [
         { element: <DashboardPage />, index: true },
-        { path: '/budgets', element: <BudgetsPage />, index: true },
+        { path: '/budgets', element: <BudgetsPage /> },
       ],
     },
   ]);
