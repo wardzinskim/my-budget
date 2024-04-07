@@ -14,7 +14,7 @@
       "cache": false,
       "persistent": true,
       "dependsOn": [
-        "^watch"
+        "^build"
       ]
     },
     "watch": {
