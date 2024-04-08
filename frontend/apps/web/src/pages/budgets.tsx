@@ -1,8 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 
-// ----------------------------------------------------------------------
+const BudgetsPage = () => {
+  // const budgets: BudgetDTO[] = useLoaderData() as BudgetDTO[];
 
-export default function BudgetsPage() {
   return (
     <>
       <Helmet>
@@ -12,4 +12,6 @@ export default function BudgetsPage() {
       {/* <AppView /> */}
     </>
   );
-}
+};
+
+export default BudgetsPage;
