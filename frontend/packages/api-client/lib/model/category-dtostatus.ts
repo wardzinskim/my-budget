@@ -13,6 +13,17 @@
  */
 
 
-export * from "./api";
-export * from "./configuration";
-export * from "./model";
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export enum CategoryDTOStatus {
+    Active = 'Active',
+    Archived = 'Archived'
+}
+
+
+

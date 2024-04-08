@@ -26,7 +26,7 @@ export default defineConfig({
       formats: ['es'],
     },
     rollupOptions: {
-      external: [],
+      external: ['axios'],
       input: Object.fromEntries(
         glob.sync('lib/**/*.{ts,tsx}').map((file) => [
           // The name of the entry point

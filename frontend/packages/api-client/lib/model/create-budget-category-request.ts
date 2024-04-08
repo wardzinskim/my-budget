@@ -13,6 +13,18 @@
  */
 
 
-export * from "./api";
-export * from "./configuration";
-export * from "./model";
+
+/**
+ * 
+ * @export
+ * @interface CreateBudgetCategoryRequest
+ */
+export interface CreateBudgetCategoryRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateBudgetCategoryRequest
+     */
+    'name'?: string | null;
+}
+

@@ -13,6 +13,17 @@
  */
 
 
-export * from "./api";
-export * from "./configuration";
-export * from "./model";
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export enum TransferDTOType {
+    Income = 'Income',
+    Expense = 'Expense'
+}
+
+
+
