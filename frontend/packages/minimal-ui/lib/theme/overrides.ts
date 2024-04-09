@@ -1,11 +1,13 @@
 import { Components, PaletteOptions, Theme, alpha } from '@mui/material/styles';
 import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 import { typography } from './typography';
+import { CustomShadows } from './custom-shadows';
 
 // ----------------------------------------------------------------------
 
 export function overrides(
-  paletteOptions: PaletteOptions
+  paletteOptions: PaletteOptions,
+  customShadows: CustomShadows
 ): Components<Omit<Theme, 'components'>> {
   return {
     MuiCssBaseline: {
@@ -78,8 +80,8 @@ export function overrides(
     MuiCard: {
       styleOverrides: {
         root: {
-          // boxShadow: theme.customShadows.card,
-          // borderRadius: Number(theme.shape.borderRadius) * 2,
+          boxShadow: customShadows.card,
+          borderRadius: 8 * 2,
           position: 'relative',
           zIndex: 0, // Fix Safari overflow: hidden with border radius
         },

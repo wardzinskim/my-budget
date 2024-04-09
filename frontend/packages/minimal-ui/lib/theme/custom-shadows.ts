@@ -37,3 +37,5 @@ export function customShadows() {
     error: `0 8px 16px 0 ${alpha(error.main, 0.24)}`,
   };
 }
+
+export type CustomShadows = ReturnType<typeof customShadows>;

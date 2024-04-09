@@ -21,7 +21,8 @@ export default defineConfig({
   ],
   publicDir: 'public',
   build: {
-    copyPublicDir: true,
+    sourcemap: true,
+    copyPublicDir: false,
     lib: {
       entry: resolve(__dirname, 'lib/index.ts'),
       formats: ['es'],
@@ -30,13 +31,11 @@ export default defineConfig({
       external: [
         'react',
         'react/jsx-runtime',
-        /@mui\/material\/.*/,
+        /@mui.*/,
         'react-router-dom',
         'simplebar-react',
         'date-fns',
         '@iconify/react',
-        // '@emotion/react',
-        // '@emotion/styled',
       ],
       input: Object.fromEntries(
         glob.sync('lib/**/*.{ts,tsx}').map((file) => [

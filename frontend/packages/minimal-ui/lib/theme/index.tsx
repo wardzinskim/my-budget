@@ -20,14 +20,15 @@ interface ThemeProviderProps extends React.PropsWithChildren {}
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const memoizedValue: ThemeOptions = useMemo(() => {
     const paletteOptions = palette();
+    const customShadowsOptions = customShadows();
 
     return {
       palette: paletteOptions,
       typography: typography,
       shadows: shadows(),
-      customShadows: customShadows(),
+      customShadows: customShadowsOptions,
       shape: { borderRadius: 8 },
-      components: overrides(paletteOptions),
+      components: overrides(paletteOptions, customShadowsOptions),
     };
   }, []);
 

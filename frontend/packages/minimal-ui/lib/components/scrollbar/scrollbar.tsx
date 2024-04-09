@@ -8,7 +8,7 @@ import { SxProps, Theme } from '@mui/material';
 // ----------------------------------------------------------------------
 
 interface ScrollbarProps extends React.PropsWithChildren {
-  sx: SxProps<Theme>;
+  sx?: SxProps<Theme>;
 }
 export const Scrollbar = forwardRef<unknown, ScrollbarProps>(
   ({ children, sx, ...other }: ScrollbarProps, ref) => {
