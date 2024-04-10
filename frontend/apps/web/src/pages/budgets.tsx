@@ -1,6 +1,15 @@
 import { Button, Card, Container, Stack, Typography } from '@mui/material';
-import { BudgetDTO } from '@repo/api-client';
-import { ColumnDefinition, MinimalTable } from '@repo/minimal-ui';
+import {
+  BudgetDTO,
+  BudgetDTOStatus,
+  CategoryDTOStatus,
+} from '@repo/api-client';
+import {
+  ColumnDefinition,
+  Iconify,
+  Label,
+  MinimalTable,
+} from '@repo/minimal-ui';
 import { Helmet } from 'react-helmet-async';
 import { useLoaderData } from 'react-router-dom';
 
@@ -19,7 +28,34 @@ const BudgetTableColumns: Array<ColumnDefinition<BudgetDTO>> = [
     id: 'categories',
     label: 'Defined Categories',
     align: 'left',
-    render: (item: BudgetDTO) => <>{item.categories?.map((x) => x.name)}</>,
+    render: (item: BudgetDTO) => (
+      <>
+        {item.categories?.map((x) => (
+          <Label
+            color={
+              x.status == CategoryDTOStatus.Archived ? 'default' : 'success'
+            }
+            variant="outlined"
+            key={x.name}
+          >
+            {x.name}
+          </Label>
+        ))}
+      </>
+    ),
+  },
+  {
+    id: 'status',
+    label: 'Status',
+    align: 'center',
+    render: (item: BudgetDTO) => (
+      <Label
+        color={item.status === BudgetDTOStatus.Open ? 'success' : 'default'}
+        variant="filled"
+      >
+        {item.status}
+      </Label>
+    ),
   },
 ];
 
@@ -39,12 +75,12 @@ const BudgetsPage = () => {
           justifyContent="space-between"
           mb={5}
         >
-          <Typography variant="h4">budgets</Typography>
+          <Typography variant="h4">Budgets</Typography>
 
           <Button
             variant="contained"
             color="inherit"
-            // startIcon={<Iconify icon="eva:plus-fill" />}
+            startIcon={<Iconify icon="eva:plus-fill" />}
           >
             New Budget
           </Button>
@@ -54,6 +90,7 @@ const BudgetsPage = () => {
           <MinimalTable<BudgetDTO>
             columns={BudgetTableColumns}
             items={budgets}
+            withSelection={false}
           ></MinimalTable>
         </Card>
       </Container>

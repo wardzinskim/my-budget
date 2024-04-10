@@ -1,4 +1,4 @@
-export { ThemeProvider } from './theme/index.jsx';
-export { Layout } from './layouts/index.jsx';
-export { type NavItem } from './layouts/nav.jsx';
-export { MinimalTable, type ColumnDefinition } from './components';
+export { ThemeProvider } from './theme/index';
+export { Layout } from './layouts/index';
+export { type NavItem } from './layouts/nav';
+export * from './components';

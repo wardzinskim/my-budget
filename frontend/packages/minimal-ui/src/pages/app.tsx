@@ -129,7 +129,11 @@ export default function AppPage() {
         </Stack>
 
         <Card>
-          <MinimalTable<User> columns={columns} items={users}></MinimalTable>
+          <MinimalTable<User>
+            columns={columns}
+            items={users}
+            withSelection={false}
+          ></MinimalTable>
         </Card>
       </Container>
     </>

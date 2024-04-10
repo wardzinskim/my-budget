@@ -22,6 +22,7 @@ export interface MinimalTableHeadProps<TItem> {
   rowCount: number;
   headers: Array<ColumnDefinition<TItem>>;
   numSelected: number;
+  withSelection: boolean;
   onRequestSort: (id: string) => void;
   onSelectAllClick: (checked: boolean) => void;
 }
@@ -34,15 +35,19 @@ export function MinimalTableHead<TItem>(props: MinimalTableHeadProps<TItem>) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            indeterminate={
-              props.numSelected > 0 && props.numSelected < props.rowCount
-            }
-            checked={props.rowCount > 0 && props.numSelected === props.rowCount}
-            onChange={(e) => props.onSelectAllClick(e.target.checked)}
-          />
-        </TableCell>
+        {props.withSelection && (
+          <TableCell padding="checkbox">
+            <Checkbox
+              indeterminate={
+                props.numSelected > 0 && props.numSelected < props.rowCount
+              }
+              checked={
+                props.rowCount > 0 && props.numSelected === props.rowCount
+              }
+              onChange={(e) => props.onSelectAllClick(e.target.checked)}
+            />
+          </TableCell>
+        )}
 
         {props.headers.map((headCell) => (
           <TableCell

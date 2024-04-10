@@ -10,11 +10,13 @@ import { Scrollbar } from '../scrollbar';
 export interface MinimalTableProps<TItem> {
   columns: Array<ColumnDefinition<TItem>>;
   items: Array<TItem>;
+  withSelection: boolean;
 }
 
 export function MinimalTable<TItem extends { id?: string }>({
   columns,
   items,
+  withSelection,
 }: MinimalTableProps<TItem>) {
   const [page, setPage] = useState(0);
 
@@ -92,6 +94,7 @@ export function MinimalTable<TItem extends { id?: string }>({
               headers={columns}
               onSelectAllClick={handleSelectAllClick}
               rowCount={items.length}
+              withSelection={withSelection}
             />
             <TableBody>
               {dataFiltered
@@ -103,6 +106,7 @@ export function MinimalTable<TItem extends { id?: string }>({
                     item={row}
                     selected={selected.indexOf(row.id!) !== -1}
                     handleClick={handleClick}
+                    withSelection={withSelection}
                   />
                 ))}
             </TableBody>
