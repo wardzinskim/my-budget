@@ -1,4 +1,4 @@
-import { Components, PaletteOptions, Theme, alpha } from '@mui/material/styles';
+import { Components, Theme, alpha } from '@mui/material/styles';
 import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 import { typography } from './typography';
 import { CustomShadows } from './custom-shadows';
@@ -6,7 +6,7 @@ import { CustomShadows } from './custom-shadows';
 // ----------------------------------------------------------------------
 
 export function overrides(
-  paletteOptions: PaletteOptions,
+  theme: Theme,
   customShadows: CustomShadows
 ): Components<Omit<Theme, 'components'>> {
   return {
@@ -55,7 +55,7 @@ export function overrides(
     MuiBackdrop: {
       styleOverrides: {
         root: {
-          backgroundColor: alpha(paletteOptions.grey![900]!, 0.8),
+          backgroundColor: alpha(theme.palette.grey[900], 0.8),
         },
         invisible: {
           background: 'transparent',
@@ -65,11 +65,11 @@ export function overrides(
     MuiButton: {
       styleOverrides: {
         containedInherit: {
-          color: paletteOptions.common!.white,
-          backgroundColor: paletteOptions.grey![800],
+          color: theme.palette.common.white,
+          backgroundColor: theme.palette.grey[800],
           '&:hover': {
-            color: paletteOptions.common!.white,
-            backgroundColor: paletteOptions.grey![800],
+            color: theme.palette.common.white,
+            backgroundColor: theme.palette.grey[800],
           },
         },
         sizeLarge: {
@@ -81,7 +81,7 @@ export function overrides(
       styleOverrides: {
         root: {
           boxShadow: customShadows.card,
-          borderRadius: 8 * 2,
+          borderRadius: theme.shape.borderRadius * 2,
           position: 'relative',
           zIndex: 0, // Fix Safari overflow: hidden with border radius
         },
@@ -94,7 +94,22 @@ export function overrides(
       },
       styleOverrides: {
         root: {
-          // padding: theme.spacing(3, 3, 0),
+          padding: theme.spacing(3, 3, 0),
+        },
+      },
+    },
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          padding: theme.spacing(3, 3, 3, 3),
+        },
+      },
+    },
+    MuiCardActions: {
+      styleOverrides: {
+        root: {
+          padding: theme.spacing(3, 3, 3, 3),
+          justifyContent: 'flex-end',
         },
       },
     },
@@ -102,7 +117,7 @@ export function overrides(
       styleOverrides: {
         root: {
           [`& .${outlinedInputClasses.notchedOutline}`]: {
-            borderColor: alpha(paletteOptions.grey![500]!, 0.24),
+            borderColor: alpha(theme.palette.grey[500], 0.24),
           },
         },
       },
@@ -115,28 +130,28 @@ export function overrides(
     MuiTableCell: {
       styleOverrides: {
         head: {
-          color: paletteOptions.text!.secondary,
-          backgroundColor: paletteOptions.grey![200],
+          color: theme.palette.text.secondary,
+          backgroundColor: theme.palette.grey[200],
         },
       },
     },
     MuiTooltip: {
       styleOverrides: {
         tooltip: {
-          backgroundColor: paletteOptions.grey![800],
+          backgroundColor: theme.palette.grey[800],
         },
         arrow: {
-          color: paletteOptions.grey![800],
+          color: theme.palette.grey[800],
         },
       },
     },
     MuiTypography: {
       styleOverrides: {
         paragraph: {
-          // marginBottom: theme.spacing(2),
+          marginBottom: theme.spacing(2),
         },
         gutterBottom: {
-          // marginBottom: theme.spacing(1),
+          marginBottom: theme.spacing(1),
         },
       },
     },
@@ -144,6 +159,20 @@ export function overrides(
       styleOverrides: {
         root: {
           ...typography.body2,
+        },
+      },
+    },
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          borderRadius: theme.shape.borderRadius * 2,
+        },
+      },
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: {
+          padding: theme.spacing(3, 3, 3, 3),
         },
       },
     },

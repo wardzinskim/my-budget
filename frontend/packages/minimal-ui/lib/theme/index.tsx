@@ -18,7 +18,7 @@ import { customShadows } from './custom-shadows';
 interface ThemeProviderProps extends React.PropsWithChildren {}
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const memoizedValue: ThemeOptions = useMemo(() => {
+  const memoizedValue = useMemo(() => {
     const paletteOptions = palette();
     const customShadowsOptions = customShadows();
 
@@ -28,11 +28,13 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       shadows: shadows(),
       customShadows: customShadowsOptions,
       shape: { borderRadius: 8 },
-      components: overrides(paletteOptions, customShadowsOptions),
     };
   }, []);
 
-  const theme = createTheme(memoizedValue);
+  const theme = createTheme(memoizedValue as ThemeOptions);
+  // @ts-expect-error ignore
+  theme.components = overrides(theme, memoizedValue.customShadows);
+
   return (
     <MUIThemeProvider theme={theme}>
       <CssBaseline />

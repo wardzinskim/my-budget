@@ -6,6 +6,7 @@ import { loader as budgetPageLoader } from '../pages/budgets.loader';
 
 export const DashboardPage = lazy(() => import('../pages/dashboard'));
 export const BudgetsPage = lazy(() => import('../pages/budgets'));
+export const BudgetNewPage = lazy(() => import('../pages/budget-new'));
 
 // ----------------------------------------------------------------------
 
@@ -24,6 +25,11 @@ export default function Router() {
         {
           path: '/budgets',
           element: <BudgetsPage />,
+          loader: budgetPageLoader,
+        },
+        {
+          path: '/budgets/new',
+          element: <BudgetNewPage />,
           loader: budgetPageLoader,
         },
       ],
