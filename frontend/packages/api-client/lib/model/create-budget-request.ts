@@ -24,4 +24,10 @@ export interface CreateBudgetRequest {
    * @memberof CreateBudgetRequest
    */
   name?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof CreateBudgetRequest
+   */
+  description?: string | null;
 }

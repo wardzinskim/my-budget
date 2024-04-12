@@ -1,10 +1,4 @@
-import {
-  Button,
-  Card,
-  Container,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Button, Card, Container, Stack, Typography } from '@mui/material';
 import { Helmet } from 'react-helmet-async';
 import { MinimalTable } from '../../lib/components/table';
 import { ColumnDefinition } from '../../lib/components/table/table-head';

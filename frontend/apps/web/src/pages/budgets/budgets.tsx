@@ -1,7 +1,7 @@
 import { BudgetDTO } from '@repo/api-client';
 import { Helmet } from 'react-helmet-async';
 import { useLoaderData } from 'react-router-dom';
-import { BudgetsView } from '../components/budgets/view/budgets-view';
+import { BudgetsView } from '../../components/budgets/view/budgets-view';
 
 const BudgetsPage = () => {
   const budgets: BudgetDTO[] = useLoaderData() as BudgetDTO[];

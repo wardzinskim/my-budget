@@ -40,7 +40,7 @@ public class PostBudgetTests(IntegrationTestWebAppFactory application) : Budgets
         Assert.NotNull(problemDetail);
         Assert.Equal(StatusCodes.Status400BadRequest, problemDetail.Status);
         Assert.NotEmpty(problemDetail.Errors);
-        Assert.Contains(problemDetail.Errors.Keys, x => x == "Name");
+        Assert.Contains(problemDetail.Errors.Keys, x => x == "name");
     }
 
     [Fact]
@@ -54,7 +54,7 @@ public class PostBudgetTests(IntegrationTestWebAppFactory application) : Budgets
         Assert.NotNull(problemDetail);
         Assert.Equal(StatusCodes.Status400BadRequest, problemDetail.Status);
         Assert.NotEmpty(problemDetail.Errors);
-        Assert.Contains(problemDetail.Errors.Keys, x => x == "Name");
+        Assert.Contains(problemDetail.Errors.Keys, x => x == "name");
     }
 
     [Fact]

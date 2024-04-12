@@ -101,7 +101,7 @@ public class BudgetModule : ICarterModule
         CancellationToken cancellationToken
     )
     {
-        var result = await mediator.SendRequest(new CreateBudgetCommand(request.Name), cancellationToken);
+        var result = await mediator.SendRequest(new CreateBudgetCommand(request.Name, request.Description), cancellationToken);
 
         return result.Match(Results.Created);
     }

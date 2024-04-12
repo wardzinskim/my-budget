@@ -3,7 +3,7 @@ using MyBudget.Application.Budgets.Model;
 
 namespace MyBudget.Api.Features.Core;
 
-public record CreateBudgetRequest(string Name);
+public record CreateBudgetRequest(string Name, string? Description = null);
 
 public record CreateBudgetCategoryRequest(string Name);
 

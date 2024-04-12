@@ -2,11 +2,14 @@ import { Layout } from '@repo/minimal-ui';
 import { lazy, Suspense } from 'react';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import { navigation } from './navigation-config';
-import { loader as budgetPageLoader } from '../pages/budgets.loader';
+import { loader as budgetPageLoader } from '../pages/budgets/budgets.loader';
+import { action as budgetNewPageAction } from '../pages/budgets/new/budget-new.action';
 
 export const DashboardPage = lazy(() => import('../pages/dashboard'));
-export const BudgetsPage = lazy(() => import('../pages/budgets'));
-export const BudgetNewPage = lazy(() => import('../pages/budget-new'));
+export const BudgetsPage = lazy(() => import('../pages/budgets/budgets'));
+export const BudgetNewPage = lazy(
+  () => import('../pages/budgets/new/budget-new')
+);
 
 // ----------------------------------------------------------------------
 
@@ -30,7 +33,7 @@ export default function Router() {
         {
           path: '/budgets/new',
           element: <BudgetNewPage />,
-          loader: budgetPageLoader,
+          action: budgetNewPageAction,
         },
       ],
     },

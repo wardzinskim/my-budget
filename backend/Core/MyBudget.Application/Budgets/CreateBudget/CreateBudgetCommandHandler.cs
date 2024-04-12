@@ -5,7 +5,7 @@ using MyBudget.SharedKernel;
 
 namespace MyBudget.Application.Budgets.CreateBudget;
 
-public record CreateBudgetCommand(string Name) : Request<Result>, ICommand;
+public record CreateBudgetCommand(string Name, string? Description) : Request<Result>, ICommand;
 
 public sealed class CreateBudgetCommandHandler : MediatorRequestHandler<CreateBudgetCommand, Result>
 {
@@ -34,6 +34,7 @@ public sealed class CreateBudgetCommandHandler : MediatorRequestHandler<CreateBu
                 _budgetNameUniquenessChecker,
                 _requestContext.UserId,
                 request.Name,
+                request.Description,
                 cancellationToken)
             .ConfigureAwait(false);
 

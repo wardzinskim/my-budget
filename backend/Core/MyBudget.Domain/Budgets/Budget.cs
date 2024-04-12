@@ -8,12 +8,13 @@ namespace MyBudget.Domain.Budgets;
 
 public class Budget : Entity, IAggregateRoot, IAuditable
 {
-    private Budget(Guid id, Guid ownerId, string name)
+    private Budget(Guid id, Guid ownerId, string name, string? description = null)
     {
         Id = id;
         Name = name;
         OwnerId = ownerId;
         Status = BudgetStatus.Open;
+        Description = description;
         _categories = [];
         _transfers = [];
 
@@ -41,6 +42,7 @@ public class Budget : Entity, IAggregateRoot, IAuditable
         IBudgetNameUniquenessChecker budgetNameUniquenessChecker,
         Guid ownerId,
         string name,
+        string? description,
         CancellationToken cancellationToken = default
     )
     {
@@ -54,7 +56,7 @@ public class Budget : Entity, IAggregateRoot, IAuditable
             return result.Error;
         }
 
-        return new Budget(idGenerator.NextId(), ownerId, name);
+        return new Budget(idGenerator.NextId(), ownerId, name, description);
     }
 
 

@@ -11,6 +11,8 @@ public class CorsInstaller : IInstaller
             options.AddDefaultPolicy(policy =>
             {
                 policy.AllowAnyOrigin();
+                policy.AllowAnyMethod();
+                policy.AllowAnyHeader();
             });
         });
     }
