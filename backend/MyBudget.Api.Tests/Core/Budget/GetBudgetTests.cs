@@ -1,45 +1,41 @@
 ﻿using Bogus;
-using MyBudget.Application.Budgets.Model;
-using System.Net;
-using System.Net.Http.Json;
 
 namespace MyBudget.Api.Tests.Core.Budget;
 
 public class GetBudgetTests(IntegrationTestWebAppFactory application) : BudgetsIntegrationTest(application)
 {
     [Fact]
-    public async Task GET_budget_returns_no_budgets()
+    public async Task GET_budget_no_budget_return_404()
     {
-        _application.UserId = Guid.NewGuid();
+        //arrange
+        var budgetId = Guid.NewGuid();
 
-        var response = await _httpClient.GetAsync("/budget");
-        Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        var budgets = await response.Content.ReadFromJsonAsync<BudgetDTO[]>();
-        Assert.NotNull(budgets);
+        //act
+        var response = await _httpClient.GetAsync($"/budget/{budgetId}");
+
+
+        //assert
+        await AssertBudgetNotExistsAsync(response);
     }
 
-    [Fact]
-    public async Task GET_budget_returns_budgets()
-    {
-        _application.UserId = Guid.NewGuid();
-        var faker = new Faker();
 
+    [Fact]
+    public async Task GET_budget_no_budget_return_403()
+    {
+        //arrange
+        var faker = new Faker();
+        var budgetId = Guid.NewGuid();
         var budget =
-            FakeBudgetBuilder.Build(Guid.NewGuid(), _application.UserId, faker.Random.String2(10));
+            FakeBudgetBuilder.Build(budgetId, Guid.NewGuid(), faker.Random.String2(10));
 
         await _dbContext.Budgets.AddAsync(budget);
         await _dbContext.SaveChangesAsync();
 
-        var response = await _httpClient.GetAsync("/budget");
-        Assert.NotNull(response);
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        //act
+        var response = await _httpClient.GetAsync($"/budget/{budgetId}");
 
-        var budgets = await response.Content.ReadFromJsonAsync<BudgetDTO[]>(Constants.DefaultJsonSerializerOptions);
 
-        Assert.NotNull(budgets);
-        Assert.Single(budgets);
-        Assert.Equal(budget.Name, budgets.Single().Name);
-        Assert.Equal(budget.Id, budgets.Single().Id);
+        //assert
+        await AssertBudgetForbiddenAsync(response);
     }
 }

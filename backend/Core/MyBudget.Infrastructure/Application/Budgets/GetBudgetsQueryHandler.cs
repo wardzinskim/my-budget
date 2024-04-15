@@ -8,18 +8,15 @@ using MyBudget.SharedKernel;
 namespace MyBudget.Infrastructure.Application.Budgets;
 
 public sealed class GetBudgetsQueryHandler(BudgetContext context, IRequestContext requestContext)
-    : MediatorRequestHandler<GetBudgetsQuery, Result<IEnumerable<BudgetDTO>>>
+    : MediatorRequestHandler<GetBudgetsQuery, Result<IEnumerable<BudgetListItemDTO>>>
 {
-    private readonly IRequestContext _requestContext = requestContext;
-    private readonly BudgetContext _context = context;
-
-    protected override async Task<Result<IEnumerable<BudgetDTO>>> Handle(
+    protected override async Task<Result<IEnumerable<BudgetListItemDTO>>> Handle(
         GetBudgetsQuery request,
         CancellationToken cancellationToken
     )
     {
-        var result = await _context.Budgets
-            .Where(x => x.OwnerId == _requestContext.UserId)
+        var result = await context.Budgets
+            .Where(x => x.OwnerId == requestContext.UserId)
             .AsNoTracking()
             .Select(x => new
             {
@@ -27,16 +24,17 @@ public sealed class GetBudgetsQueryHandler(BudgetContext context, IRequestContex
                 x.Name,
                 x.Description,
                 x.Status,
-                x.Categories
+                x.Categories,
+                x.CreationDate
             })
             .ToListAsync(cancellationToken).ConfigureAwait(false);
 
         return result
-            .Select(x => new BudgetDTO(x.Id,
+            .Select(x => new BudgetListItemDTO(x.Id,
                     x.Name,
                     x.Description,
-                    (BudgetDTOStatus)x.Status,
-                    x.Categories.Select(y => new CategoryDTO(y.Name, (CategoryDTOStatus)y.Status)).ToArray()
+                    x.CreationDate,
+                    (BudgetDTOStatus)x.Status
                 )
             ).ToList();
     }

@@ -7,6 +7,7 @@ using MyBudget.Api.Extensions;
 using MyBudget.Application.Budgets.ArchiveBudgetCategory;
 using MyBudget.Application.Budgets.CreateBudget;
 using MyBudget.Application.Budgets.CreateBudgetCategory;
+using MyBudget.Application.Budgets.GetBudget;
 using MyBudget.Application.Budgets.GetBudgets;
 using MyBudget.Application.Budgets.Model;
 using MyBudget.Application.Budgets.Transfers.CreateTransfer;
@@ -31,10 +32,21 @@ public class BudgetModule : ICarterModule
         app.MapGet("/budget", GetBudgets)
             .WithName(nameof(GetBudgets))
             .WithTags("budget")
-            .Produces<IEnumerable<BudgetDTO>>(StatusCodes.Status200OK)
+            .Produces<IEnumerable<BudgetListItemDTO>>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithOpenApi()
             .IncludeInOpenApi();
+
+        app.MapGet("/budget/{id:guid}", GetBudget)
+            .WithName(nameof(GetBudget))
+            .WithTags("budget")
+            .Produces<BudgetDTO>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status403Forbidden)
+            .WithOpenApi()
+            .IncludeInOpenApi();
+
 
         app.MapPost("/budget/{id:guid}/category", CreateBudgetCategory)
             .WithName(nameof(CreateBudgetCategory))
@@ -101,9 +113,10 @@ public class BudgetModule : ICarterModule
         CancellationToken cancellationToken
     )
     {
-        var result = await mediator.SendRequest(new CreateBudgetCommand(request.Name, request.Description), cancellationToken);
+        var result = await mediator.SendRequest(new CreateBudgetCommand(request.Name, request.Description),
+            cancellationToken);
 
-        return result.Match(Results.Created);
+        return result.Match(x => Results.CreatedAtRoute(nameof(GetBudget), new {id = x}));
     }
 
     private static async Task<IResult> GetBudgets(
@@ -112,6 +125,17 @@ public class BudgetModule : ICarterModule
     )
     {
         var result = await mediator.SendRequest(new GetBudgetsQuery(), cancellationToken);
+
+        return result.Match(x => Results.Ok(x));
+    }
+
+    private static async Task<IResult> GetBudget(
+        [FromRoute] Guid id,
+        IMediator mediator,
+        CancellationToken cancellationToken
+    )
+    {
+        var result = await mediator.SendRequest(new GetBudgetQuery(id), cancellationToken);
 
         return result.Match(x => Results.Ok(x));
     }

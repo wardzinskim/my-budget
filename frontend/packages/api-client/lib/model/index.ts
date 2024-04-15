@@ -1,5 +1,6 @@
 export * from './budget-dto';
 export * from './budget-dtostatus';
+export * from './budget-list-item-dto';
 export * from './category-dto';
 export * from './category-dtostatus';
 export * from './create-budget-category-request';

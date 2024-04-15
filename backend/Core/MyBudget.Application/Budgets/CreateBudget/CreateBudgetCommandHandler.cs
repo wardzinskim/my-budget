@@ -5,9 +5,9 @@ using MyBudget.SharedKernel;
 
 namespace MyBudget.Application.Budgets.CreateBudget;
 
-public record CreateBudgetCommand(string Name, string? Description) : Request<Result>, ICommand;
+public record CreateBudgetCommand(string Name, string? Description) : Request<Result<Guid>>, ICommand;
 
-public sealed class CreateBudgetCommandHandler : MediatorRequestHandler<CreateBudgetCommand, Result>
+public sealed class CreateBudgetCommandHandler : MediatorRequestHandler<CreateBudgetCommand, Result<Guid>>
 {
     private readonly IRequestContext _requestContext;
     private readonly IIdGenerator _idGenerator;
@@ -27,7 +27,7 @@ public sealed class CreateBudgetCommandHandler : MediatorRequestHandler<CreateBu
         _requestContext = requestContext;
     }
 
-    protected override async Task<Result> Handle(CreateBudgetCommand request, CancellationToken cancellationToken)
+    protected override async Task<Result<Guid>> Handle(CreateBudgetCommand request, CancellationToken cancellationToken)
     {
         var budgetResult = await Budget.Create(
                 _idGenerator,
@@ -43,6 +43,6 @@ public sealed class CreateBudgetCommandHandler : MediatorRequestHandler<CreateBu
 
         await _budgetRepository.AddAsync(budgetResult.Value, cancellationToken);
 
-        return Result.Success();
+        return Result.Success(budgetResult.Value.Id);
     }
 }

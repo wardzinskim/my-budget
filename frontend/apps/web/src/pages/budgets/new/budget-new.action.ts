@@ -13,7 +13,8 @@ export const action: ActionFunction = async ({ request }) => {
         message: 'Budget created',
         variant: 'success',
       });
-      return redirect('/budgets');
+
+      return redirect('/budgets/');
     })
     .catch((error: AxiosError<HttpValidationProblemDetails>) => {
       if (error.response?.data.type == 'ValidationException') {

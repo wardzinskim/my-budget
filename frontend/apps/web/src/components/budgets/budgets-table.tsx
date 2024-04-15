@@ -1,15 +1,19 @@
+import { IconButton } from '@mui/material';
+import { BudgetDTOStatus, BudgetListItemDTO } from '@repo/api-client';
 import {
-  BudgetDTO,
-  BudgetDTOStatus,
-  CategoryDTOStatus,
-} from '@repo/api-client';
-import { ColumnDefinition, Label, MinimalTable } from '@repo/minimal-ui';
+  ColumnDefinition,
+  Iconify,
+  Label,
+  MinimalTable,
+  RouterLink,
+  fToNow,
+} from '@repo/minimal-ui';
 
 interface BudgetsTableProps {
-  budgets: Array<BudgetDTO>;
+  budgets: Array<BudgetListItemDTO>;
 }
 
-const BudgetTableColumns: Array<ColumnDefinition<BudgetDTO>> = [
+const BudgetTableColumns: Array<ColumnDefinition<BudgetListItemDTO>> = [
   {
     id: 'name',
     label: 'Name',
@@ -21,30 +25,16 @@ const BudgetTableColumns: Array<ColumnDefinition<BudgetDTO>> = [
     align: 'left',
   },
   {
-    id: 'categories',
-    label: 'Defined Categories',
+    id: 'creationDate',
+    label: 'Creation Date',
     align: 'left',
-    render: (item: BudgetDTO) => (
-      <>
-        {item.categories?.map((x) => (
-          <Label
-            color={
-              x.status == CategoryDTOStatus.Archived ? 'default' : 'success'
-            }
-            variant="outlined"
-            key={x.name}
-          >
-            {x.name}
-          </Label>
-        ))}
-      </>
-    ),
+    render: (item: BudgetListItemDTO) => <>{fToNow(item.creationDate!)}</>,
   },
   {
     id: 'status',
     label: 'Status',
     align: 'center',
-    render: (item: BudgetDTO) => (
+    render: (item: BudgetListItemDTO) => (
       <Label
         color={item.status === BudgetDTOStatus.Open ? 'success' : 'default'}
         variant="filled"
@@ -53,11 +43,20 @@ const BudgetTableColumns: Array<ColumnDefinition<BudgetDTO>> = [
       </Label>
     ),
   },
+  {
+    label: '',
+    align: 'right',
+    render: (item: BudgetListItemDTO) => (
+      <IconButton component={RouterLink} href={`/budgets/${item.id}`}>
+        <Iconify icon="carbon:view-filled" />
+      </IconButton>
+    ),
+  },
 ];
 
 export const BudgetsTable: React.FC<BudgetsTableProps> = ({ budgets }) => {
   return (
-    <MinimalTable<BudgetDTO>
+    <MinimalTable<BudgetListItemDTO>
       columns={BudgetTableColumns}
       items={budgets}
       withSelection={false}
