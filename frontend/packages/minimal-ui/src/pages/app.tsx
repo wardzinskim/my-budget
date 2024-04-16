@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { MinimalTable } from '../../lib/components/table';
 import { ColumnDefinition } from '../../lib/components/table/table-head';
 import { Iconify } from '../../lib/components';
+import { NavigationBar } from '../../lib/components/navigation-bar/navigation-bar';
 
 // ----------------------------------------------------------------------
 
@@ -128,6 +129,16 @@ export default function AppPage() {
             New User
           </Button>
         </Stack>
+
+        <NavigationBar
+          type="horizontal"
+          items={[
+            {
+              path: 'asd',
+              title: 'asd',
+            },
+          ]}
+        ></NavigationBar>
 
         <Card>
           <MinimalTable<User>

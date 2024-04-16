@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { BudgetDetails } from '../../../components/budgets/view/budget-details';
+import { BudgetDetailsView } from '../../../components/budgets/view/budget-details-view';
 
 const BudgetDetailsPage = () => {
   return (
@@ -8,7 +8,7 @@ const BudgetDetailsPage = () => {
         <title> Budget details | MyBudget </title>
       </Helmet>
 
-      <BudgetDetails />
+      <BudgetDetailsView />
     </>
   );
 };

@@ -13,6 +13,7 @@ import { RouterLink } from '../routes/components';
 import { NAV } from './config-layout';
 import { account } from '../_mock/account';
 import { Logo, Scrollbar, SvgColor } from '../components';
+import { isElement } from 'react-dom/test-utils';
 
 // ----------------------------------------------------------------------
 
@@ -26,7 +27,7 @@ const icon = (name: string) => (
 export interface NavItem {
   title: string;
   path: string;
-  icon: string;
+  icon?: string | JSX.Element;
 }
 
 interface NavProps {
@@ -140,7 +141,7 @@ interface NavItemProps {
   item: NavItem;
 }
 
-function NavItem({ item }: NavItemProps) {
+export function NavItem({ item }: NavItemProps) {
   const pathname = usePathname();
 
   const active = item.path === pathname;
@@ -166,9 +167,17 @@ function NavItem({ item }: NavItemProps) {
         }),
       }}
     >
-      <Box component="span" sx={{ width: 24, height: 24, mr: 2 }}>
-        {icon(item.icon)}
-      </Box>
+      {typeof item.icon === 'string' && (
+        <Box component="span" sx={{ width: 24, height: 24, mr: 2 }}>
+          {icon(item.icon)}
+        </Box>
+      )}
+
+      {isElement(item.icon) && (
+        <Box component="span" sx={{ width: 24, height: 24, mr: 1 }}>
+          {item.icon}
+        </Box>
+      )}
 
       <Box component="span">{item.title} </Box>
     </ListItemButton>
