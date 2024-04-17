@@ -12,7 +12,7 @@ export default function DashboardPage() {
         <title> Dashboard | MyBudget </title>
       </Helmet>
       {/* <AppView /> */}
-      {userContext.budgetId}
+      {userContext.budget?.id} {userContext.budget?.name}
     </>
   );
 }

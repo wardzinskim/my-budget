@@ -7,7 +7,11 @@ import { action as budgetNewPageAction } from '../pages/budgets/new/budget-new.a
 import { loader as budgetDetailsPageLoader } from '../pages/budgets/details/budget-details.loader';
 import { action as budgetDetailsPageAction } from '../pages/budgets/details/categories/budget-categories.action';
 import { BudgetContextPicker } from '../components/budgets/budget-context-picker';
+import { loader as transfersPageLoader } from '../pages/transfers/transfers.loader';
 import { Stack } from '@mui/material';
+import { useUserContext } from '../hooks/user-context';
+import { TransferErrorPage } from '../pages/transfers/transfers-error';
+import { TransferDTOType } from '@repo/api-client';
 
 export const DashboardPage = lazy(() => import('../pages/dashboard'));
 export const BudgetsPage = lazy(() => import('../pages/budgets/budgets'));
@@ -21,7 +25,9 @@ export const BudgetDetailsCategoriesPage = lazy(
   () => import('../pages/budgets/details/categories/budget-categories')
 );
 export const TransfersPage = lazy(() => import('../pages/transfers/transfers'));
-
+export const TransfersNewPage = lazy(
+  () => import('../pages/transfers/new/transfer-new')
+);
 // ----------------------------------------------------------------------
 
 export const Paths = {
@@ -29,6 +35,8 @@ export const Paths = {
 } as const;
 
 export default function Router() {
+  const [userContext] = useUserContext();
+
   const router = createBrowserRouter([
     {
       element: (
@@ -74,6 +82,18 @@ export default function Router() {
         {
           path: '/transfers',
           element: <TransfersPage />,
+          loader: transfersPageLoader(userContext),
+          errorElement: <TransferErrorPage />,
+        },
+        {
+          path: '/transfers/new/income',
+          element: <TransfersNewPage type={TransferDTOType.Income} />,
+          errorElement: <TransferErrorPage />,
+        },
+        {
+          path: '/transfers/new/expense',
+          element: <TransfersNewPage type={TransferDTOType.Expense} />,
+          errorElement: <TransferErrorPage />,
         },
       ],
     },
