@@ -11,4 +11,9 @@ export const navigation: Array<NavItem> = [
     path: '/budgets',
     icon: 'ic_budgets',
   },
+  {
+    title: 'transfers',
+    path: '/transfers',
+    icon: 'ic_invoice',
+  },
 ];

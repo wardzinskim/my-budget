@@ -20,6 +20,7 @@ export const BudgetDetailsPage = lazy(
 export const BudgetDetailsCategoriesPage = lazy(
   () => import('../pages/budgets/details/categories/budget-categories')
 );
+export const TransfersPage = lazy(() => import('../pages/transfers/transfers'));
 
 // ----------------------------------------------------------------------
 
@@ -69,6 +70,10 @@ export default function Router() {
               action: budgetDetailsPageAction,
             },
           ],
+        },
+        {
+          path: '/transfers',
+          element: <TransfersPage />,
         },
       ],
     },
