@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import Box from '@mui/material/Box';
 
@@ -10,6 +10,7 @@ import { Header } from './header';
 
 interface LayoutProps extends React.PropsWithChildren {
   navigationItems: Array<NavItem>;
+  navItemChildren?: React.ReactNode;
 }
 
 export const Layout: React.FC<LayoutProps> = (props) => {
@@ -30,7 +31,9 @@ export const Layout: React.FC<LayoutProps> = (props) => {
           openNav={openNav}
           onCloseNav={() => setOpenNav(false)}
           items={props.navigationItems}
-        />
+        >
+          {props.navItemChildren}
+        </Nav>
 
         <Main>{props.children}</Main>
       </Box>

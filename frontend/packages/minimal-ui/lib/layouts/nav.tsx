@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -30,7 +30,7 @@ export interface NavItem {
   icon?: string | JSX.Element;
 }
 
-interface NavProps {
+interface NavProps extends PropsWithChildren {
   items: Array<NavItem>;
   openNav: boolean;
   onCloseNav: () => void;
@@ -95,7 +95,7 @@ export const Nav: React.FC<NavProps> = (props) => {
       <Logo sx={{ mt: 3, ml: 4 }} />
 
       {renderAccount}
-
+      {props.children}
       {renderMenu}
     </Scrollbar>
   );

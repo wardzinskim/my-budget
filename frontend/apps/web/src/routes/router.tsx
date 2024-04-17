@@ -6,6 +6,8 @@ import { loader as budgetPageLoader } from '../pages/budgets/budgets.loader';
 import { action as budgetNewPageAction } from '../pages/budgets/new/budget-new.action';
 import { loader as budgetDetailsPageLoader } from '../pages/budgets/details/budget-details.loader';
 import { action as budgetDetailsPageAction } from '../pages/budgets/details/categories/budget-categories.action';
+import { BudgetContextPicker } from '../components/budgets/budget-context-picker';
+import { Stack } from '@mui/material';
 
 export const DashboardPage = lazy(() => import('../pages/dashboard'));
 export const BudgetsPage = lazy(() => import('../pages/budgets/budgets'));
@@ -29,7 +31,14 @@ export default function Router() {
   const router = createBrowserRouter([
     {
       element: (
-        <Layout navigationItems={navigation}>
+        <Layout
+          navigationItems={navigation}
+          navItemChildren={
+            <Stack spacing={0.5} sx={{ px: 2, paddingBottom: 2 }}>
+              <BudgetContextPicker />
+            </Stack>
+          }
+        >
           <Suspense>
             <Outlet />
           </Suspense>
@@ -38,6 +47,7 @@ export default function Router() {
       children: [
         { element: <DashboardPage />, index: true },
         {
+          id: 'budget-list',
           path: '/budgets',
           element: <BudgetsPage />,
           loader: budgetPageLoader,
