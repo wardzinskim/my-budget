@@ -7,30 +7,39 @@ import {
 import { budgetApi } from '../../../../configuration/api';
 import { enqueueSnackbar } from 'notistack';
 import { Paths } from '../../../../routes/router';
-import { HttpValidationProblemDetails } from '@repo/api-client';
+import {
+  CreateBudgetCategoryRequest,
+  HttpValidationProblemDetails,
+} from '@repo/api-client';
 import { AxiosError } from 'axios';
 
 interface BudgetCategoriesLoaderArgs extends ActionFunctionArgs {
-  params: Params<ParamParseKey<typeof Paths.budgetDetailsCategories>>;
+  params: Params<ParamParseKey<typeof Paths.budgetDetails>>;
+}
+
+interface ActionParams extends CreateBudgetCategoryRequest {
+  intent: 'archive' | 'create';
 }
 
 export const action: ActionFunction = async ({
   request,
   params,
 }: BudgetCategoriesLoaderArgs) => {
-  const form = await request.formData();
-  const { intent, ...formData } = Object.fromEntries(form);
+  const form = (await request.json()) as ActionParams;
 
-  if (intent == 'create') {
-    return createCategory(params.id!, formData);
+  if (form.intent == 'create') {
+    return createCategory(params.id!, form);
   }
-  if (intent == 'archive') {
-    return archiveCategory(params.id!, formData.name as string);
+  if (form.intent == 'archive') {
+    return archiveCategory(params.id!, form.name!);
   }
   return null;
 };
 
-export const createCategory = async (budgetId: string, form: object) => {
+export const createCategory = async (
+  budgetId: string,
+  form: CreateBudgetCategoryRequest
+) => {
   return await budgetApi
     .createBudgetCategory(budgetId, form)
     .then(() => {

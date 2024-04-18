@@ -30,10 +30,10 @@ export interface TransferDTO {
   id?: string;
   /**
    *
-   * @type {string}
+   * @type {Date}
    * @memberof TransferDTO
    */
-  transferDate?: string;
+  transferDate?: Date;
   /**
    *
    * @type {number}

@@ -24,6 +24,7 @@ export const BudgetCategoryForm = () => {
         },
         {
           method: 'POST',
+          encType: 'application/json',
         }
       );
     },

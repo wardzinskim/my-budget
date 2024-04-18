@@ -42,10 +42,10 @@ export interface BudgetListItemDTO {
   description?: string | null;
   /**
    *
-   * @type {string}
+   * @type {Date}
    * @memberof BudgetListItemDTO
    */
-  creationDate?: string;
+  creationDate?: Date;
   /**
    *
    * @type {BudgetDTOStatus}

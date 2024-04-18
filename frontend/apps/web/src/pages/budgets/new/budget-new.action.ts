@@ -1,13 +1,16 @@
 import { ActionFunction, redirect } from 'react-router-dom';
 import { budgetApi } from '../../../configuration/api';
 import { AxiosError } from 'axios';
-import { HttpValidationProblemDetails } from '@repo/api-client';
+import {
+  CreateBudgetRequest,
+  HttpValidationProblemDetails,
+} from '@repo/api-client';
 import { enqueueSnackbar } from 'notistack';
 
 export const action: ActionFunction = async ({ request }) => {
-  const form = await request.formData();
+  const form = (await request.json()) as CreateBudgetRequest;
   return await budgetApi
-    .createBudget(Object.fromEntries(form))
+    .createBudget(form)
     .then(() => {
       enqueueSnackbar({
         message: 'Budget created',

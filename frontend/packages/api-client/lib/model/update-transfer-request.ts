@@ -38,10 +38,10 @@ export interface UpdateTransferRequest {
   currency?: string | null;
   /**
    *
-   * @type {string}
+   * @type {Date}
    * @memberof UpdateTransferRequest
    */
-  date?: string;
+  date?: Date;
   /**
    *
    * @type {string}

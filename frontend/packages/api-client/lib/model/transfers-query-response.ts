@@ -24,16 +24,16 @@ import { TransferDTO } from './transfer-dto';
 export interface TransfersQueryResponse {
   /**
    *
-   * @type {string}
+   * @type {Date}
    * @memberof TransfersQueryResponse
    */
-  dateFrom?: string;
+  dateFrom?: Date;
   /**
    *
-   * @type {string}
+   * @type {Date}
    * @memberof TransfersQueryResponse
    */
-  dateTo?: string;
+  dateTo?: Date;
   /**
    *
    * @type {Array<TransferDTO>}

@@ -31,6 +31,7 @@ export default defineConfig({
       external: [
         'react',
         'react/jsx-runtime',
+        /react-dom.*/,
         /@mui.*/,
         'react-router-dom',
         'simplebar-react',

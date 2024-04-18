@@ -4,6 +4,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import { navigation } from './navigation-config';
 import { loader as budgetPageLoader } from '../pages/budgets/budgets.loader';
 import { action as budgetNewPageAction } from '../pages/budgets/new/budget-new.action';
+import { action as transferNewPageAction } from '../pages/transfers/new/transfer-new.action';
 import { loader as budgetDetailsPageLoader } from '../pages/budgets/details/budget-details.loader';
 import { action as budgetDetailsPageAction } from '../pages/budgets/details/categories/budget-categories.action';
 import { BudgetContextPicker } from '../components/budgets/budget-context-picker';
@@ -88,12 +89,14 @@ export default function Router() {
         {
           path: '/transfers/new/income',
           element: <TransfersNewPage type={TransferDTOType.Income} />,
-          errorElement: <TransferErrorPage />,
+          // errorElement: <TransferErrorPage />,
+          action: transferNewPageAction(userContext),
         },
         {
           path: '/transfers/new/expense',
           element: <TransfersNewPage type={TransferDTOType.Expense} />,
-          errorElement: <TransferErrorPage />,
+          // errorElement: <TransferErrorPage />,
+          action: transferNewPageAction(userContext),
         },
       ],
     },

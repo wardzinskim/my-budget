@@ -54,8 +54,8 @@ export interface CreateTransferRequest {
   category?: string | null;
   /**
    *
-   * @type {string}
+   * @type {Date}
    * @memberof CreateTransferRequest
    */
-  date?: string | null;
+  date?: Date | null;
 }

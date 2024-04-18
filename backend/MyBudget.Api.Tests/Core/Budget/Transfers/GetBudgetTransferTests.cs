@@ -68,8 +68,8 @@ public class GetBudgetTransferTests(IntegrationTestWebAppFactory application) : 
 
         //assert
         Assert.NotNull(response);
-        Assert.Equal(DateTime.UtcNow.Date, response.DateTo);
-        Assert.Equal(DateTime.UtcNow.Date.AddDays(-30), response.DateFrom);
+        Assert.Equal(DateTime.UtcNow.Date.AddDays(1), response.DateTo);
+        Assert.Equal(DateTime.UtcNow.Date.AddDays(1).AddDays(-30), response.DateFrom);
         Assert.NotEmpty(response.Transfers);
         Assert.Single(response.Transfers);
         Assert.Equal(transfer1, response.Transfers.Single().Id);
@@ -105,8 +105,8 @@ public class GetBudgetTransferTests(IntegrationTestWebAppFactory application) : 
 
         //assert
         Assert.NotNull(response);
-        Assert.Equal(DateTime.UtcNow.Date, response.DateTo);
-        Assert.Equal(DateTime.UtcNow.Date.AddDays(-30), response.DateFrom);
+        Assert.Equal(DateTime.UtcNow.Date.AddDays(1), response.DateTo);
+        Assert.Equal(DateTime.UtcNow.Date.AddDays(1).AddDays(-30), response.DateFrom);
         Assert.NotEmpty(response.Transfers);
         Assert.Single(response.Transfers);
         Assert.Equal(type, response.Transfers.Single().Type);

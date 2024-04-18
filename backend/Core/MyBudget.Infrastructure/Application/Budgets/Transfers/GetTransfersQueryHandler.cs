@@ -22,7 +22,7 @@ public sealed class GetTransfersQueryHandler(
         CancellationToken cancellationToken
     )
     {
-        var dateTo = request.DateTo ?? timeProvider.UtcNow.Date;
+        var dateTo = request.DateTo ?? timeProvider.UtcNow.Date.AddDays(1);
         var dateFrom = request.DateFrom ?? dateTo.AddDays(-DEFAULT_DATE_SPAN);
         var type = (TransferType?)request.Type;
 

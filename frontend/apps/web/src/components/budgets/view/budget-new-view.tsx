@@ -41,6 +41,7 @@ export const BudgetNewView: React.FC<BudgetNewViewProps> = () => {
         },
         {
           method: 'POST',
+          encType: 'application/json',
         }
       );
     },

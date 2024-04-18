@@ -8,6 +8,9 @@
         "generatorName": "typescript-axios",
         "output": "./lib",
         "inputSpec": "./swagger.json",
+        "typeMappings": {
+          "DateTime": "Date"
+        },
         "additionalProperties": {
           "supportsES6": true,
           "withInterfaces": true,

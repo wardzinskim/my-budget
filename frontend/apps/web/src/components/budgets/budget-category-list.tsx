@@ -21,6 +21,7 @@ export const BudgetCategoryList: React.FC<BudgetCategoryListProps> = ({
       },
       {
         method: 'POST',
+        encType: 'application/json',
       }
     );
   };

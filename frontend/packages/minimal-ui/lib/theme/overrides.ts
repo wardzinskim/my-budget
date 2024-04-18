@@ -2,7 +2,9 @@ import { Components, Theme, alpha } from '@mui/material/styles';
 import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 import { typography } from './typography';
 import { CustomShadows } from './custom-shadows';
-
+import type {} from '@mui/x-date-pickers/themeAugmentation';
+import { Iconify } from '../components';
+import { renderTimeViewClock } from '@mui/x-date-pickers';
 // ----------------------------------------------------------------------
 
 export function overrides(
@@ -173,6 +175,23 @@ export function overrides(
       styleOverrides: {
         root: {
           padding: theme.spacing(3, 3, 3, 3),
+        },
+      },
+    },
+    MuiDateTimePicker: {
+      defaultProps: {
+        slots: {
+          openPickerIcon: Iconify,
+        },
+        slotProps: {
+          openPickerIcon: {
+            icon: 'solar:calendar-mark-bold-duotone',
+          },
+        },
+        viewRenderers: {
+          hours: renderTimeViewClock,
+          minutes: renderTimeViewClock,
+          seconds: renderTimeViewClock,
         },
       },
     },

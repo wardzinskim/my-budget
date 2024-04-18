@@ -422,16 +422,16 @@ export const BudgetApiAxiosParamCreator = function (
      *
      * @param {string} id
      * @param {TransferDTOType} [type]
-     * @param {string} [dateFrom]
-     * @param {string} [dateTo]
+     * @param {Date} [dateFrom]
+     * @param {Date} [dateTo]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getTransfers: async (
       id: string,
       type?: TransferDTOType,
-      dateFrom?: string,
-      dateTo?: string,
+      dateFrom?: Date,
+      dateTo?: Date,
       options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
@@ -780,16 +780,16 @@ export const BudgetApiFp = function (configuration?: Configuration) {
      *
      * @param {string} id
      * @param {TransferDTOType} [type]
-     * @param {string} [dateFrom]
-     * @param {string} [dateTo]
+     * @param {Date} [dateFrom]
+     * @param {Date} [dateTo]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getTransfers(
       id: string,
       type?: TransferDTOType,
-      dateFrom?: string,
-      dateTo?: string,
+      dateFrom?: Date,
+      dateTo?: Date,
       options?: RawAxiosRequestConfig
     ): Promise<
       (
@@ -969,16 +969,16 @@ export const BudgetApiFactory = function (
      *
      * @param {string} id
      * @param {TransferDTOType} [type]
-     * @param {string} [dateFrom]
-     * @param {string} [dateTo]
+     * @param {Date} [dateFrom]
+     * @param {Date} [dateTo]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getTransfers(
       id: string,
       type?: TransferDTOType,
-      dateFrom?: string,
-      dateTo?: string,
+      dateFrom?: Date,
+      dateTo?: Date,
       options?: any
     ): AxiosPromise<TransfersQueryResponse> {
       return localVarFp
@@ -1106,8 +1106,8 @@ export interface BudgetApiInterface {
    *
    * @param {string} id
    * @param {TransferDTOType} [type]
-   * @param {string} [dateFrom]
-   * @param {string} [dateTo]
+   * @param {Date} [dateFrom]
+   * @param {Date} [dateTo]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof BudgetApiInterface
@@ -1115,8 +1115,8 @@ export interface BudgetApiInterface {
   getTransfers(
     id: string,
     type?: TransferDTOType,
-    dateFrom?: string,
-    dateTo?: string,
+    dateFrom?: Date,
+    dateTo?: Date,
     options?: RawAxiosRequestConfig
   ): AxiosPromise<TransfersQueryResponse>;
 
@@ -1261,8 +1261,8 @@ export class BudgetApi extends BaseAPI implements BudgetApiInterface {
    *
    * @param {string} id
    * @param {TransferDTOType} [type]
-   * @param {string} [dateFrom]
-   * @param {string} [dateTo]
+   * @param {Date} [dateFrom]
+   * @param {Date} [dateTo]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof BudgetApi
@@ -1270,8 +1270,8 @@ export class BudgetApi extends BaseAPI implements BudgetApiInterface {
   public getTransfers(
     id: string,
     type?: TransferDTOType,
-    dateFrom?: string,
-    dateTo?: string,
+    dateFrom?: Date,
+    dateTo?: Date,
     options?: RawAxiosRequestConfig
   ) {
     return BudgetApiFp(this.configuration)
