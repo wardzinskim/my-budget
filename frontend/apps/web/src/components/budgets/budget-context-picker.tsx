@@ -16,6 +16,15 @@ export const BudgetContextPicker: React.FC = () => {
     }
   }, [fetcher]);
 
+  useEffect(() => {
+    if (!userContext.budget && budgets && budgets.length > 0) {
+      setUserContext({
+        ...userContext,
+        budget: budgets[0],
+      });
+    }
+  }, [budgets, setUserContext, userContext]);
+
   const updateBudgetInContext = (id: string) => {
     const selectedBudget = budgets.find((x) => x.id == id);
 
@@ -26,20 +35,21 @@ export const BudgetContextPicker: React.FC = () => {
   };
 
   return (
-    <FormControl fullWidth={true}>
-      <InputLabel>Budget</InputLabel>
-
-      <Select
-        value={userContext.budget?.id}
-        label="Budget"
-        onChange={(x) => updateBudgetInContext(x.target.value)}
-      >
-        {budgets?.map((budget) => (
-          <MenuItem key={budget.id} value={budget.id}>
-            {budget.name}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    userContext.budget && (
+      <FormControl fullWidth={true}>
+        <InputLabel>Budget</InputLabel>
+        <Select
+          value={userContext.budget?.id}
+          label="Budget"
+          onChange={(x) => updateBudgetInContext(x.target.value)}
+        >
+          {budgets?.map((budget) => (
+            <MenuItem key={budget.id} value={budget.id}>
+              {budget.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    )
   );
 };

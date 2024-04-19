@@ -43,8 +43,12 @@ public sealed class GetTransfersQueryHandler(
             return access.Error;
         }
 
-        return new TransfersQueryResponse(dateFrom, dateTo,
-            budget.Transfers.Select(x => new TransferDTO(
+        return new TransfersQueryResponse(
+            dateFrom,
+            dateTo,
+            budget.Transfers
+            .OrderByDescending(x => x.TransferDate)
+            .Select(x => new TransferDTO(
                 x.Id,
                 x.TransferDate,
                 x.Value.Value,

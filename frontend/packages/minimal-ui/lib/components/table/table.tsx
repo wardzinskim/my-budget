@@ -24,13 +24,15 @@ export function MinimalTable<TItem extends { id?: string }>({
 
   const [selected, setSelected] = useState<Array<string>>([]);
 
-  const [orderBy, setOrderBy] = useState('name');
+  const [orderBy, setOrderBy] = useState<Extract<keyof TItem, string> | null>(
+    null
+  );
 
   //   const [filterName, setFilterName] = useState('');
 
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const handleSort = (id: string) => {
+  const handleSort = (id: Extract<keyof TItem, string> | null) => {
     const isAsc = orderBy === id && order === 'asc';
     if (id !== '') {
       setOrder(isAsc ? 'desc' : 'asc');
@@ -79,7 +81,10 @@ export function MinimalTable<TItem extends { id?: string }>({
     setSelected(newSelected);
   };
 
-  const dataFiltered = applyFilter(items, getComparator(order, orderBy));
+  const dataFiltered =
+    orderBy === null
+      ? items
+      : applyFilter(items, getComparator(order, orderBy));
 
   return (
     <>
@@ -119,7 +124,7 @@ export function MinimalTable<TItem extends { id?: string }>({
         count={items.length}
         rowsPerPage={rowsPerPage}
         onPageChange={handleChangePage}
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPageOptions={[10, 20, 50]}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </>

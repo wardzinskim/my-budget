@@ -14,21 +14,22 @@ export interface ColumnDefinition<TItem> {
   label: string;
   align?: 'inherit' | 'left' | 'center' | 'right' | 'justify';
   render?: (item: TItem) => JSX.Element;
+  sortable: boolean;
 }
 
 export interface MinimalTableHeadProps<TItem> {
   order: 'asc' | 'desc';
-  orderBy: string;
+  orderBy: string | null;
   rowCount: number;
   headers: Array<ColumnDefinition<TItem>>;
   numSelected: number;
   withSelection: boolean;
-  onRequestSort: (id: string) => void;
+  onRequestSort: (id: Extract<keyof TItem, string> | null) => void;
   onSelectAllClick: (checked: boolean) => void;
 }
 
 export function MinimalTableHead<TItem>(props: MinimalTableHeadProps<TItem>) {
-  const onSort = (property: string) => () => {
+  const onSort = (property: Extract<keyof TItem, string> | null) => () => {
     props.onRequestSort(property);
   };
 
@@ -56,21 +57,25 @@ export function MinimalTableHead<TItem>(props: MinimalTableHeadProps<TItem>) {
             sortDirection={props.orderBy === headCell.id ? props.order : false}
             // sx={{ width: headCell.width, minWidth: headCell.minWidth }}
           >
-            <TableSortLabel
-              hideSortIcon
-              active={props.orderBy === headCell.id}
-              direction={props.orderBy === headCell.id ? props.order : 'asc'}
-              onClick={onSort(headCell.id!)}
-            >
-              {headCell.label}
-              {props.orderBy === headCell.id ? (
-                <Box sx={{ ...visuallyHidden }}>
-                  {props.order === 'desc'
-                    ? 'sorted descending'
-                    : 'sorted ascending'}
-                </Box>
-              ) : null}
-            </TableSortLabel>
+            {headCell.sortable ? (
+              <TableSortLabel
+                hideSortIcon
+                active={props.orderBy === headCell.id}
+                direction={props.orderBy === headCell.id ? props.order : 'asc'}
+                onClick={onSort(headCell.id!)}
+              >
+                {headCell.label}
+                {props.orderBy === headCell.id ? (
+                  <Box sx={{ ...visuallyHidden }}>
+                    {props.order === 'desc'
+                      ? 'sorted descending'
+                      : 'sorted ascending'}
+                  </Box>
+                ) : null}
+              </TableSortLabel>
+            ) : (
+              headCell.label
+            )}
           </TableCell>
         ))}
       </TableRow>

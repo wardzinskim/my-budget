@@ -33,6 +33,7 @@ export const TransfersNewPage = lazy(
 
 export const Paths = {
   budgetDetails: '/budgets/:id',
+  transferEdit: '/transfers/:id/edit',
 } as const;
 
 export default function Router() {
@@ -97,6 +98,11 @@ export default function Router() {
           element: <TransfersNewPage type={TransferDTOType.Expense} />,
           // errorElement: <TransferErrorPage />,
           action: transferNewPageAction(userContext),
+        },
+        {
+          path: Paths.transferEdit,
+          element: <></>,
+          // errorElement: <TransferErrorPage />,
         },
       ],
     },

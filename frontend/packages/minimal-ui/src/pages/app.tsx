@@ -8,17 +8,18 @@ import { NavigationBar } from '../../lib/components/navigation-bar/navigation-ba
 // ----------------------------------------------------------------------
 
 const columns: ColumnDefinition<User>[] = [
-  { id: 'name', label: 'Name' },
-  { id: 'company', label: 'Company' },
-  { id: 'role', label: 'Role' },
+  { id: 'name', label: 'Name', sortable: true },
+  { id: 'company', label: 'Company', sortable: true },
+  { id: 'role', label: 'Role', sortable: true },
   {
     id: 'isVerified',
     label: 'Verified',
     align: 'center',
     render: (item: User) => <>{item.isVerified ? 'TAK' : 'NIE'}</>,
+    sortable: true,
   },
-  { id: 'status', label: 'Status' },
-  { label: '' },
+  { id: 'status', label: 'Status', sortable: true },
+  { label: '', sortable: true },
 ];
 
 interface User {

@@ -18,6 +18,7 @@ const BudgetTableColumns: Array<ColumnDefinition<BudgetListItemDTO>> = [
     id: 'name',
     label: 'Name',
     align: 'left',
+    sortable: true,
   },
   {
     id: 'description',
@@ -28,6 +29,7 @@ const BudgetTableColumns: Array<ColumnDefinition<BudgetListItemDTO>> = [
     id: 'creationDate',
     label: 'Creation Date',
     align: 'left',
+    sortable: true,
     render: (item: BudgetListItemDTO) => <>{fToNow(item.creationDate!)}</>,
   },
   {

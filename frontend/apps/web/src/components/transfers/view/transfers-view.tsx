@@ -1,9 +1,13 @@
 import { Button, Card, Container, Stack, Typography } from '@mui/material';
 import { Iconify, RouterLink } from '@repo/minimal-ui';
 import { useUserContext } from '../../../hooks/user-context';
+import { TransfersTable } from '../transfers-table';
+import { TransfersQueryResponse } from '@repo/api-client';
+import { useLoaderData } from 'react-router-dom';
 
 export const TransfersView: React.FC = () => {
   const [userContext] = useUserContext();
+  const transfersResponse = useLoaderData() as TransfersQueryResponse;
   return (
     <>
       <Container>
@@ -40,7 +44,9 @@ export const TransfersView: React.FC = () => {
           </Stack>
         </Stack>
 
-        <Card></Card>
+        <Card>
+          <TransfersTable transfers={transfersResponse.transfers ?? []} />
+        </Card>
       </Container>
     </>
   );
