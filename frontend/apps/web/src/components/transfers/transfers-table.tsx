@@ -12,12 +12,16 @@ import {
   Label,
   fToNow,
 } from '@repo/minimal-ui';
+import { useMemo } from 'react';
+import { useSubmit } from 'react-router-dom';
 
 interface TransfersTableProps {
   transfers: Array<TransferDTO>;
 }
 
-const TransferTableColumns: Array<ColumnDefinition<TransferDTO>> = [
+const TransferTableColumnsBuilder: (
+  deleteAction: (transferId: string) => void
+) => Array<ColumnDefinition<TransferDTO>> = (deleteAction) => [
   {
     id: 'value',
     label: 'Amount',
@@ -74,7 +78,7 @@ const TransferTableColumns: Array<ColumnDefinition<TransferDTO>> = [
         <IconButton component={RouterLink} href={`/transfers/${item.id}/edit`}>
           <Iconify icon="solar:pen-bold" />
         </IconButton>
-        <IconButton color="error">
+        <IconButton color="error" onClick={() => deleteAction(item.id!)}>
           <Iconify icon="solar:trash-bin-minimalistic-bold" />
         </IconButton>
       </>
@@ -85,11 +89,31 @@ const TransferTableColumns: Array<ColumnDefinition<TransferDTO>> = [
 export const TransfersTable: React.FC<TransfersTableProps> = ({
   transfers,
 }) => {
+  const submit = useSubmit();
+  const transferTableColumns = useMemo(() => {
+    const deleteTransfer = (transferId: string) => {
+      submit(
+        {
+          intent: 'delete',
+          transferId,
+        },
+        {
+          method: 'POST',
+          encType: 'application/json',
+        }
+      );
+    };
+
+    return TransferTableColumnsBuilder(deleteTransfer);
+  }, [submit]);
+
   return (
-    <MinimalTable<TransferDTO>
-      columns={TransferTableColumns}
-      items={transfers}
-      withSelection={false}
-    ></MinimalTable>
+    <>
+      <MinimalTable<TransferDTO>
+        columns={transferTableColumns}
+        items={transfers}
+        withSelection={false}
+      ></MinimalTable>
+    </>
   );
 };

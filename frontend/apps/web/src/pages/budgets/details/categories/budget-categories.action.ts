@@ -28,15 +28,15 @@ export const action: ActionFunction = async ({
   const form = (await request.json()) as ActionParams;
 
   if (form.intent == 'create') {
-    return createCategory(params.id!, form);
+    return await createCategory(params.id!, form);
   }
   if (form.intent == 'archive') {
-    return archiveCategory(params.id!, form.name!);
+    return await archiveCategory(params.id!, form.name!);
   }
   return null;
 };
 
-export const createCategory = async (
+const createCategory = async (
   budgetId: string,
   form: CreateBudgetCategoryRequest
 ) => {
@@ -66,7 +66,7 @@ export const createCategory = async (
     });
 };
 
-export const archiveCategory = async (budgetId: string, name: string) => {
+const archiveCategory = async (budgetId: string, name: string) => {
   return await budgetApi
     .archiveBudgetCategory(budgetId, name)
     .then(() => {

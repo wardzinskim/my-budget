@@ -7,6 +7,7 @@ import { action as budgetNewPageAction } from '../pages/budgets/new/budget-new.a
 import { action as transferNewPageAction } from '../pages/transfers/new/transfer-new.action';
 import { loader as budgetDetailsPageLoader } from '../pages/budgets/details/budget-details.loader';
 import { action as budgetDetailsPageAction } from '../pages/budgets/details/categories/budget-categories.action';
+import { action as transfersPageAction } from '../pages/transfers/transfers.action';
 import { BudgetContextPicker } from '../components/budgets/budget-context-picker';
 import { loader as transfersPageLoader } from '../pages/transfers/transfers.loader';
 import { Stack } from '@mui/material';
@@ -85,6 +86,7 @@ export default function Router() {
           path: '/transfers',
           element: <TransfersPage />,
           loader: transfersPageLoader(userContext),
+          action: transfersPageAction(userContext),
           errorElement: <TransferErrorPage />,
         },
         {
