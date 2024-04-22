@@ -1,5 +1,5 @@
 import './App.css';
-import { ThemeProvider } from '@repo/minimal-ui';
+import { AlertDialogProvider, ThemeProvider } from '@repo/minimal-ui';
 import Router from './routes/router';
 import { IUserContextState, UserContext } from './hooks/user-context';
 import { useState } from 'react';
@@ -15,14 +15,16 @@ function App() {
   return (
     <ThemeProvider>
       <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={enGB}>
-        <UserContext.Provider
-          value={{
-            userContext: userContextState,
-            setUserContext: setUserContextState,
-          }}
-        >
-          <Router></Router>
-        </UserContext.Provider>
+        <AlertDialogProvider>
+          <UserContext.Provider
+            value={{
+              userContext: userContextState,
+              setUserContext: setUserContextState,
+            }}
+          >
+            <Router></Router>
+          </UserContext.Provider>
+        </AlertDialogProvider>
       </LocalizationProvider>
     </ThemeProvider>
   );

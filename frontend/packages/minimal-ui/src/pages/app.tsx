@@ -147,6 +147,19 @@ export default function AppPage() {
             items={users}
             withSelection={false}
           ></MinimalTable>
+
+          {/* <AlertDialog
+            open={true}
+            handleClose={function (result: boolean): void {}}
+            title="Delete"
+            content={'Are you sure want to delete?'}
+            buttonProps={{
+              acceptButton: {
+                color: 'error',
+              },
+              acceptButtonLabel: 'Delete',
+            }}
+          ></AlertDialog> */}
         </Card>
       </Container>
     </>

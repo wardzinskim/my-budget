@@ -11,6 +11,7 @@ import {
   RouterLink,
   Label,
   fToNow,
+  useAlert,
 } from '@repo/minimal-ui';
 import { useMemo } from 'react';
 import { useSubmit } from 'react-router-dom';
@@ -89,23 +90,37 @@ const TransferTableColumnsBuilder: (
 export const TransfersTable: React.FC<TransfersTableProps> = ({
   transfers,
 }) => {
+  const alert = useAlert();
   const submit = useSubmit();
   const transferTableColumns = useMemo(() => {
     const deleteTransfer = (transferId: string) => {
-      submit(
-        {
-          intent: 'delete',
-          transferId,
+      alert.show(
+        'Delete',
+        'Are you sure want to delete?',
+        (result: boolean) => {
+          if (!result) return;
+          submit(
+            {
+              intent: 'delete',
+              transferId,
+            },
+            {
+              method: 'POST',
+              encType: 'application/json',
+            }
+          );
         },
         {
-          method: 'POST',
-          encType: 'application/json',
+          acceptButtonLabel: 'Delete',
+          acceptButton: {
+            color: 'error',
+          },
         }
       );
     };
 
     return TransferTableColumnsBuilder(deleteTransfer);
-  }, [submit]);
+  }, [submit, alert]);
 
   return (
     <>
