@@ -1,4 +1,4 @@
-import { BudgetListItemDTO } from '@repo/api-client';
+import { BudgetDTO } from '@repo/api-client';
 import { useFetcher } from 'react-router-dom';
 import { useUserContext } from '../../hooks/user-context';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
@@ -8,7 +8,7 @@ export const BudgetContextPicker: React.FC = () => {
   const fetcher = useFetcher();
   const [userContext, setUserContext] = useUserContext();
 
-  const budgets = fetcher.data as Array<BudgetListItemDTO>;
+  const budgets = fetcher.data as Array<BudgetDTO>;
 
   useEffect(() => {
     if (fetcher.state === 'idle' && !fetcher.data) {

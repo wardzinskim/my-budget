@@ -1,8 +1,8 @@
-import { BudgetListItemDTO } from '@repo/api-client';
+import { BudgetDTO } from '@repo/api-client';
 import { Dispatch, SetStateAction, createContext, useContext } from 'react';
 
 export interface IUserContextState {
-  budget?: BudgetListItemDTO;
+  budget?: BudgetDTO;
 }
 
 export interface IUserContext {

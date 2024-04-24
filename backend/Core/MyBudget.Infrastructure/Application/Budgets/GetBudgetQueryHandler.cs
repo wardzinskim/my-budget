@@ -36,6 +36,7 @@ public sealed class GetBudgetQueryHandler(IRequestContext requestContext, Budget
             budget.Name,
             budget.Description,
             (BudgetDTOStatus)budget.Status,
+            budget.CreationDate,
             budget.Categories.Select(x => new CategoryDTO(x.Name, (CategoryDTOStatus)x.Status)));
     }
 }

@@ -1,11 +1,11 @@
 import { Button, Card, Container, Stack, Typography } from '@mui/material';
 import { Iconify, RouterLink } from '@repo/minimal-ui';
 import { BudgetsTable } from '../budgets-table';
-import { BudgetListItemDTO } from '@repo/api-client';
+import { BudgetDTO } from '@repo/api-client';
 import { useLoaderData } from 'react-router-dom';
 
 export const BudgetsView: React.FC = () => {
-  const budgets: BudgetListItemDTO[] = useLoaderData() as BudgetListItemDTO[];
+  const budgets: BudgetDTO[] = useLoaderData() as BudgetDTO[];
 
   return (
     <>

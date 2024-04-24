@@ -41,8 +41,6 @@ import {
 // @ts-ignore
 import { BudgetDTO } from '../model';
 // @ts-ignore
-import { BudgetListItemDTO } from '../model';
-// @ts-ignore
 import { CreateBudgetCategoryRequest } from '../model';
 // @ts-ignore
 import { CreateBudgetRequest } from '../model';
@@ -759,7 +757,7 @@ export const BudgetApiFp = function (configuration?: Configuration) {
       (
         axios?: AxiosInstance,
         basePath?: string
-      ) => AxiosPromise<Array<BudgetListItemDTO>>
+      ) => AxiosPromise<Array<BudgetDTO>>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getBudgets(options);
@@ -960,7 +958,7 @@ export const BudgetApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getBudgets(options?: any): AxiosPromise<Array<BudgetListItemDTO>> {
+    getBudgets(options?: any): AxiosPromise<Array<BudgetDTO>> {
       return localVarFp
         .getBudgets(options)
         .then((request) => request(axios, basePath));
@@ -1098,9 +1096,7 @@ export interface BudgetApiInterface {
    * @throws {RequiredError}
    * @memberof BudgetApiInterface
    */
-  getBudgets(
-    options?: RawAxiosRequestConfig
-  ): AxiosPromise<Array<BudgetListItemDTO>>;
+  getBudgets(options?: RawAxiosRequestConfig): AxiosPromise<Array<BudgetDTO>>;
 
   /**
    *

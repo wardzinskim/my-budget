@@ -50,7 +50,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/BudgetListItemDTO"
+                    "$ref": "#/components/schemas/BudgetDTO"
                   }
                 }
               }
@@ -550,6 +550,10 @@
           "status": {
             "$ref": "#/components/schemas/BudgetDTOStatus"
           },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
           "categories": {
             "type": "array",
             "items": {
@@ -566,31 +570,6 @@
           "Closed"
         ],
         "type": "string"
-      },
-      "BudgetListItemDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "creationDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "status": {
-            "$ref": "#/components/schemas/BudgetDTOStatus"
-          }
-        },
-        "additionalProperties": false
       },
       "CategoryDTO": {
         "type": "object",

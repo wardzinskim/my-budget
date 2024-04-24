@@ -4,4 +4,4 @@ using MyBudget.SharedKernel;
 
 namespace MyBudget.Application.Budgets.GetBudgets;
 
-public record GetBudgetsQuery : Request<Result<IEnumerable<BudgetListItemDTO>>>;
+public record GetBudgetsQuery : Request<Result<IEnumerable<BudgetDTO>>>;

@@ -32,7 +32,7 @@ public class BudgetModule : ICarterModule
         app.MapGet("/budget", GetBudgets)
             .WithName(nameof(GetBudgets))
             .WithTags("budget")
-            .Produces<IEnumerable<BudgetListItemDTO>>(StatusCodes.Status200OK)
+            .Produces<IEnumerable<BudgetDTO>>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithOpenApi()
             .IncludeInOpenApi();

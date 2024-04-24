@@ -51,6 +51,12 @@ export interface BudgetDTO {
   status?: BudgetDTOStatus;
   /**
    *
+   * @type {Date}
+   * @memberof BudgetDTO
+   */
+  creationDate?: Date;
+  /**
+   *
    * @type {Array<CategoryDTO>}
    * @memberof BudgetDTO
    */

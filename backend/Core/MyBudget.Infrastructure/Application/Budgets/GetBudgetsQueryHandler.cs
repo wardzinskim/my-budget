@@ -8,9 +8,9 @@ using MyBudget.SharedKernel;
 namespace MyBudget.Infrastructure.Application.Budgets;
 
 public sealed class GetBudgetsQueryHandler(BudgetContext context, IRequestContext requestContext)
-    : MediatorRequestHandler<GetBudgetsQuery, Result<IEnumerable<BudgetListItemDTO>>>
+    : MediatorRequestHandler<GetBudgetsQuery, Result<IEnumerable<BudgetDTO>>>
 {
-    protected override async Task<Result<IEnumerable<BudgetListItemDTO>>> Handle(
+    protected override async Task<Result<IEnumerable<BudgetDTO>>> Handle(
         GetBudgetsQuery request,
         CancellationToken cancellationToken
     )
@@ -18,23 +18,15 @@ public sealed class GetBudgetsQueryHandler(BudgetContext context, IRequestContex
         var result = await context.Budgets
             .Where(x => x.OwnerId == requestContext.UserId)
             .AsNoTracking()
-            .Select(x => new
-            {
-                x.Id,
-                x.Name,
-                x.Description,
-                x.Status,
-                x.Categories,
-                x.CreationDate
-            })
             .ToListAsync(cancellationToken).ConfigureAwait(false);
 
         return result
-            .Select(x => new BudgetListItemDTO(x.Id,
+            .Select(x => new BudgetDTO(x.Id,
                     x.Name,
                     x.Description,
+                    (BudgetDTOStatus)x.Status,
                     x.CreationDate,
-                    (BudgetDTOStatus)x.Status
+                    x.Categories.Select(y => new CategoryDTO(y.Name, (CategoryDTOStatus)y.Status))
                 )
             ).ToList();
     }

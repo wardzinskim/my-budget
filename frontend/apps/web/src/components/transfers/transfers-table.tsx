@@ -1,9 +1,5 @@
 import { IconButton, Typography } from '@mui/material';
-import {
-  BudgetListItemDTO,
-  TransferDTO,
-  TransferDTOType,
-} from '@repo/api-client';
+import { BudgetDTO, TransferDTO, TransferDTOType } from '@repo/api-client';
 import {
   ColumnDefinition,
   Iconify,
@@ -74,7 +70,7 @@ const TransferTableColumnsBuilder: (
     label: '',
     align: 'right',
     sortable: false,
-    render: (item: BudgetListItemDTO) => (
+    render: (item: BudgetDTO) => (
       <>
         <IconButton component={RouterLink} href={`/transfers/${item.id}/edit`}>
           <Iconify icon="solar:pen-bold" />

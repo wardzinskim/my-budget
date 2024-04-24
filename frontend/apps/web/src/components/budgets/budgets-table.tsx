@@ -1,5 +1,5 @@
 import { IconButton } from '@mui/material';
-import { BudgetDTOStatus, BudgetListItemDTO } from '@repo/api-client';
+import { BudgetDTO, BudgetDTOStatus } from '@repo/api-client';
 import {
   ColumnDefinition,
   Iconify,
@@ -10,10 +10,10 @@ import {
 } from '@repo/minimal-ui';
 
 interface BudgetsTableProps {
-  budgets: Array<BudgetListItemDTO>;
+  budgets: Array<BudgetDTO>;
 }
 
-const BudgetTableColumns: Array<ColumnDefinition<BudgetListItemDTO>> = [
+const BudgetTableColumns: Array<ColumnDefinition<BudgetDTO>> = [
   {
     id: 'name',
     label: 'Name',
@@ -24,19 +24,21 @@ const BudgetTableColumns: Array<ColumnDefinition<BudgetListItemDTO>> = [
     id: 'description',
     label: 'Description',
     align: 'left',
+    sortable: false,
   },
   {
     id: 'creationDate',
     label: 'Creation Date',
     align: 'left',
     sortable: true,
-    render: (item: BudgetListItemDTO) => <>{fToNow(item.creationDate!)}</>,
+    render: (item: BudgetDTO) => <>{fToNow(item.creationDate!)}</>,
   },
   {
     id: 'status',
     label: 'Status',
     align: 'center',
-    render: (item: BudgetListItemDTO) => (
+    sortable: true,
+    render: (item: BudgetDTO) => (
       <Label
         color={item.status === BudgetDTOStatus.Open ? 'success' : 'default'}
         variant="filled"
@@ -48,7 +50,8 @@ const BudgetTableColumns: Array<ColumnDefinition<BudgetListItemDTO>> = [
   {
     label: '',
     align: 'right',
-    render: (item: BudgetListItemDTO) => (
+    sortable: false,
+    render: (item: BudgetDTO) => (
       <IconButton component={RouterLink} href={`/budgets/${item.id}`}>
         <Iconify icon="carbon:view-filled" />
       </IconButton>
@@ -58,7 +61,7 @@ const BudgetTableColumns: Array<ColumnDefinition<BudgetListItemDTO>> = [
 
 export const BudgetsTable: React.FC<BudgetsTableProps> = ({ budgets }) => {
   return (
-    <MinimalTable<BudgetListItemDTO>
+    <MinimalTable<BudgetDTO>
       columns={BudgetTableColumns}
       items={budgets}
       withSelection={false}

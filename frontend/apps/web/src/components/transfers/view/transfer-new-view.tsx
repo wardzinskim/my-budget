@@ -6,7 +6,11 @@ import {
   CardContent,
   Container,
   FormControl,
+  FormHelperText,
   Grid,
+  InputLabel,
+  MenuItem,
+  Select,
   Stack,
   TextField,
   Typography,
@@ -14,10 +18,15 @@ import {
 import { RouterLink } from '@repo/minimal-ui';
 import { Form, useActionData, useSubmit } from 'react-router-dom';
 import { FormikErrors, useFormik } from 'formik';
-import { CreateTransferRequest, TransferDTOType } from '@repo/api-client';
+import {
+  CategoryDTOStatus,
+  CreateTransferRequest,
+  TransferDTOType,
+} from '@repo/api-client';
 import * as yup from 'yup';
 import { useEffect } from 'react';
 import { DateTimePicker } from '@mui/x-date-pickers';
+import { useUserContext } from '../../../hooks/user-context';
 
 interface TransferNewViewProps {
   type: TransferDTOType;
@@ -34,11 +43,12 @@ const validationSchema = yup.object({
 export const TransferNewView: React.FC<TransferNewViewProps> = ({ type }) => {
   const submit = useSubmit();
   const action = useActionData() as FormikErrors<CreateTransferRequest>;
+  const [userContext] = useUserContext();
 
   const formik = useFormik<CreateTransferRequest>({
     initialValues: {
       name: '',
-      category: null,
+      category: '',
       type: type,
       value: undefined,
       currency: 'PLN',
@@ -130,7 +140,40 @@ export const TransferNewView: React.FC<TransferNewViewProps> = ({ type }) => {
                   </FormControl>
                 </Grid>
 
-                <Grid xs={12} item>
+                <Grid md={6} xs={12} item>
+                  <FormControl fullWidth={true} variant="outlined">
+                    <InputLabel>Category</InputLabel>
+                    <Select
+                      name="category"
+                      value={formik.values.category}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.category &&
+                        Boolean(formik.errors.category)
+                      }
+                    >
+                      {userContext.budget?.categories
+                        ?.filter(
+                          (category) =>
+                            category.status === CategoryDTOStatus.Active
+                        )
+                        ?.map((category) => (
+                          <MenuItem key={category.name} value={category.name}>
+                            {category.name}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                    {formik.touched.category &&
+                      Boolean(formik.errors.category) && (
+                        <FormHelperText error={true}>
+                          {formik.touched.category && formik.errors.category}
+                        </FormHelperText>
+                      )}
+                  </FormControl>
+                </Grid>
+
+                <Grid md={6} xs={12} item>
                   <FormControl fullWidth={true} variant="outlined">
                     <DateTimePicker
                       name="date"
