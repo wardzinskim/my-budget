@@ -42,7 +42,7 @@ export const TransferFilters: React.FC<TransferFiltersProps> = () => {
       };
 
       console.log(values, params);
-
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       setSearchParams(JSON.parse(JSON.stringify(params)));
     },
   });
