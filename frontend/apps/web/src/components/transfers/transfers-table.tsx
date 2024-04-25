@@ -1,4 +1,4 @@
-import { IconButton, Typography } from '@mui/material';
+import { IconButton, Tooltip, Typography } from '@mui/material';
 import { BudgetDTO, TransferDTO, TransferDTOType } from '@repo/api-client';
 import {
   ColumnDefinition,
@@ -8,6 +8,7 @@ import {
   Label,
   fToNow,
   useAlert,
+  fDateTime,
 } from '@repo/minimal-ui';
 import { useMemo } from 'react';
 import { useSubmit } from 'react-router-dom';
@@ -50,7 +51,11 @@ const TransferTableColumnsBuilder: (
     label: 'Date',
     align: 'left',
     sortable: false,
-    render: (item: TransferDTO) => <>{fToNow(item.transferDate!)}</>,
+    render: (item: TransferDTO) => (
+      <Tooltip title={fDateTime(item.transferDate!)}>
+        <Typography variant="inherit"> {fToNow(item.transferDate!)}</Typography>
+      </Tooltip>
+    ),
   },
   {
     id: 'category',

@@ -36,7 +36,7 @@ const validationSchema = yup.object({
   name: yup.string().required().max(128),
   category: yup.string().max(32).nullable(),
   currency: yup.string().required().max(8),
-  value: yup.number().min(0),
+  value: yup.number().min(0).required(),
   date: yup.date().nullable(),
 });
 
@@ -48,7 +48,7 @@ export const TransferNewView: React.FC<TransferNewViewProps> = ({ type }) => {
   const formik = useFormik<CreateTransferRequest>({
     initialValues: {
       name: '',
-      category: '',
+      category: undefined,
       type: type,
       value: undefined,
       currency: 'PLN',
@@ -153,6 +153,9 @@ export const TransferNewView: React.FC<TransferNewViewProps> = ({ type }) => {
                         Boolean(formik.errors.category)
                       }
                     >
+                      <MenuItem value={undefined}>
+                        <em>None</em>
+                      </MenuItem>
                       {userContext.budget?.categories
                         ?.filter(
                           (category) =>
