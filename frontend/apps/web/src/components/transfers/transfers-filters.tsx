@@ -26,7 +26,9 @@ export const TransferFilters: React.FC<TransferFiltersProps> = () => {
 
   const formik = useFormik<TransfersFiltersQueryForm>({
     initialValues: {
-      type: searchParams.get('type') as TransferDTOType | undefined,
+      type: searchParams.get('type')
+        ? (searchParams.get('type') as TransferDTOType)
+        : undefined,
       dateFrom: searchParams.get('dateFrom')
         ? new Date(searchParams.get('dateFrom')!)
         : undefined,

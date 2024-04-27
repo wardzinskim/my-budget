@@ -10,6 +10,8 @@ import { action as budgetDetailsPageAction } from '../pages/budgets/details/cate
 import { action as transfersPageAction } from '../pages/transfers/transfers.action';
 import { BudgetContextPicker } from '../components/budgets/budget-context-picker';
 import { loader as transfersPageLoader } from '../pages/transfers/transfers.loader';
+import { loader as transferEditPageLoader } from '../pages/transfers/edit/transfer-edit.loader';
+import { action as transferEditPageAction } from '../pages/transfers/edit/transfer-edit.action';
 import { Stack } from '@mui/material';
 import { useUserContext } from '../hooks/user-context';
 import { TransferErrorPage } from '../pages/transfers/transfers-error';
@@ -29,6 +31,9 @@ export const BudgetDetailsCategoriesPage = lazy(
 export const TransfersPage = lazy(() => import('../pages/transfers/transfers'));
 export const TransfersNewPage = lazy(
   () => import('../pages/transfers/new/transfer-new')
+);
+export const TransfersEditPage = lazy(
+  () => import('../pages/transfers/edit/transfer-edit')
 );
 // ----------------------------------------------------------------------
 
@@ -103,7 +108,9 @@ export default function Router() {
         },
         {
           path: Paths.transferEdit,
-          element: <></>,
+          element: <TransfersEditPage />,
+          loader: transferEditPageLoader(userContext),
+          action: transferEditPageAction(userContext),
           // errorElement: <TransferErrorPage />,
         },
       ],
