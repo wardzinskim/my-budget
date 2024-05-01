@@ -4,6 +4,7 @@ import {
   IDashboardContextState,
 } from '../hooks/dashboard-context';
 import { useState } from 'react';
+import { DashboardContextPicker } from '../dashboard-context-picker';
 
 export const DashboardView: React.FC = () => {
   const [dashboardContextState, setDashboardContextState] =
@@ -23,6 +24,8 @@ export const DashboardView: React.FC = () => {
           setDashboardContext: setDashboardContextState,
         }}
       >
+        <DashboardContextPicker />
+
         <Grid container spacing={3}></Grid>
       </DashboardContext.Provider>
     </Container>
