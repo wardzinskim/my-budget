@@ -12,7 +12,22 @@
  * Do not edit the class manually.
  */
 
-export * from './api/budget-api';
-export * from './api/budget-statistics-api';
-export * from './api/category-api';
-export * from './api/transfer-api';
+/**
+ *
+ * @export
+ * @interface BudgetTotals
+ */
+export interface BudgetTotals {
+  /**
+   *
+   * @type {number}
+   * @memberof BudgetTotals
+   */
+  incomes?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof BudgetTotals
+   */
+  expenses?: number;
+}

@@ -1,5 +1,5 @@
 import { ActionFunction } from 'react-router-dom';
-import { budgetApi } from '../../configuration/api';
+import { transferApi } from '../../configuration/api';
 import { IUserContextState } from '../../hooks/user-context';
 import { enqueueSnackbar } from 'notistack';
 import { AxiosError } from 'axios';
@@ -23,7 +23,7 @@ export const action: (context: IUserContextState) => ActionFunction =
   };
 
 const deleteTransfer = async (budgetId: string, transferId: string) =>
-  await budgetApi
+  await transferApi
     .deleteTransfer(budgetId, transferId)
     .then(() => {
       enqueueSnackbar({

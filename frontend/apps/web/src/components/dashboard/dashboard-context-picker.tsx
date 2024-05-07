@@ -54,7 +54,7 @@ export const DashboardContextPicker: React.FC = () => {
             {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((x) => (
               <MenuItem value={x + 1} key={x}>
                 {
-                  //eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
                   localizationContext.utils.locale.localize.month(x)
                 }
               </MenuItem>

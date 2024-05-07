@@ -4,7 +4,7 @@ import {
   ParamParseKey,
   Params,
 } from 'react-router-dom';
-import { budgetApi } from '../../../../configuration/api';
+import { categoryApi } from '../../../../configuration/api';
 import { enqueueSnackbar } from 'notistack';
 import { Paths } from '../../../../routes/router';
 import {
@@ -40,7 +40,7 @@ const createCategory = async (
   budgetId: string,
   form: CreateBudgetCategoryRequest
 ) => {
-  return await budgetApi
+  return await categoryApi
     .createBudgetCategory(budgetId, form)
     .then(() => {
       enqueueSnackbar({
@@ -67,7 +67,7 @@ const createCategory = async (
 };
 
 const archiveCategory = async (budgetId: string, name: string) => {
-  return await budgetApi
+  return await categoryApi
     .archiveBudgetCategory(budgetId, name)
     .then(() => {
       enqueueSnackbar({

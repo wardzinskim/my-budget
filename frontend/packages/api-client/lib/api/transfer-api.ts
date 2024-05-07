@@ -39,38 +39,49 @@ import {
   operationServerMap,
 } from '../base';
 // @ts-ignore
-import { BudgetDTO } from '../model';
-// @ts-ignore
-import { CreateBudgetRequest } from '../model';
+import { CreateTransferRequest } from '../model';
 // @ts-ignore
 import { HttpValidationProblemDetails } from '../model';
 // @ts-ignore
 import { ProblemDetails } from '../model';
+// @ts-ignore
+import { TransferDTOType } from '../model';
+// @ts-ignore
+import { TransfersQueryResponse } from '../model';
+// @ts-ignore
+import { UpdateTransferRequest } from '../model';
 /**
- * BudgetApi - axios parameter creator
+ * TransferApi - axios parameter creator
  * @export
  */
-export const BudgetApiAxiosParamCreator = function (
+export const TransferApiAxiosParamCreator = function (
   configuration?: Configuration
 ) {
   return {
     /**
      *
-     * @param {CreateBudgetRequest} createBudgetRequest
+     * @param {string} id
+     * @param {CreateTransferRequest} createTransferRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createBudget: async (
-      createBudgetRequest: CreateBudgetRequest,
+    addTransfer: async (
+      id: string,
+      createTransferRequest: CreateTransferRequest,
       options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
-      // verify required parameter 'createBudgetRequest' is not null or undefined
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists('addTransfer', 'id', id);
+      // verify required parameter 'createTransferRequest' is not null or undefined
       assertParamExists(
-        'createBudget',
-        'createBudgetRequest',
-        createBudgetRequest
+        'addTransfer',
+        'createTransferRequest',
+        createTransferRequest
       );
-      const localVarPath = `/budget`;
+      const localVarPath = `/budget/{id}/transfer`.replace(
+        `{${'id'}}`,
+        encodeURIComponent(String(id))
+      );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -97,7 +108,7 @@ export const BudgetApiAxiosParamCreator = function (
         ...options.headers,
       };
       localVarRequestOptions.data = serializeDataIfNeeded(
-        createBudgetRequest,
+        createTransferRequest,
         localVarRequestOptions,
         configuration
       );
@@ -110,19 +121,70 @@ export const BudgetApiAxiosParamCreator = function (
     /**
      *
      * @param {string} id
+     * @param {string} transferId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getBudget: async (
+    deleteTransfer: async (
       id: string,
+      transferId: string,
       options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
-      assertParamExists('getBudget', 'id', id);
-      const localVarPath = `/budget/{id}`.replace(
-        `{${'id'}}`,
-        encodeURIComponent(String(id))
-      );
+      assertParamExists('deleteTransfer', 'id', id);
+      // verify required parameter 'transferId' is not null or undefined
+      assertParamExists('deleteTransfer', 'transferId', transferId);
+      const localVarPath = `/budget/{id}/transfer/{transferId}`
+        .replace(`{${'id'}}`, encodeURIComponent(String(id)))
+        .replace(`{${'transferId'}}`, encodeURIComponent(String(transferId)));
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'DELETE',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     *
+     * @param {string} id
+     * @param {string} transferId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getTransfer: async (
+      id: string,
+      transferId: string,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists('getTransfer', 'id', id);
+      // verify required parameter 'transferId' is not null or undefined
+      assertParamExists('getTransfer', 'transferId', transferId);
+      const localVarPath = `/budget/{id}/transfer/{transferId}`
+        .replace(`{${'id'}}`, encodeURIComponent(String(id)))
+        .replace(`{${'transferId'}}`, encodeURIComponent(String(transferId)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -155,16 +217,22 @@ export const BudgetApiAxiosParamCreator = function (
     /**
      *
      * @param {string} id
+     * @param {TransferDTOType} [type]
+     * @param {Date} [dateFrom]
+     * @param {Date} [dateTo]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getBudget_1: async (
+    getTransfers: async (
       id: string,
+      type?: TransferDTOType,
+      dateFrom?: Date,
+      dateTo?: Date,
       options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
-      assertParamExists('getBudget_1', 'id', id);
-      const localVarPath = `/budget/{id}`.replace(
+      assertParamExists('getTransfers', 'id', id);
+      const localVarPath = `/budget/{id}/transfer`.replace(
         `{${'id'}}`,
         encodeURIComponent(String(id))
       );
@@ -183,43 +251,23 @@ export const BudgetApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getBudgets: async (
-      options: RawAxiosRequestConfig = {}
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/budget`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
+      if (type !== undefined) {
+        localVarQueryParameter['type'] = type;
       }
 
-      const localVarRequestOptions = {
-        method: 'GET',
-        ...baseOptions,
-        ...options,
-      };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
+      if (dateFrom !== undefined) {
+        localVarQueryParameter['dateFrom'] =
+          (dateFrom as any) instanceof Date
+            ? (dateFrom as any).toISOString()
+            : dateFrom;
+      }
+
+      if (dateTo !== undefined) {
+        localVarQueryParameter['dateTo'] =
+          (dateTo as any) instanceof Date
+            ? (dateTo as any).toISOString()
+            : dateTo;
+      }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
@@ -237,13 +285,31 @@ export const BudgetApiAxiosParamCreator = function (
     },
     /**
      *
+     * @param {string} id
+     * @param {string} transferId
+     * @param {UpdateTransferRequest} updateTransferRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getBudgets_2: async (
+    updateTransfer: async (
+      id: string,
+      transferId: string,
+      updateTransferRequest: UpdateTransferRequest,
       options: RawAxiosRequestConfig = {}
     ): Promise<RequestArgs> => {
-      const localVarPath = `/budget`;
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists('updateTransfer', 'id', id);
+      // verify required parameter 'transferId' is not null or undefined
+      assertParamExists('updateTransfer', 'transferId', transferId);
+      // verify required parameter 'updateTransferRequest' is not null or undefined
+      assertParamExists(
+        'updateTransfer',
+        'updateTransferRequest',
+        updateTransferRequest
+      );
+      const localVarPath = `/budget/{id}/transfer/{transferId}`
+        .replace(`{${'id'}}`, encodeURIComponent(String(id)))
+        .replace(`{${'transferId'}}`, encodeURIComponent(String(transferId)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -252,12 +318,14 @@ export const BudgetApiAxiosParamCreator = function (
       }
 
       const localVarRequestOptions = {
-        method: 'GET',
+        method: 'PUT',
         ...baseOptions,
         ...options,
       };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions =
@@ -267,6 +335,11 @@ export const BudgetApiAxiosParamCreator = function (
         ...headersFromBaseOptions,
         ...options.headers,
       };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        updateTransferRequest,
+        localVarRequestOptions,
+        configuration
+      );
 
       return {
         url: toPathString(localVarUrlObj),
@@ -277,31 +350,34 @@ export const BudgetApiAxiosParamCreator = function (
 };
 
 /**
- * BudgetApi - functional programming interface
+ * TransferApi - functional programming interface
  * @export
  */
-export const BudgetApiFp = function (configuration?: Configuration) {
-  const localVarAxiosParamCreator = BudgetApiAxiosParamCreator(configuration);
+export const TransferApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = TransferApiAxiosParamCreator(configuration);
   return {
     /**
      *
-     * @param {CreateBudgetRequest} createBudgetRequest
+     * @param {string} id
+     * @param {CreateTransferRequest} createTransferRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async createBudget(
-      createBudgetRequest: CreateBudgetRequest,
+    async addTransfer(
+      id: string,
+      createTransferRequest: CreateTransferRequest,
       options?: RawAxiosRequestConfig
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createBudget(
-        createBudgetRequest,
+      const localVarAxiosArgs = await localVarAxiosParamCreator.addTransfer(
+        id,
+        createTransferRequest,
         options
       );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['BudgetApi.createBudget']?.[
+        operationServerMap['TransferApi.addTransfer']?.[
           localVarOperationServerIndex
         ]?.url;
       return (axios, basePath) =>
@@ -315,22 +391,25 @@ export const BudgetApiFp = function (configuration?: Configuration) {
     /**
      *
      * @param {string} id
+     * @param {string} transferId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getBudget(
+    async deleteTransfer(
       id: string,
+      transferId: string,
       options?: RawAxiosRequestConfig
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<BudgetDTO>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getBudget(
+      const localVarAxiosArgs = await localVarAxiosParamCreator.deleteTransfer(
         id,
+        transferId,
         options
       );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['BudgetApi.getBudget']?.[
+        operationServerMap['TransferApi.deleteTransfer']?.[
           localVarOperationServerIndex
         ]?.url;
       return (axios, basePath) =>
@@ -344,22 +423,25 @@ export const BudgetApiFp = function (configuration?: Configuration) {
     /**
      *
      * @param {string} id
+     * @param {string} transferId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getBudget_1(
+    async getTransfer(
       id: string,
+      transferId: string,
       options?: RawAxiosRequestConfig
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<BudgetDTO>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getBudget_1(
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getTransfer(
         id,
+        transferId,
         options
       );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['BudgetApi.getBudget_1']?.[
+        operationServerMap['TransferApi.getTransfer']?.[
           localVarOperationServerIndex
         ]?.url;
       return (axios, basePath) =>
@@ -372,22 +454,35 @@ export const BudgetApiFp = function (configuration?: Configuration) {
     },
     /**
      *
+     * @param {string} id
+     * @param {TransferDTOType} [type]
+     * @param {Date} [dateFrom]
+     * @param {Date} [dateTo]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getBudgets(
+    async getTransfers(
+      id: string,
+      type?: TransferDTOType,
+      dateFrom?: Date,
+      dateTo?: Date,
       options?: RawAxiosRequestConfig
     ): Promise<
       (
         axios?: AxiosInstance,
         basePath?: string
-      ) => AxiosPromise<Array<BudgetDTO>>
+      ) => AxiosPromise<TransfersQueryResponse>
     > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.getBudgets(options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getTransfers(
+        id,
+        type,
+        dateFrom,
+        dateTo,
+        options
+      );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['BudgetApi.getBudgets']?.[
+        operationServerMap['TransferApi.getTransfers']?.[
           localVarOperationServerIndex
         ]?.url;
       return (axios, basePath) =>
@@ -400,22 +495,29 @@ export const BudgetApiFp = function (configuration?: Configuration) {
     },
     /**
      *
+     * @param {string} id
+     * @param {string} transferId
+     * @param {UpdateTransferRequest} updateTransferRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getBudgets_2(
+    async updateTransfer(
+      id: string,
+      transferId: string,
+      updateTransferRequest: UpdateTransferRequest,
       options?: RawAxiosRequestConfig
     ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string
-      ) => AxiosPromise<Array<BudgetDTO>>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.getBudgets_2(options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.updateTransfer(
+        id,
+        transferId,
+        updateTransferRequest,
+        options
+      );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['BudgetApi.getBudgets_2']?.[
+        operationServerMap['TransferApi.updateTransfer']?.[
           localVarOperationServerIndex
         ]?.url;
       return (axios, basePath) =>
@@ -430,204 +532,288 @@ export const BudgetApiFp = function (configuration?: Configuration) {
 };
 
 /**
- * BudgetApi - factory interface
+ * TransferApi - factory interface
  * @export
  */
-export const BudgetApiFactory = function (
+export const TransferApiFactory = function (
   configuration?: Configuration,
   basePath?: string,
   axios?: AxiosInstance
 ) {
-  const localVarFp = BudgetApiFp(configuration);
+  const localVarFp = TransferApiFp(configuration);
   return {
     /**
      *
-     * @param {CreateBudgetRequest} createBudgetRequest
+     * @param {string} id
+     * @param {CreateTransferRequest} createTransferRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createBudget(
-      createBudgetRequest: CreateBudgetRequest,
+    addTransfer(
+      id: string,
+      createTransferRequest: CreateTransferRequest,
       options?: any
     ): AxiosPromise<void> {
       return localVarFp
-        .createBudget(createBudgetRequest, options)
+        .addTransfer(id, createTransferRequest, options)
         .then((request) => request(axios, basePath));
     },
     /**
      *
      * @param {string} id
+     * @param {string} transferId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getBudget(id: string, options?: any): AxiosPromise<BudgetDTO> {
+    deleteTransfer(
+      id: string,
+      transferId: string,
+      options?: any
+    ): AxiosPromise<void> {
       return localVarFp
-        .getBudget(id, options)
+        .deleteTransfer(id, transferId, options)
         .then((request) => request(axios, basePath));
     },
     /**
      *
      * @param {string} id
+     * @param {string} transferId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getBudget_1(id: string, options?: any): AxiosPromise<BudgetDTO> {
+    getTransfer(
+      id: string,
+      transferId: string,
+      options?: any
+    ): AxiosPromise<void> {
       return localVarFp
-        .getBudget_1(id, options)
+        .getTransfer(id, transferId, options)
         .then((request) => request(axios, basePath));
     },
     /**
      *
+     * @param {string} id
+     * @param {TransferDTOType} [type]
+     * @param {Date} [dateFrom]
+     * @param {Date} [dateTo]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getBudgets(options?: any): AxiosPromise<Array<BudgetDTO>> {
+    getTransfers(
+      id: string,
+      type?: TransferDTOType,
+      dateFrom?: Date,
+      dateTo?: Date,
+      options?: any
+    ): AxiosPromise<TransfersQueryResponse> {
       return localVarFp
-        .getBudgets(options)
+        .getTransfers(id, type, dateFrom, dateTo, options)
         .then((request) => request(axios, basePath));
     },
     /**
      *
+     * @param {string} id
+     * @param {string} transferId
+     * @param {UpdateTransferRequest} updateTransferRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getBudgets_2(options?: any): AxiosPromise<Array<BudgetDTO>> {
+    updateTransfer(
+      id: string,
+      transferId: string,
+      updateTransferRequest: UpdateTransferRequest,
+      options?: any
+    ): AxiosPromise<void> {
       return localVarFp
-        .getBudgets_2(options)
+        .updateTransfer(id, transferId, updateTransferRequest, options)
         .then((request) => request(axios, basePath));
     },
   };
 };
 
 /**
- * BudgetApi - interface
+ * TransferApi - interface
  * @export
- * @interface BudgetApi
+ * @interface TransferApi
  */
-export interface BudgetApiInterface {
+export interface TransferApiInterface {
   /**
    *
-   * @param {CreateBudgetRequest} createBudgetRequest
+   * @param {string} id
+   * @param {CreateTransferRequest} createTransferRequest
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof BudgetApiInterface
+   * @memberof TransferApiInterface
    */
-  createBudget(
-    createBudgetRequest: CreateBudgetRequest,
+  addTransfer(
+    id: string,
+    createTransferRequest: CreateTransferRequest,
     options?: RawAxiosRequestConfig
   ): AxiosPromise<void>;
 
   /**
    *
    * @param {string} id
+   * @param {string} transferId
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof BudgetApiInterface
+   * @memberof TransferApiInterface
    */
-  getBudget(
+  deleteTransfer(
     id: string,
+    transferId: string,
     options?: RawAxiosRequestConfig
-  ): AxiosPromise<BudgetDTO>;
+  ): AxiosPromise<void>;
 
   /**
    *
    * @param {string} id
+   * @param {string} transferId
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof BudgetApiInterface
+   * @memberof TransferApiInterface
    */
-  getBudget_1(
+  getTransfer(
     id: string,
+    transferId: string,
     options?: RawAxiosRequestConfig
-  ): AxiosPromise<BudgetDTO>;
+  ): AxiosPromise<void>;
 
   /**
    *
+   * @param {string} id
+   * @param {TransferDTOType} [type]
+   * @param {Date} [dateFrom]
+   * @param {Date} [dateTo]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof BudgetApiInterface
+   * @memberof TransferApiInterface
    */
-  getBudgets(options?: RawAxiosRequestConfig): AxiosPromise<Array<BudgetDTO>>;
+  getTransfers(
+    id: string,
+    type?: TransferDTOType,
+    dateFrom?: Date,
+    dateTo?: Date,
+    options?: RawAxiosRequestConfig
+  ): AxiosPromise<TransfersQueryResponse>;
 
   /**
    *
+   * @param {string} id
+   * @param {string} transferId
+   * @param {UpdateTransferRequest} updateTransferRequest
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof BudgetApiInterface
+   * @memberof TransferApiInterface
    */
-  getBudgets_2(options?: RawAxiosRequestConfig): AxiosPromise<Array<BudgetDTO>>;
+  updateTransfer(
+    id: string,
+    transferId: string,
+    updateTransferRequest: UpdateTransferRequest,
+    options?: RawAxiosRequestConfig
+  ): AxiosPromise<void>;
 }
 
 /**
- * BudgetApi - object-oriented interface
+ * TransferApi - object-oriented interface
  * @export
- * @class BudgetApi
+ * @class TransferApi
  * @extends {BaseAPI}
  */
-export class BudgetApi extends BaseAPI implements BudgetApiInterface {
+export class TransferApi extends BaseAPI implements TransferApiInterface {
   /**
    *
-   * @param {CreateBudgetRequest} createBudgetRequest
+   * @param {string} id
+   * @param {CreateTransferRequest} createTransferRequest
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof BudgetApi
+   * @memberof TransferApi
    */
-  public createBudget(
-    createBudgetRequest: CreateBudgetRequest,
+  public addTransfer(
+    id: string,
+    createTransferRequest: CreateTransferRequest,
     options?: RawAxiosRequestConfig
   ) {
-    return BudgetApiFp(this.configuration)
-      .createBudget(createBudgetRequest, options)
+    return TransferApiFp(this.configuration)
+      .addTransfer(id, createTransferRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
   /**
    *
    * @param {string} id
+   * @param {string} transferId
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof BudgetApi
+   * @memberof TransferApi
    */
-  public getBudget(id: string, options?: RawAxiosRequestConfig) {
-    return BudgetApiFp(this.configuration)
-      .getBudget(id, options)
+  public deleteTransfer(
+    id: string,
+    transferId: string,
+    options?: RawAxiosRequestConfig
+  ) {
+    return TransferApiFp(this.configuration)
+      .deleteTransfer(id, transferId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
   /**
    *
    * @param {string} id
+   * @param {string} transferId
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof BudgetApi
+   * @memberof TransferApi
    */
-  public getBudget_1(id: string, options?: RawAxiosRequestConfig) {
-    return BudgetApiFp(this.configuration)
-      .getBudget_1(id, options)
+  public getTransfer(
+    id: string,
+    transferId: string,
+    options?: RawAxiosRequestConfig
+  ) {
+    return TransferApiFp(this.configuration)
+      .getTransfer(id, transferId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
   /**
    *
+   * @param {string} id
+   * @param {TransferDTOType} [type]
+   * @param {Date} [dateFrom]
+   * @param {Date} [dateTo]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof BudgetApi
+   * @memberof TransferApi
    */
-  public getBudgets(options?: RawAxiosRequestConfig) {
-    return BudgetApiFp(this.configuration)
-      .getBudgets(options)
+  public getTransfers(
+    id: string,
+    type?: TransferDTOType,
+    dateFrom?: Date,
+    dateTo?: Date,
+    options?: RawAxiosRequestConfig
+  ) {
+    return TransferApiFp(this.configuration)
+      .getTransfers(id, type, dateFrom, dateTo, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
   /**
    *
+   * @param {string} id
+   * @param {string} transferId
+   * @param {UpdateTransferRequest} updateTransferRequest
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof BudgetApi
+   * @memberof TransferApi
    */
-  public getBudgets_2(options?: RawAxiosRequestConfig) {
-    return BudgetApiFp(this.configuration)
-      .getBudgets_2(options)
+  public updateTransfer(
+    id: string,
+    transferId: string,
+    updateTransferRequest: UpdateTransferRequest,
+    options?: RawAxiosRequestConfig
+  ) {
+    return TransferApiFp(this.configuration)
+      .updateTransfer(id, transferId, updateTransferRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }

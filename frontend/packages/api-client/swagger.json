@@ -39,6 +39,7 @@
       },
       "get": {
         "tags": [
+          "budget",
           "budget"
         ],
         "operationId": "GetBudgets",
@@ -72,6 +73,7 @@
     "/budget/{id}": {
       "get": {
         "tags": [
+          "budget",
           "budget"
         ],
         "operationId": "GetBudget",
@@ -131,10 +133,80 @@
         }
       }
     },
+    "/budget/{id}/totals": {
+      "get": {
+        "tags": [
+          "budget-statistics"
+        ],
+        "operationId": "GetBudgetTotals",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "month",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BudgetTotals"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/budget/{id}/category": {
       "post": {
         "tags": [
-          "budget"
+          "category"
         ],
         "operationId": "CreateBudgetCategory",
         "parameters": [
@@ -199,7 +271,7 @@
     "/budget/{id}/category/{name}/archive": {
       "put": {
         "tags": [
-          "budget"
+          "category"
         ],
         "operationId": "ArchiveBudgetCategory",
         "parameters": [
@@ -263,7 +335,7 @@
     "/budget/{id}/transfer": {
       "post": {
         "tags": [
-          "budget"
+          "transfer"
         ],
         "operationId": "AddTransfer",
         "parameters": [
@@ -326,7 +398,7 @@
       },
       "get": {
         "tags": [
-          "budget"
+          "transfer"
         ],
         "operationId": "GetTransfers",
         "parameters": [
@@ -404,7 +476,7 @@
     "/budget/{id}/transfer/{transferId}": {
       "delete": {
         "tags": [
-          "budget"
+          "transfer"
         ],
         "operationId": "DeleteTransfer",
         "parameters": [
@@ -457,7 +529,7 @@
       },
       "put": {
         "tags": [
-          "budget"
+          "transfer"
         ],
         "operationId": "UpdateTransfer",
         "parameters": [
@@ -530,7 +602,7 @@
       },
       "get": {
         "tags": [
-          "budget"
+          "transfer"
         ],
         "operationId": "GetTransfer",
         "parameters": [
@@ -623,6 +695,20 @@
           "Closed"
         ],
         "type": "string"
+      },
+      "BudgetTotals": {
+        "type": "object",
+        "properties": {
+          "incomes": {
+            "type": "number",
+            "format": "double"
+          },
+          "expenses": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
       },
       "CategoryDTO": {
         "type": "object",

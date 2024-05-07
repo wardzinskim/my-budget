@@ -5,7 +5,7 @@ import {
   Params,
   redirect,
 } from 'react-router-dom';
-import { budgetApi } from '../../../configuration/api';
+import { transferApi } from '../../../configuration/api';
 import { IUserContextState } from '../../../hooks/user-context';
 import { enqueueSnackbar } from 'notistack';
 import { AxiosError } from 'axios';
@@ -25,7 +25,7 @@ export const action: (context: IUserContextState) => ActionFunction =
     if (!context.budget) throw new Error('budget context is not selected');
 
     const form = (await request.json()) as UpdateTransferRequest;
-    return await budgetApi
+    return await transferApi
       .updateTransfer(context.budget.id!, params.id!, form)
       .then(() => {
         enqueueSnackbar({

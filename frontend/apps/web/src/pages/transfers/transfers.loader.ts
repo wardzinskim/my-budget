@@ -1,5 +1,5 @@
 import { LoaderFunction } from 'react-router-dom';
-import { budgetApi } from '../../configuration/api';
+import { transferApi } from '../../configuration/api';
 import { IUserContextState } from '../../hooks/user-context';
 import { TransferDTOType } from '@repo/api-client';
 
@@ -8,7 +8,7 @@ export const loader: (context: IUserContextState) => LoaderFunction =
   async ({ request }) => {
     const searchParams = new URL(request.url).searchParams;
 
-    const result = await budgetApi.getTransfers(
+    const result = await transferApi.getTransfers(
       context.budget!.id!,
       searchParams.get('type') as TransferDTOType | undefined,
       searchParams.get('dateFrom')

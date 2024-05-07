@@ -5,7 +5,7 @@ import {
   Params,
 } from 'react-router-dom';
 import { IUserContextState } from '../../../hooks/user-context';
-import { budgetApi } from '../../../configuration/api';
+import { transferApi } from '../../../configuration/api';
 import { Paths } from '../../../routes/router';
 
 interface TransferEditLoaderArgs extends ActionFunctionArgs {
@@ -17,6 +17,9 @@ export const loader: (context: IUserContextState) => LoaderFunction =
   async ({ params }: TransferEditLoaderArgs) => {
     if (!context.budget) return null;
 
-    const result = await budgetApi.getTransfer(context.budget.id!, params.id!);
+    const result = await transferApi.getTransfer(
+      context.budget.id!,
+      params.id!
+    );
     return result.data;
   };
