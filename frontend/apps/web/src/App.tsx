@@ -6,11 +6,20 @@ import { useState } from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 import { enGB } from 'date-fns/locale';
+import {
+  DashboardContext,
+  IDashboardContextState,
+} from './components/dashboard/hooks/dashboard-context';
 
 function App() {
   const [userContextState, setUserContextState] = useState<IUserContextState>(
     {}
   );
+  const [dashboardContextState, setDashboardContextState] =
+    useState<IDashboardContextState>({
+      year: new Date().getFullYear(),
+      month: new Date().getMonth() + 1,
+    });
 
   return (
     <ThemeProvider>
@@ -22,7 +31,14 @@ function App() {
               setUserContext: setUserContextState,
             }}
           >
-            <Router></Router>
+            <DashboardContext.Provider
+              value={{
+                dashboardContext: dashboardContextState,
+                setDashboardContext: setDashboardContextState,
+              }}
+            >
+              <Router></Router>
+            </DashboardContext.Provider>
           </UserContext.Provider>
         </AlertDialogProvider>
       </LocalizationProvider>

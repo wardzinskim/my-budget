@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { DashboardView } from '../components/dashboard/view/dashboard-view';
+import { DashboardView } from '../../components/dashboard/view/dashboard-view';
 
 // ----------------------------------------------------------------------
 

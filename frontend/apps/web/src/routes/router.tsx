@@ -12,12 +12,14 @@ import { BudgetContextPicker } from '../components/budgets/budget-context-picker
 import { loader as transfersPageLoader } from '../pages/transfers/transfers.loader';
 import { loader as transferEditPageLoader } from '../pages/transfers/edit/transfer-edit.loader';
 import { action as transferEditPageAction } from '../pages/transfers/edit/transfer-edit.action';
+import { loader as dashboardPageLoader } from '../pages/dashboard/dashboard.loader';
 import { Stack } from '@mui/material';
 import { useUserContext } from '../hooks/user-context';
 import { TransferErrorPage } from '../pages/transfers/transfers-error';
 import { TransferDTOType } from '@repo/api-client';
+import { useDashboardContext } from '../components/dashboard/hooks/dashboard-context';
 
-export const DashboardPage = lazy(() => import('../pages/dashboard'));
+export const DashboardPage = lazy(() => import('../pages/dashboard/dashboard'));
 export const BudgetsPage = lazy(() => import('../pages/budgets/budgets'));
 export const BudgetNewPage = lazy(
   () => import('../pages/budgets/new/budget-new')
@@ -44,6 +46,7 @@ export const Paths = {
 
 export default function Router() {
   const [userContext] = useUserContext();
+  const [dashboardContext] = useDashboardContext();
 
   const router = createBrowserRouter([
     {
@@ -62,7 +65,11 @@ export default function Router() {
         </Layout>
       ),
       children: [
-        { element: <DashboardPage />, index: true },
+        {
+          element: <DashboardPage />,
+          index: true,
+          loader: dashboardPageLoader(userContext, dashboardContext),
+        },
         {
           id: 'budget-list',
           path: '/budgets',

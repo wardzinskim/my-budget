@@ -1,5 +1,6 @@
 import {
   BudgetApi,
+  BudgetStatisticsApi,
   CategoryApi,
   Configuration,
   TransferApi,
@@ -12,3 +13,4 @@ const configuration = new Configuration({
 export const budgetApi = new BudgetApi(configuration);
 export const transferApi = new TransferApi(configuration);
 export const categoryApi = new CategoryApi(configuration);
+export const statisticsApi = new BudgetStatisticsApi(configuration);
