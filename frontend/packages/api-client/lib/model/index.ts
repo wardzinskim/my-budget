@@ -3,6 +3,7 @@ export * from './budget-dtostatus';
 export * from './budget-totals';
 export * from './category-dto';
 export * from './category-dtostatus';
+export * from './category-value';
 export * from './create-budget-category-request';
 export * from './create-budget-request';
 export * from './create-transfer-request';
