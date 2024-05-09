@@ -1,25 +1,37 @@
 ﻿using Carter;
-using Carter.OpenApi;
 using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
 using MyBudget.Api.Extensions;
 using MyBudget.Application.Budgets.GetBudgetTotals;
+using MyBudget.Application.Budgets.GetBudgetTransfersTotalsGroupedByCategory;
+using MyBudget.Application.Budgets.Model;
 
 namespace MyBudget.Api.Features.Core;
 
-public class BudgetStatisticsModule : ICarterModule
+public class BudgetStatisticsModule : CarterModule
 {
-    public void AddRoutes(IEndpointRouteBuilder app)
+    public BudgetStatisticsModule() : base("/budget/{id:guid}")
     {
-        app.MapGet("/budget/{id:guid}/totals", GetBudgetTotals)
+        WithTags("budget-statistics");
+        IncludeInOpenApi();
+    }
+
+    public override void AddRoutes(IEndpointRouteBuilder app)
+    {
+        app.MapGet("totals", GetBudgetTotals)
             .WithName(nameof(GetBudgetTotals))
-            .WithTags("budget-statistics")
             .Produces(StatusCodes.Status200OK, typeof(BudgetTotals))
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status403Forbidden)
-            .WithOpenApi()
-            .IncludeInOpenApi();
+            .WithOpenApi();
+
+        app.MapGet("/totals/grouped-by-category", GetBudgetTransfersTotalsGropedByCategory)
+            .WithName(nameof(GetBudgetTransfersTotalsGropedByCategory))
+            .Produces(StatusCodes.Status200OK, typeof(CategoryValue[]))
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status403Forbidden)
+            .WithOpenApi();
     }
 
 
@@ -33,6 +45,21 @@ public class BudgetStatisticsModule : ICarterModule
     {
         var result = await mediator.SendRequest(
             new GetBudgetTotalsQuery(id, year, month), cancellationToken);
+
+        return result.Match((x) => Results.Ok(x));
+    }
+
+    private static async Task<IResult> GetBudgetTransfersTotalsGropedByCategory(
+        IMediator mediator,
+        [FromRoute] Guid id,
+        [FromQuery] TransferDTOType type,
+        [FromQuery] int? year,
+        [FromQuery] int? month,
+        CancellationToken cancellationToken
+    )
+    {
+        var result = await mediator.SendRequest(
+            new GetBudgetTransfersTotalsGroupedByCategoryQuery(id, type, year, month), cancellationToken);
 
         return result.Match((x) => Results.Ok(x));
     }
