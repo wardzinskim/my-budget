@@ -1,9 +1,10 @@
-import { Button, Card, Container, Stack, Typography } from '@mui/material';
+import { Box, Button, Card, Container, Stack, Typography } from '@mui/material';
 import { Helmet } from 'react-helmet-async';
 import { MinimalTable } from '../../lib/components/table';
 import { ColumnDefinition } from '../../lib/components/table/table-head';
 import { Iconify } from '../../lib/components';
 import { NavigationBar } from '../../lib/components/navigation-bar/navigation-bar';
+import { Chart, useChart } from '../../lib/components/chart';
 
 // ----------------------------------------------------------------------
 
@@ -107,6 +108,62 @@ const users: User[] = [
 ];
 
 export default function AppPage() {
+  const series = [
+    {
+      name: 'Team A',
+      type: 'column',
+      fill: 'solid',
+      data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
+    },
+    {
+      name: 'Team B',
+      type: 'area',
+      fill: 'gradient',
+      data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
+    },
+  ];
+
+  const chartOptions = useChart({
+    // colors,
+    plotOptions: {
+      bar: {
+        columnWidth: '16%',
+      },
+    },
+    fill: {
+      type: series.map((i) => i.fill),
+    },
+    labels: [
+      '01/01/2003',
+      '02/01/2003',
+      '03/01/2003',
+      '04/01/2003',
+      '05/01/2003',
+      '06/01/2003',
+      '07/01/2003',
+      '08/01/2003',
+      '09/01/2003',
+      '10/01/2003',
+      '11/01/2003',
+    ],
+    xaxis: {
+      type: 'datetime',
+    },
+    tooltip: {
+      shared: true,
+      intersect: false,
+      y: {
+        formatter: (value) => {
+          if (typeof value !== 'undefined') {
+            return `${value.toFixed(0)} visits`;
+          }
+          return value;
+        },
+      },
+    },
+    // ...options,
+  });
+
   return (
     <>
       <Helmet>
@@ -160,6 +217,17 @@ export default function AppPage() {
               acceptButtonLabel: 'Delete',
             }}
           ></AlertDialog> */}
+
+          <Box sx={{ p: 3, pb: 1 }}>
+            <Chart
+              dir="ltr"
+              type="line"
+              series={series}
+              options={chartOptions}
+              width="100%"
+              height={364}
+            />
+          </Box>
         </Card>
       </Container>
     </>

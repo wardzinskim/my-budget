@@ -37,6 +37,8 @@ export default defineConfig({
         'simplebar-react',
         'date-fns',
         '@iconify/react',
+        'react-apexcharts',
+        'lodash'
       ],
       input: Object.fromEntries(
         glob.sync('lib/**/*.{ts,tsx}').map((file) => [
