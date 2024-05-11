@@ -21,7 +21,7 @@ export const loader: (
       dashboardContext.year,
       dashboardContext.month
     ),
-    fetchIncomesTotalsGroupedByCategory(
+    fetchExpensesTotalsGroupedByCategory(
       userContext.budget.id!,
       dashboardContext.year,
       dashboardContext.month
@@ -36,14 +36,14 @@ const fetchTotals = async (budgetId: string, year?: number, month?: number) => {
   return response.data;
 };
 
-const fetchIncomesTotalsGroupedByCategory = async (
+const fetchExpensesTotalsGroupedByCategory = async (
   budgetId: string,
   year?: number,
   month?: number
 ) => {
   const response = await statisticsApi.getBudgetTransfersTotalsGropedByCategory(
     budgetId,
-    TransferDTOType.Income,
+    TransferDTOType.Expense,
     year,
     month
   );

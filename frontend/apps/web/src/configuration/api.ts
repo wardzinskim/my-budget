@@ -7,7 +7,7 @@ import {
 } from '@repo/api-client';
 
 const configuration = new Configuration({
-  basePath: 'https://localhost:51348',
+  basePath: 'https://localhost:58030',
 });
 
 export const budgetApi = new BudgetApi(configuration);

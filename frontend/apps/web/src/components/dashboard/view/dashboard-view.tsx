@@ -4,6 +4,7 @@ import { TotalsViewer } from '../widgets/totals-viewer';
 import { TransferDTOType } from '@repo/api-client';
 import { useLoaderData } from 'react-router-dom';
 import { DashboardLoaderResult } from '../../../pages/dashboard/dashboard.loader';
+import { ExpensesByCategoryViewer } from '../widgets/expenses-by-category-viewer';
 
 export const DashboardView: React.FC = () => {
   const loaderData = useLoaderData() as DashboardLoaderResult;
@@ -28,6 +29,12 @@ export const DashboardView: React.FC = () => {
           <TotalsViewer
             type={TransferDTOType.Expense}
             value={loaderData.totals.expenses!}
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <ExpensesByCategoryViewer
+            categories={loaderData.incomesGroupedByCategory}
           />
         </Grid>
       </Grid>
