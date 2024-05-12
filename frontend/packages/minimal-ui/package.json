@@ -27,7 +27,8 @@
     "@iconify/react": "^4.1.1",
     "date-fns": "^3.6.0",
     "notistack": "^3.0.1",
-    "react-apexcharts": "^1.4.1"
+    "react-apexcharts": "^1.4.1",
+    "numeral": "^2.0.6"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
@@ -41,6 +42,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
     "typescript": "^5.4.3",
-    "vite": "^5.2.7"
+    "vite": "^5.2.7",
+    "@types/numeral": "^2.0.5"
   }
 }

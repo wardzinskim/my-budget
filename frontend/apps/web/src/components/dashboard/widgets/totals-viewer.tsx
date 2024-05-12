@@ -1,6 +1,6 @@
 import { Box, Stack, Typography } from '@mui/material';
 import { TransferDTOType } from '@repo/api-client';
-import { Iconify } from '@repo/minimal-ui';
+import { Iconify, fCurrency } from '@repo/minimal-ui';
 
 interface TotalsViewerProps {
   type: TransferDTOType;
@@ -49,7 +49,9 @@ export const TotalsViewer: React.FC<TotalsViewerProps> = ({ type, value }) => {
         ></Box>
 
         <Typography variant="subtitle2">{type}</Typography>
-        <Typography variant="h3">{value.toFixed(2)} PLN</Typography>
+        <Typography variant="h3">
+          {value == 0 ? 0 : fCurrency(value)} PLN
+        </Typography>
       </Stack>
     </Stack>
   );

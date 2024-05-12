@@ -38,7 +38,8 @@ export default defineConfig({
         'date-fns',
         '@iconify/react',
         'react-apexcharts',
-        'lodash'
+        'lodash',
+        'numeral',
       ],
       input: Object.fromEntries(
         glob.sync('lib/**/*.{ts,tsx}').map((file) => [

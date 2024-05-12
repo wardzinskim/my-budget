@@ -1,14 +1,15 @@
 import { Box, Card, CardHeader } from '@mui/material';
 import { CategoryValue } from '@repo/api-client';
+import { fCurrency } from '@repo/minimal-ui';
 import { Chart, useChart } from '@repo/minimal-ui';
 import _ from 'lodash';
 
-interface ExpensesByCategoryViewerProps {
+interface ExpensesByCategoryBarChartProps {
   categories: CategoryValue[];
 }
 
-export const ExpensesByCategoryViewer: React.FC<
-  ExpensesByCategoryViewerProps
+export const ExpensesByCategoryBarChart: React.FC<
+  ExpensesByCategoryBarChartProps
 > = ({ categories }) => {
   const chartOptions = useChart({
     plotOptions: {
@@ -23,7 +24,7 @@ export const ExpensesByCategoryViewer: React.FC<
     },
     dataLabels: {
       enabled: true,
-      formatter: (val) => `${val.toString()} PLN`,
+      formatter: (val) => `${fCurrency(val)} PLN`,
       offsetY: -20,
       style: {
         fontSize: '12px',
@@ -48,7 +49,7 @@ export const ExpensesByCategoryViewer: React.FC<
     },
     tooltip: {
       y: {
-        formatter: (val) => `${val} PLN`,
+        formatter: (val) => `${fCurrency(val)} PLN`,
       },
     },
   });

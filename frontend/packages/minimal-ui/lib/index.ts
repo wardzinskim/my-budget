@@ -4,3 +4,4 @@ export { type NavItem } from './layouts/nav';
 export * from './components';
 export * from './routes/components';
 export * from './utils/format-time';
+export * from './utils/format-number';

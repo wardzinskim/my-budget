@@ -4,7 +4,10 @@ import { TotalsViewer } from '../widgets/totals-viewer';
 import { TransferDTOType } from '@repo/api-client';
 import { useLoaderData } from 'react-router-dom';
 import { DashboardLoaderResult } from '../../../pages/dashboard/dashboard.loader';
-import { ExpensesByCategoryViewer } from '../widgets/expenses-by-category-viewer';
+import { ExpensesByCategoryBarChart } from '../widgets/expenses-by-category-bar-chart';
+import { ExpensesByCategoryPieChart } from '../widgets/expenses-by-category-pie-chart';
+import { BalanceViewer } from '../widgets/balance-viewer';
+import { ExpensesToIncomesRatio } from '../widgets/expenses-to-incomes-ratio';
 
 export const DashboardView: React.FC = () => {
   const loaderData = useLoaderData() as DashboardLoaderResult;
@@ -19,21 +22,45 @@ export const DashboardView: React.FC = () => {
       <DashboardContextPicker />
 
       <Grid container paddingTop={2} spacing={3}>
-        <Grid item xs={6}>
-          <TotalsViewer
-            type={TransferDTOType.Income}
-            value={loaderData.totals.incomes!}
+        <Grid container item xs={4} alignSelf="flex-start" spacing={3}>
+          <Grid item xs={12}>
+            <TotalsViewer
+              type={TransferDTOType.Income}
+              value={loaderData.totals.incomes ?? 0}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TotalsViewer
+              type={TransferDTOType.Expense}
+              value={loaderData.totals.expenses ?? 0}
+            />
+          </Grid>
+        </Grid>
+
+        <Grid item xs={4}>
+          <BalanceViewer
+            value={
+              (loaderData.totals.incomes ?? 0) -
+              (loaderData.totals.expenses ?? 0)
+            }
           />
         </Grid>
-        <Grid item xs={6}>
-          <TotalsViewer
-            type={TransferDTOType.Expense}
-            value={loaderData.totals.expenses!}
+
+        <Grid item xs={4}>
+          <ExpensesToIncomesRatio
+            expenses={loaderData.totals.expenses ?? 0}
+            incomes={loaderData.totals.incomes ?? 0}
           />
         </Grid>
 
         <Grid item xs={12}>
-          <ExpensesByCategoryViewer
+          <ExpensesByCategoryBarChart
+            categories={loaderData.incomesGroupedByCategory}
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <ExpensesByCategoryPieChart
             categories={loaderData.incomesGroupedByCategory}
           />
         </Grid>
