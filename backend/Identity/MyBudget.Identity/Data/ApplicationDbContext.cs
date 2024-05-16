@@ -8,4 +8,10 @@ public class ApplicationDbContext : IdentityDbContext
         : base(options)
     {
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.HasDefaultSchema("identity");
+        base.OnModelCreating(modelBuilder);
+    }
 }
