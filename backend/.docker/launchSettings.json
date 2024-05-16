@@ -7,7 +7,10 @@
       "composeLaunchServiceName": "mybudget.api",
       "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}/swagger",
       "serviceActions": {
-        "mybudget.api": "StartDebugging"
+        "mybudget.api": "StartDebugging",
+        "mybudget.identity": "StartDebugging",
+        "mysql": "StartWithoutDebugging",
+        "seq": "StartWithoutDebugging"
       }
     }
   }

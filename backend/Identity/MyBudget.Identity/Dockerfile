@@ -4,11 +4,13 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
 EXPOSE 8080
+EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Identity/MyBudget.Identity/MyBudget.Identity.csproj", "Identity/MyBudget.Identity/"]
+COPY ["MyBudget.Infrastructure.Abstractions/MyBudget.Infrastructure.Abstractions.csproj", "MyBudget.Infrastructure.Abstractions/"]
 RUN dotnet restore "./Identity/MyBudget.Identity/./MyBudget.Identity.csproj"
 COPY . .
 WORKDIR "/src/Identity/MyBudget.Identity"

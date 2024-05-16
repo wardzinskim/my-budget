@@ -7,6 +7,12 @@ services:
       context: ../
       dockerfile: MyBudget.Api/Dockerfile
 
+  mybudget.identity:
+    image: ${DOCKER_REGISTRY-}mybudgetidentity
+    build:
+      context: ..
+      dockerfile: Identity/MyBudget.Identity/Dockerfile
+
   seq:
     image: datalust/seq:latest
     ports:
@@ -27,6 +33,8 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+
 
 volumes:
   seq-data:
