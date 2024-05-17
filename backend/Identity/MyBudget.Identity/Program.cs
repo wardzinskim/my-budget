@@ -21,6 +21,8 @@ public class Program
         builder.Services.AddCors();
         builder.Services.AddAuthorization();
         builder.Services.AddRazorPages();
+        builder.Services.AddHostedService<Worker>();
+
 
         var app = builder.Build();
 
@@ -38,7 +40,10 @@ public class Program
         }
         app.UseStaticFiles();
         app.UseRouting();
+
         app.UseAuthorization();
+        app.UseAuthentication();
+
         app.MapRazorPages();
         app.Use(typeof(Program).Assembly);
         app.Run();

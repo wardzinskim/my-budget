@@ -12,8 +12,23 @@ public class OpenIddictInstaller : IInstaller
             {
                 options
                     .UseEntityFrameworkCore()
-                    .UseDbContext<ApplicationDbContext>()
-                    .ReplaceDefaultEntities<Guid>();
+                    .UseDbContext<ApplicationDbContext>();
+            })
+            .AddServer(options =>
+            {
+                options
+                    .SetAuthorizationEndpointUris("authorize")
+                    .SetTokenEndpointUris("token")
+                    .AllowAuthorizationCodeFlow();
+
+                options
+                    .AddDevelopmentEncryptionCertificate()
+                    .AddDevelopmentSigningCertificate();
+
+                options
+                    .UseAspNetCore()
+                    .EnableAuthorizationEndpointPassthrough()
+                    .EnableTokenEndpointPassthrough();
             });
     }
 }
