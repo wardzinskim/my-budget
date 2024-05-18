@@ -4,6 +4,8 @@ import App from './App.tsx';
 import './index.css';
 import { HelmetProvider } from 'react-helmet-async';
 import { SnackbarProvider } from 'notistack';
+import { AuthProvider } from 'react-oidc-context';
+import { oidcConfig } from './config.ts';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -18,7 +20,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             horizontal: 'right',
           }}
         >
-          <App />
+          <AuthProvider {...oidcConfig}>
+            <App />
+          </AuthProvider>
         </SnackbarProvider>
       </Suspense>
     </HelmetProvider>
