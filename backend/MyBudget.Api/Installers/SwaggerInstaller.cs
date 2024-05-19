@@ -1,7 +1,7 @@
 ﻿using Carter.OpenApi;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
-using MyBudget.Infrastructure.Abstraction.Installer;
+using MyBudget.Infrastructure.Abstractions.Installer;
 using System.Reflection;
 using System.Text.Json.Serialization;
 

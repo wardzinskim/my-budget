@@ -1,5 +1,6 @@
 ﻿using MyBudget.Identity.Data;
-using MyBudget.Infrastructure.Abstraction.Installer;
+using MyBudget.Infrastructure.Abstractions.Installer;
+using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace MyBudget.Identity.Installers;
 
@@ -19,7 +20,13 @@ public class OpenIddictInstaller : IInstaller
                 options
                     .SetAuthorizationEndpointUris("authorize")
                     .SetTokenEndpointUris("token")
+                    .SetLogoutEndpointUris("logout");
+
+                options
                     .AllowAuthorizationCodeFlow();
+
+                options
+                    .RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles);
 
                 options
                     .AddDevelopmentEncryptionCertificate()
@@ -28,7 +35,13 @@ public class OpenIddictInstaller : IInstaller
                 options
                     .UseAspNetCore()
                     .EnableAuthorizationEndpointPassthrough()
-                    .EnableTokenEndpointPassthrough();
+                    .EnableTokenEndpointPassthrough()
+                    .EnableLogoutEndpointPassthrough();
+            })
+            .AddValidation(options =>
+            {
+                options.UseLocalServer();
+                options.UseAspNetCore();
             });
     }
 }

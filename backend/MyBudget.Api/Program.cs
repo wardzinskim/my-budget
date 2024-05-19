@@ -1,4 +1,4 @@
-using MyBudget.Infrastructure.Abstraction.Installer;
+using MyBudget.Infrastructure.Abstractions.Installer;
 using MyBudget.Infrastructure.Installers;
 using Serilog;
 

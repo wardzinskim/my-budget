@@ -2,8 +2,8 @@
 using MassTransit.Internals;
 using MyBudget.Api.Installers.MediatorFilters;
 using MyBudget.Application.Budgets.CreateBudget;
-using MyBudget.Infrastructure.Abstraction.Installer;
 using MyBudget.Infrastructure.Abstractions.Features;
+using MyBudget.Infrastructure.Abstractions.Installer;
 using MyBudget.Infrastructure.Application.Budgets;
 using MyBudget.SharedKernel;
 

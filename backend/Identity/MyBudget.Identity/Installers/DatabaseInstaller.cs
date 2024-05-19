@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyBudget.Identity.Data;
-using MyBudget.Infrastructure.Abstraction.Installer;
+using MyBudget.Infrastructure.Abstractions.Installer;
 
 namespace MyBudget.Identity.Installers;
 

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyBudget.Domain.Budgets;
-using MyBudget.Infrastructure.Abstraction.Installer;
+using MyBudget.Infrastructure.Abstractions.Installer;
 using MyBudget.Infrastructure.Domain.Budgets;
 
 namespace MyBudget.Infrastructure.Installers;

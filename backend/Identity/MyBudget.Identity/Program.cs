@@ -1,7 +1,8 @@
-using MyBudget.Infrastructure.Abstraction.Installer;
+using MyBudget.Infrastructure.Abstractions.Installer;
 using Serilog;
 
 namespace MyBudget.Identity;
+
 public class Program
 {
     public static void Main(string[] args)
@@ -12,20 +13,13 @@ public class Program
             configuration.ReadFrom.Configuration(builder.Configuration);
         });
         builder
-           .Install(typeof(Program).Assembly);
-
+            .Install(typeof(Program).Assembly);
 
         // Add services to the container.
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-        builder.Services.AddCors();
-        builder.Services.AddAuthorization();
-        builder.Services.AddRazorPages();
         builder.Services.AddHostedService<Worker>();
 
-
         var app = builder.Build();
-
         app.UseSerilogRequestLogging();
         app.UseHttpsRedirection();
 
@@ -38,13 +32,7 @@ public class Program
         {
             app.UseExceptionHandler("/Error");
         }
-        app.UseStaticFiles();
-        app.UseRouting();
 
-        app.UseAuthorization();
-        app.UseAuthentication();
-
-        app.MapRazorPages();
         app.Use(typeof(Program).Assembly);
         app.Run();
     }

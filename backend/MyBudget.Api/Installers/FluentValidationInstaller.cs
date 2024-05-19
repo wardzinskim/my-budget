@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Internal;
 using MyBudget.Application.Budgets.CreateBudget;
-using MyBudget.Infrastructure.Abstraction.Installer;
+using MyBudget.Infrastructure.Abstractions.Installer;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;

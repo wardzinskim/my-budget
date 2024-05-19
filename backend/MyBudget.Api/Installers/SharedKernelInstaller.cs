@@ -1,5 +1,5 @@
 ﻿using MyBudget.Api.SharedKernel;
-using MyBudget.Infrastructure.Abstraction.Installer;
+using MyBudget.Infrastructure.Abstractions.Installer;
 using MyBudget.SharedKernel;
 
 namespace MyBudget.Api.Installers;

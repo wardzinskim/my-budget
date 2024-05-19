@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
 
-namespace MyBudget.Infrastructure.Abstraction.Installer;
+namespace MyBudget.Infrastructure.Abstractions.Installer;
 
 public static class InstallerExtensions
 {
