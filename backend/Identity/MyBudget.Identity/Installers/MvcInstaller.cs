@@ -7,7 +7,17 @@ public class MvcInstaller : IInstaller
     public void Install(IServiceCollection services, IConfiguration configuration, IHostEnvironment hostingEnvironment)
     {
         services.AddAuthorization();
-        services.AddCors();
+        //TODO: for dev purpose only
+        services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(policy =>
+            {
+                policy
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            });
+        });
         services.AddControllersWithViews();
         services.AddRazorPages();
     }
@@ -16,6 +26,7 @@ public class MvcInstaller : IInstaller
     {
         app.UseStaticFiles();
         app.UseRouting();
+        app.UseCors();
 
         app.UseAuthentication();
         app.UseAuthorization();

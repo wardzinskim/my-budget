@@ -20,7 +20,8 @@ public class OpenIddictInstaller : IInstaller
                 options
                     .SetAuthorizationEndpointUris("authorize")
                     .SetTokenEndpointUris("token")
-                    .SetLogoutEndpointUris("logout");
+                    .SetLogoutEndpointUris("logout")
+                    .SetUserinfoEndpointUris("userinfo");
 
                 options
                     .AllowAuthorizationCodeFlow();
@@ -36,7 +37,8 @@ public class OpenIddictInstaller : IInstaller
                     .UseAspNetCore()
                     .EnableAuthorizationEndpointPassthrough()
                     .EnableTokenEndpointPassthrough()
-                    .EnableLogoutEndpointPassthrough();
+                    .EnableLogoutEndpointPassthrough()
+                    .EnableStatusCodePagesIntegration();
             })
             .AddValidation(options =>
             {

@@ -284,10 +284,7 @@ public class AuthorizationController : Controller
         // the RedirectUri specified in the authentication properties if none was set.
         return SignOut(
             authenticationSchemes: OpenIddictServerAspNetCoreDefaults.AuthenticationScheme,
-            properties: new AuthenticationProperties
-            {
-                RedirectUri = "/"
-            });
+            properties: new AuthenticationProperties {RedirectUri = "/"});
     }
 
     [HttpPost("~/token"), IgnoreAntiforgeryToken, Produces("application/json")]
