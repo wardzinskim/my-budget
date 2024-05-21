@@ -21,13 +21,14 @@ public class OpenIddictInstaller : IInstaller
                     .SetAuthorizationEndpointUris("authorize")
                     .SetTokenEndpointUris("token")
                     .SetLogoutEndpointUris("logout")
-                    .SetUserinfoEndpointUris("userinfo");
+                    .SetUserinfoEndpointUris("userinfo")
+                    .SetIntrospectionEndpointUris("introspect");
 
                 options
                     .AllowAuthorizationCodeFlow();
 
                 options
-                    .RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles);
+                    .RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles, "MyBudget");
 
                 options
                     .AddDevelopmentEncryptionCertificate()

@@ -15,6 +15,7 @@ public class BudgetStatisticsModule : CarterModule
     {
         WithTags("budget-statistics");
         IncludeInOpenApi();
+        RequireAuthorization();
     }
 
     public override void AddRoutes(IEndpointRouteBuilder app)

@@ -14,6 +14,7 @@ public class CategoryModule : CarterModule
     {
         WithTags("category");
         IncludeInOpenApi();
+        RequireAuthorization();
     }
 
     public override void AddRoutes(IEndpointRouteBuilder app)

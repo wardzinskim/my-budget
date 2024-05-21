@@ -32,6 +32,21 @@ public sealed class SwaggerInstaller : IInstaller
 
                 return false;
             });
+
+            // Include 'SecurityScheme' to use JWT Authentication
+            var jwtSecurityScheme = new OpenApiSecurityScheme
+            {
+                BearerFormat = "JWT",
+                Name = "JWT Authentication",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.Http,
+                Scheme = "Bearer",
+                Reference = new OpenApiReference {Id = "Bearer", Type = ReferenceType.SecurityScheme}
+            };
+
+            options.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement {{jwtSecurityScheme, Array.Empty<string>()}});
         });
 
         services.ConfigureHttpJsonOptions(options =>
