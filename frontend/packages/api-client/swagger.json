@@ -82,7 +82,6 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -144,7 +143,6 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -153,7 +151,6 @@
           {
             "name": "year",
             "in": "query",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -162,7 +159,6 @@
           {
             "name": "month",
             "in": "query",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -214,7 +210,6 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -224,7 +219,6 @@
             "name": "type",
             "in": "query",
             "required": true,
-            "style": "form",
             "schema": {
               "$ref": "#/components/schemas/TransferDTOType"
             }
@@ -232,7 +226,6 @@
           {
             "name": "year",
             "in": "query",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -241,7 +234,6 @@
           {
             "name": "month",
             "in": "query",
-            "style": "form",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -296,7 +288,6 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -361,7 +352,6 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -371,7 +361,6 @@
             "name": "name",
             "in": "path",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string"
             }
@@ -425,7 +414,6 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -488,7 +476,6 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -497,7 +484,6 @@
           {
             "name": "type",
             "in": "query",
-            "style": "form",
             "schema": {
               "$ref": "#/components/schemas/TransferDTOType"
             }
@@ -505,7 +491,6 @@
           {
             "name": "dateFrom",
             "in": "query",
-            "style": "form",
             "schema": {
               "type": "string",
               "format": "date-time"
@@ -514,7 +499,6 @@
           {
             "name": "dateTo",
             "in": "query",
-            "style": "form",
             "schema": {
               "type": "string",
               "format": "date-time"
@@ -566,7 +550,6 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -576,7 +559,6 @@
             "name": "transferId",
             "in": "path",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -619,7 +601,6 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -629,7 +610,6 @@
             "name": "transferId",
             "in": "path",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -692,7 +672,6 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -702,7 +681,6 @@
             "name": "transferId",
             "in": "path",
             "required": true,
-            "style": "simple",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -1031,6 +1009,18 @@
         },
         "additionalProperties": false
       }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "Bearer",
+        "bearerFormat": "JWT"
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
 }

@@ -5,9 +5,25 @@ import {
   Configuration,
   TransferApi,
 } from '@repo/api-client';
+import { User } from 'oidc-client-ts';
+import { oidcConfig } from '../config';
+
+function getUser(): User | null {
+  const oidcStorage = localStorage.getItem(
+    `oidc.user:${oidcConfig.authority}:${oidcConfig.client_id}`
+  );
+  if (!oidcStorage) {
+    return null;
+  }
+
+  return User.fromStorageString(oidcStorage);
+}
 
 const configuration = new Configuration({
   basePath: 'https://localhost:48081',
+  accessToken: () => {
+    return getUser()?.access_token ?? '';
+  },
 });
 
 export const budgetApi = new BudgetApi(configuration);

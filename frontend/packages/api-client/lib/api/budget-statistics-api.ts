@@ -89,6 +89,10 @@ export const BudgetStatisticsApiAxiosParamCreator = function (
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      // authentication Bearer required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration);
+
       if (year !== undefined) {
         localVarQueryParameter['year'] = year;
       }
@@ -153,6 +157,10 @@ export const BudgetStatisticsApiAxiosParamCreator = function (
       };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      // authentication Bearer required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration);
 
       if (type !== undefined) {
         localVarQueryParameter['type'] = type;
