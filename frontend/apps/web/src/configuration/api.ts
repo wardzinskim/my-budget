@@ -5,12 +5,14 @@ import {
   Configuration,
   TransferApi,
 } from '@repo/api-client';
-import { User } from 'oidc-client-ts';
+import { OidcClientSettings, User } from 'oidc-client-ts';
 import { oidcConfig } from '../config';
 
 function getUser(): User | null {
+  const clientSettings = oidcConfig as OidcClientSettings;
+
   const oidcStorage = localStorage.getItem(
-    `oidc.user:${oidcConfig.authority}:${oidcConfig.client_id}`
+    `oidc.user:${clientSettings.authority}:${clientSettings.client_id}`
   );
   if (!oidcStorage) {
     return null;

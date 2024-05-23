@@ -8,9 +8,9 @@ import {
   FormHelperText,
   Grid,
   InputLabel,
-  MenuItem,
   Select,
   TextField,
+  MenuItem,
 } from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { RouterLink } from '@repo/minimal-ui';
@@ -152,7 +152,7 @@ export const TransferForm: React.FC<TransferFormProps> = ({
                     formik.touched.category && Boolean(formik.errors.category)
                   }
                 >
-                  <MenuItem value={null}>
+                  <MenuItem value={null!}>
                     <em>None</em>
                   </MenuItem>
                   {userContext.budget?.categories
@@ -160,7 +160,7 @@ export const TransferForm: React.FC<TransferFormProps> = ({
                       (category) => category.status === CategoryDTOStatus.Active
                     )
                     ?.map((category) => (
-                      <MenuItem key={category.name} value={category.name}>
+                      <MenuItem key={category.name} value={category.name!}>
                         {category.name}
                       </MenuItem>
                     ))}
