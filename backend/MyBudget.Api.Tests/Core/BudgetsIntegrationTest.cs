@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using MyBudget.Api.Tests.Mocks;
 using MyBudget.Infrastructure.Database;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
 namespace MyBudget.Api.Tests.Core;
@@ -28,6 +30,9 @@ public abstract class BudgetsIntegrationTest : IDisposable
     {
         _application = application;
         _httpClient = application.CreateClient();
+        _httpClient.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue(scheme: TestAuthHandler.TestAuthScheme);
+
         _scope = application.Services.CreateScope();
         _dbContext = _scope.ServiceProvider.GetRequiredService<BudgetContext>();
     }

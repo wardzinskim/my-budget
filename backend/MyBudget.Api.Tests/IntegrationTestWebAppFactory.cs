@@ -5,25 +5,24 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MyBudget.Api.Tests.Mocks;
 using MyBudget.Infrastructure.Database;
-using MyBudget.SharedKernel;
 using Testcontainers.MySql;
 
 namespace MyBudget.Api.Tests;
+
 public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
     private readonly MySqlContainer _mySqlContainer = new MySqlBuilder()
         .WithImage("mysql:8.3.0")
         .Build();
 
-    private RequestContextMock _requestContextMock = new RequestContextMock();
-
-    public Guid UserId { get => _requestContextMock.UserId; set => _requestContextMock.UserId = value; }
+    public Guid UserId { get; set; } = Guid.Parse("261d2b6e-e53d-4d40-b1ec-234016d8f69b");
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureTestServices(services =>
         {
-            var descriptor = services.SingleOrDefault(service => typeof(DbContextOptions<BudgetContext>) == service.ServiceType);
+            var descriptor =
+                services.SingleOrDefault(service => typeof(DbContextOptions<BudgetContext>) == service.ServiceType);
             if (descriptor is not null)
                 services.Remove(descriptor);
 
@@ -40,8 +39,14 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsy
                     });
             });
 
-            services.AddScoped<IRequestContext>(x => _requestContextMock);
-
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = TestAuthHandler.TestAuthScheme;
+                    options.DefaultChallengeScheme = TestAuthHandler.TestAuthScheme;
+                    options.DefaultScheme = TestAuthHandler.TestAuthScheme;
+                })
+                .AddScheme<TestAuthHandlerOptions, TestAuthHandler>(TestAuthHandler.TestAuthScheme,
+                    options => { options.UserId = () => UserId; });
         });
     }
 
@@ -52,8 +57,6 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsy
         using var scope = Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<BudgetContext>();
         await dbContext.Database.MigrateAsync();
-
-
     }
 
     async Task IAsyncLifetime.DisposeAsync()
