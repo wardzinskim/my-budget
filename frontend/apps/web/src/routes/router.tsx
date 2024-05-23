@@ -1,23 +1,20 @@
-import { Layout } from '@repo/minimal-ui';
-import { lazy, Suspense } from 'react';
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
-import { navigation } from './navigation-config';
+import { lazy } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { loader as budgetPageLoader } from '../pages/budgets/budgets.loader';
 import { action as budgetNewPageAction } from '../pages/budgets/new/budget-new.action';
 import { action as transferNewPageAction } from '../pages/transfers/new/transfer-new.action';
 import { loader as budgetDetailsPageLoader } from '../pages/budgets/details/budget-details.loader';
 import { action as budgetDetailsPageAction } from '../pages/budgets/details/categories/budget-categories.action';
 import { action as transfersPageAction } from '../pages/transfers/transfers.action';
-import { BudgetContextPicker } from '../components/budgets/budget-context-picker';
 import { loader as transfersPageLoader } from '../pages/transfers/transfers.loader';
 import { loader as transferEditPageLoader } from '../pages/transfers/edit/transfer-edit.loader';
 import { action as transferEditPageAction } from '../pages/transfers/edit/transfer-edit.action';
 import { loader as dashboardPageLoader } from '../pages/dashboard/dashboard.loader';
-import { Stack } from '@mui/material';
 import { useUserContext } from '../hooks/user-context';
 import { TransferErrorPage } from '../pages/transfers/transfers-error';
 import { TransferDTOType } from '@repo/api-client';
 import { useDashboardContext } from '../components/dashboard/hooks/dashboard-context';
+import { AppLayout } from '../layout/app-layout';
 
 export const DashboardPage = lazy(() => import('../pages/dashboard/dashboard'));
 export const BudgetsPage = lazy(() => import('../pages/budgets/budgets'));
@@ -50,20 +47,7 @@ export default function Router() {
 
   const router = createBrowserRouter([
     {
-      element: (
-        <Layout
-          navigationItems={navigation}
-          navItemChildren={
-            <Stack spacing={0.5} sx={{ px: 2, paddingBottom: 2 }}>
-              <BudgetContextPicker />
-            </Stack>
-          }
-        >
-          <Suspense>
-            <Outlet />
-          </Suspense>
-        </Layout>
-      ),
+      element: <AppLayout />,
       children: [
         {
           element: <DashboardPage />,

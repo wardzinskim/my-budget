@@ -11,7 +11,6 @@ import { Query, useResponsive } from '../hooks/use-responsive';
 import { usePathname } from '../routes/hooks';
 import { RouterLink } from '../routes/components';
 import { NAV } from './config-layout';
-import { account } from '../_mock/account';
 import { Logo, Scrollbar, SvgColor } from '../components';
 import { isElement } from 'react-dom/test-utils';
 
@@ -24,6 +23,12 @@ const icon = (name: string) => (
   />
 );
 
+export interface Account {
+  displayName?: string;
+  photoUrl?: string;
+  role?: string;
+}
+
 export interface NavItem {
   title: string;
   path: string;
@@ -34,6 +39,7 @@ interface NavProps extends PropsWithChildren {
   items: Array<NavItem>;
   openNav: boolean;
   onCloseNav: () => void;
+  account?: Account;
 }
 
 export const Nav: React.FC<NavProps> = (props) => {
@@ -61,14 +67,18 @@ export const Nav: React.FC<NavProps> = (props) => {
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
       }}
     >
-      <Avatar src={account.photoURL} alt="photoURL" />
+      <Avatar src={props.account?.photoUrl} alt="photoURL" />
 
       <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle2">{account.displayName}</Typography>
-
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {account.role}
+        <Typography variant="subtitle2">
+          {props.account?.displayName}
         </Typography>
+
+        {props.account?.role && (
+          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            {props.account?.role}
+          </Typography>
+        )}
       </Box>
     </Box>
   );
@@ -94,7 +104,7 @@ export const Nav: React.FC<NavProps> = (props) => {
     >
       <Logo sx={{ mt: 3, ml: 4 }} />
 
-      {renderAccount}
+      {props.account && renderAccount}
       {props.children}
       {renderMenu}
     </Scrollbar>

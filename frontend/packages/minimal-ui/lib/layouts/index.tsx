@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import Box from '@mui/material/Box';
 
-import { Nav, NavItem } from './nav';
+import { Account, Nav, NavItem } from './nav';
 import { Main } from './main';
 import { Header } from './header';
 
@@ -11,6 +11,8 @@ import { Header } from './header';
 interface LayoutProps extends React.PropsWithChildren {
   navigationItems: Array<NavItem>;
   navItemChildren?: React.ReactNode;
+  account?: Account;
+  headerRightContent?: React.ReactNode;
 }
 
 export const Layout: React.FC<LayoutProps> = (props) => {
@@ -18,7 +20,10 @@ export const Layout: React.FC<LayoutProps> = (props) => {
 
   return (
     <>
-      <Header onOpenNav={() => setOpenNav(true)} />
+      <Header
+        onOpenNav={() => setOpenNav(true)}
+        rightContent={props.headerRightContent}
+      />
 
       <Box
         sx={{
@@ -28,6 +33,7 @@ export const Layout: React.FC<LayoutProps> = (props) => {
         }}
       >
         <Nav
+          account={props.account}
           openNav={openNav}
           onCloseNav={() => setOpenNav(false)}
           items={props.navigationItems}

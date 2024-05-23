@@ -14,9 +14,10 @@ import { Iconify } from '../components';
 
 interface HeaderProps {
   onOpenNav: () => void;
+  rightContent?: React.ReactNode;
 }
 
-export function Header({ onOpenNav }: HeaderProps) {
+export function Header({ onOpenNav, rightContent }: HeaderProps) {
   const theme = useTheme();
 
   const lgUp = useResponsive(Query.UP, 'lg');
@@ -37,6 +38,7 @@ export function Header({ onOpenNav }: HeaderProps) {
         {/* <LanguagePopover /> */}
         {/* <NotificationsPopover /> */}
         {/* <AccountPopover /> */}
+        {rightContent ?? <></>}
       </Stack>
     </>
   );

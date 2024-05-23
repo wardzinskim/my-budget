@@ -1,6 +1,5 @@
 ﻿using MyBudget.SharedKernel;
 using OpenIddict.Abstractions;
-using System.Security.Claims;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace MyBudget.Api.SharedKernel;

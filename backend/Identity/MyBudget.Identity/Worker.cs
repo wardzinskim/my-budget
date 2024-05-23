@@ -30,7 +30,7 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
             DisplayName = "MyBudget Frontend Application",
             ClientType = ClientTypes.Public,
             ApplicationType = ApplicationTypes.Web,
-            PostLogoutRedirectUris = {new Uri("http://localhost:4000/authentication/logout-callback")},
+            PostLogoutRedirectUris = {new Uri("http://localhost:5173") },
             RedirectUris = {new Uri("http://localhost:5173")},
             Permissions =
             {

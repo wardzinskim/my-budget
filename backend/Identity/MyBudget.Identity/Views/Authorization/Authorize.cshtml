@@ -1,8 +1,4 @@
 ﻿@using Microsoft.Extensions.Primitives
-@model MyBudget.Identity.ViewModels.Authorization.AuthorizeViewModel
-@{
-    Layout = "_Layout";
-}
 
 <div class="jumbotron">
     <h1>Authorization</h1>
@@ -12,12 +8,12 @@
     <form asp-controller="Authorization" asp-action="Authorize" method="post">
         @Html.AntiForgeryToken()
         @* Flow the request parameters so they can be received by the Accept/Reject actions: *@
-        @foreach (var parameter in Context.Request.HasFormContentType ? (IEnumerable<KeyValuePair<string, StringValues>>) Context.Request.Form : Context.Request.Query)
+        @foreach (var parameter in Context.Request.HasFormContentType ? (IEnumerable<KeyValuePair<string, StringValues>>)Context.Request.Form : Context.Request.Query)
         {
-            <input type="hidden" name="@parameter.Key" value="@parameter.Value"/>
+            <input type="hidden" name="@parameter.Key" value="@parameter.Value" />
         }
 
-        <input class="btn btn-lg btn-success" name="submit.Accept" type="submit" value="Yes"/>
-        <input class="btn btn-lg btn-danger" name="submit.Deny" type="submit" value="No"/>
+        <input class="btn btn-lg btn-success" name="submit.Accept" type="submit" value="Yes" />
+        <input class="btn btn-lg btn-danger" name="submit.Deny" type="submit" value="No" />
     </form>
 </div>

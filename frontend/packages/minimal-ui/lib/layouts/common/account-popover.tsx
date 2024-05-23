@@ -8,7 +8,7 @@ import { alpha } from '@mui/material/styles';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import { account } from '../../_mock/account';
+import { Account } from '../nav';
 
 // ----------------------------------------------------------------------
 
@@ -31,6 +31,11 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState<Element | null>(null);
+  const account: Account = {
+    displayName: '',
+    photoUrl: '',
+    role: '',
+  };
 
   const handleOpen = (event: React.MouseEvent) => {
     setOpen(event.currentTarget);
@@ -57,7 +62,7 @@ export default function AccountPopover() {
         }}
       >
         <Avatar
-          src={account.photoURL}
+          src={account.photoUrl}
           alt={account.displayName}
           sx={{
             width: 36,
@@ -65,7 +70,7 @@ export default function AccountPopover() {
             border: (theme) => `solid 2px ${theme.palette.background.default}`,
           }}
         >
-          {account.displayName.charAt(0).toUpperCase()}
+          {account.displayName?.charAt(0).toUpperCase()}
         </Avatar>
       </IconButton>
 
@@ -90,9 +95,9 @@ export default function AccountPopover() {
           <Typography variant="subtitle2" noWrap>
             {account.displayName}
           </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+          {/* <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
             {account.email}
-          </Typography>
+          </Typography> */}
         </Box>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
