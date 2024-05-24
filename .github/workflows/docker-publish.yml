@@ -68,7 +68,7 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@v5
         with:
-          file: ./MyBudget.Api/Dockerfile
+          file: MyBudget.Api/Dockerfile
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
