@@ -148,7 +148,7 @@ jobs:
         id: build-and-push
         uses: docker/build-push-action@v5
         with:
-          file: ./backend/MyBudget.Api/Dockerfile
+          file: ./backend/Identity/MyBudget.Identity/Dockerfile
           context: ./backend
           push: true
           tags: ${{ steps.meta.outputs.tags }}
