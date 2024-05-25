@@ -22,7 +22,7 @@ function getUser(): User | null {
 }
 
 const configuration = new Configuration({
-  basePath: 'https://localhost:48081',
+  basePath: window.MyBudgetConfig?.backendUrl,
   accessToken: () => {
     return getUser()?.access_token ?? '';
   },
