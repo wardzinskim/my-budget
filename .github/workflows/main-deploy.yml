@@ -169,8 +169,8 @@ jobs:
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
 
   docker_build_frontend:
-    needs: [build_backend]
-    if: ${{always() && needs.build_backend.result == 'success'}}
+    needs: [build_frontend]
+    if: ${{always() && needs.build_frontend.result == 'success'}}
 
     runs-on: ubuntu-latest
     defaults:
