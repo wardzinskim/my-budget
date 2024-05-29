@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MyBudget.Api.Tests.Mocks;
 using MyBudget.Infrastructure.Database;
-using Testcontainers.MySql;
+using Testcontainers.MsSql;
 
 namespace MyBudget.Api.Tests;
 
 public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
-    private readonly MySqlContainer _mySqlContainer = new MySqlBuilder()
-        .WithImage("mysql:8.3.0")
+    private readonly MsSqlContainer _msSqlContainer = new MsSqlBuilder()
+        .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
         .Build();
 
     public Guid UserId { get; set; } = Guid.Parse("261d2b6e-e53d-4d40-b1ec-234016d8f69b");
@@ -26,16 +26,12 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsy
             if (descriptor is not null)
                 services.Remove(descriptor);
 
-            var serverVersion = new MySqlServerVersion(new Version(8, 3, 0));
-
             services.AddDbContextPool<BudgetContext>(dbContextOptions =>
             {
                 dbContextOptions
-                    .UseMySql(_mySqlContainer.GetConnectionString(), serverVersion, mysqlOptions =>
+                    .UseSqlServer(_msSqlContainer.GetConnectionString(), sqlServerOptions =>
                     {
-                        mysqlOptions.SchemaBehavior(
-                            Pomelo.EntityFrameworkCore.MySql.Infrastructure.MySqlSchemaBehavior.Translate,
-                            (schema, table) => $"{schema}.{table}");
+                        sqlServerOptions.MigrationsAssembly(typeof(BudgetContext).Assembly.FullName);
                     });
             });
 
@@ -53,7 +49,7 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsy
 
     public async Task InitializeAsync()
     {
-        await _mySqlContainer.StartAsync();
+        await _msSqlContainer.StartAsync();
         using var scope = Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<BudgetContext>();
         await dbContext.Database.MigrateAsync();
@@ -61,6 +57,6 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsy
 
     async Task IAsyncLifetime.DisposeAsync()
     {
-        await _mySqlContainer.StopAsync();
+        await _msSqlContainer.StopAsync();
     }
 }

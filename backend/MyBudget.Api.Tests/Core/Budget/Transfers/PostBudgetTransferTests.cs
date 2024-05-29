@@ -21,7 +21,7 @@ public class PostBudgetTransferTests(IntegrationTestWebAppFactory application) :
         var faker = new Faker();
         var budgetId = Guid.NewGuid();
         var expenseName = faker.Random.String2(10);
-        decimal value = faker.Random.Decimal();
+        decimal value = Math.Round(faker.Random.Decimal(), 2);
         var currency = faker.Random.String2(3);
         var dateTime = DateTime.UtcNow;
 
@@ -69,7 +69,7 @@ public class PostBudgetTransferTests(IntegrationTestWebAppFactory application) :
         var faker = new Faker();
         var budgetId = Guid.NewGuid();
         var expenseName = faker.Random.String2(10);
-        decimal value = faker.Random.Decimal();
+        decimal value = Math.Round(faker.Finance.Random.Decimal(), 2);
         var currency = faker.Random.String2(3);
         var dateTime = DateTime.UtcNow;
 
@@ -101,7 +101,7 @@ public class PostBudgetTransferTests(IntegrationTestWebAppFactory application) :
         var faker = new Faker();
         var budgetId = Guid.NewGuid();
         var expenseName = faker.Random.String2(10);
-        decimal value = faker.Random.Decimal();
+        decimal value = Math.Round(faker.Random.Decimal(), 2);
         var currency = faker.Random.String2(3);
         var dateTime = DateTime.UtcNow;
 
@@ -120,7 +120,7 @@ public class PostBudgetTransferTests(IntegrationTestWebAppFactory application) :
         var faker = new Faker();
         var budgetId = Guid.NewGuid();
         var expenseName = faker.Random.String2(10);
-        decimal value = faker.Random.Decimal();
+        decimal value = Math.Round(faker.Random.Decimal(), 2);
         var currency = faker.Random.String2(3);
         var dateTime = DateTime.UtcNow;
 

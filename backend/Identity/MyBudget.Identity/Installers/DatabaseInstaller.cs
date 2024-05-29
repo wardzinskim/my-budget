@@ -8,22 +8,15 @@ public class DatabaseInstaller : IInstaller
 {
     public void Install(IServiceCollection services, IConfiguration configuration, IHostEnvironment hostingEnvironment)
     {
-        var serverVersion = new MySqlServerVersion(new Version(8, 3, 0));
-
         services.AddDbContextPool<ApplicationDbContext>((sp, dbContextOptions) =>
         {
             dbContextOptions
-                .UseMySql(configuration.GetConnectionString("Default"), serverVersion, mysqlOptions =>
+                .UseSqlServer(configuration.GetConnectionString("Default"), configuration =>
                 {
-                    mysqlOptions.SchemaBehavior(
-                        Pomelo.EntityFrameworkCore.MySql.Infrastructure.MySqlSchemaBehavior.Translate,
-                        (schema, table) => $"{schema}.{table}");
+                    configuration.MigrationsHistoryTable("__EFMigrationsHistory", "identity");
                 });
 
             dbContextOptions.UseOpenIddict();
         });
-
-
-
     }
 }

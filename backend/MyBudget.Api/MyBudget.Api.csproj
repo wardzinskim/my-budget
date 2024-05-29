@@ -4,7 +4,7 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<InvariantGlobalization>true</InvariantGlobalization>
+		<InvariantGlobalization>false</InvariantGlobalization>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<UserSecretsId>ca1b57d0-5c0e-4a8d-9131-6a5f11f5ce89</UserSecretsId>
 		<DockerComposeProjectPath>..\.docker\docker-compose.dcproj</DockerComposeProjectPath>

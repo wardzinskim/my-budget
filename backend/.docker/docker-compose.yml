@@ -23,19 +23,19 @@ services:
     volumes:
       - seq-data:/data
 
-  mysql:
-    image: mysql:8.3.0
-    ports:
-      - "3306:3306"
-    restart: unless-stopped
+  mssql:
+    container_name: sql-server
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 1qaz@WSX
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "1qaz@WSX"
+    ports:
+      - "1433:1433"
     volumes:
-      - mysql-data:/var/lib/mysql
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-
+      - mssql-data:/var/opt/mssql 
 
 
 volumes:
   seq-data:
-  mysql-data:
+  mssql-data:

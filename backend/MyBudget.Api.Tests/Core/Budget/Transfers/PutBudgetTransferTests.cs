@@ -88,7 +88,7 @@ public class PutBudgetTransferTests(IntegrationTestWebAppFactory application) : 
         var budgetId = Guid.NewGuid();
         var transferId = Guid.NewGuid();
         var requestBody =
-            new UpdateTransferRequest(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.UtcNow,
+            new UpdateTransferRequest(faker.Random.String2(10), Math.Round(faker.Random.Decimal(), 2), "PLN", DateTime.UtcNow,
                 "CATEGORY");
 
         var budget =

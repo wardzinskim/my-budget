@@ -9,7 +9,7 @@
       "serviceActions": {
         "mybudget.api": "StartDebugging",
         "mybudget.identity": "StartDebugging",
-        "mysql": "StartWithoutDebugging",
+        "mssql": "StartWithoutDebugging",
         "seq": "StartWithoutDebugging"
       }
     }
