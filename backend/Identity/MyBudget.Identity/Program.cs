@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.HttpOverrides;
 using MyBudget.Infrastructure.Abstractions.Installer;
 using Serilog;
 
@@ -21,6 +22,15 @@ public class Program
 
         var app = builder.Build();
         app.UsePathBase("/identity");
+
+        var forwardedHeaderOptions = new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+        };
+        forwardedHeaderOptions.KnownNetworks.Clear();
+        forwardedHeaderOptions.KnownProxies.Clear();
+        app.UseForwardedHeaders(forwardedHeaderOptions);
+
         app.UseSerilogRequestLogging();
         app.UseHttpsRedirection();
 
