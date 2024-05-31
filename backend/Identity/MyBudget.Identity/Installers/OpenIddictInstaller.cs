@@ -36,6 +36,7 @@ public class OpenIddictInstaller : IInstaller
 
                 options
                     .UseAspNetCore()
+                    .DisableTransportSecurityRequirement()
                     .EnableAuthorizationEndpointPassthrough()
                     .EnableTokenEndpointPassthrough()
                     .EnableLogoutEndpointPassthrough()
