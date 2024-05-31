@@ -20,6 +20,7 @@ public class Program
         builder.Services.AddHostedService<Worker>();
 
         var app = builder.Build();
+        app.UsePathBase("/identity");
         app.UseSerilogRequestLogging();
         app.UseHttpsRedirection();
 
@@ -32,7 +33,6 @@ public class Program
         {
             app.UseExceptionHandler("/Error");
         }
-
         app.Use(typeof(Program).Assembly);
         app.Run();
     }
