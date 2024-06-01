@@ -30,8 +30,14 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
             DisplayName = "MyBudget Frontend Application",
             ClientType = ClientTypes.Public,
             ApplicationType = ApplicationTypes.Web,
-            PostLogoutRedirectUris = {new Uri("http://localhost:5173") },
-            RedirectUris = {new Uri("http://localhost:5173")},
+            PostLogoutRedirectUris = {
+                new Uri("http://localhost:5173"), 
+                new Uri("https://my-budget-app.azurewebsites.net")
+            },
+            RedirectUris = {
+                new Uri("http://localhost:5173"),
+                new Uri("https://my-budget-app.azurewebsites.net")
+            },
             Permissions =
             {
                 Permissions.Endpoints.Authorization,
