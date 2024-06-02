@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.HttpOverrides;
 using MyBudget.Infrastructure.Abstractions.Installer;
 using Serilog;
 
@@ -20,7 +21,16 @@ public class Program
         builder.Services.AddHostedService<Worker>();
 
         var app = builder.Build();
-        app.UseForwardedHeaders();
+
+        var forwardingOptions = new ForwardedHeadersOptions()
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+        };
+        forwardingOptions.KnownNetworks.Clear(); // Loopback by default, this should be temporary
+        forwardingOptions.KnownProxies.Clear(); // Update to include
+
+        app.UseForwardedHeaders(forwardingOptions);
+
         app.UsePathBase("/identity");
         app.UseSerilogRequestLogging();
         app.UseHttpsRedirection();
