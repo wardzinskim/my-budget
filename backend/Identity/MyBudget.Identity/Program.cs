@@ -20,6 +20,7 @@ public class Program
         builder.Services.AddHostedService<Worker>();
 
         var app = builder.Build();
+        app.UseForwardedHeaders();
         app.UsePathBase("/identity");
         app.UseSerilogRequestLogging();
         app.UseHttpsRedirection();
