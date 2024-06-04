@@ -11,7 +11,7 @@ public class OpenIddictInstaller : IInstaller
             .AddOpenIddict()
             .AddValidation(options =>
             {
-                options.SetIssuer("https://mybudget.identity:8081");
+                options.SetIssuer(configuration["OpenIddict:Issuer"]!);
 
                 options.AddAudiences("MyBudget.Backend");
 
