@@ -1,0 +1,29 @@
+version: "3.4"
+
+services:
+  mybudget.api:
+    image: ghcr.io/wardzinskim/my-budget.api:main
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+    volumes:
+        - ${WEBAPP_STORAGE_HOME}/appsettings.api.json:/app/appsettings.json
+
+  mybudget.identity:
+    image: ghcr.io/wardzinskim/my-budget.identity:main
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+
+  mybudget.frontend:
+    image: ghcr.io/wardzinskim/my-budget.frontend:main
+    ports:
+      - "80:8080"
+    volumes:
+      - ${WEBAPP_STORAGE_HOME}/config.js:/usr/share/nginx/html/assets/config.js
+      - ${WEBAPP_STORAGE_HOME}/nginx.conf:/etc/nginx/conf.d/default.conf
+
+  echo-server:
+    image: ealen/echo-server
+    ports:
+      - 8080:80
