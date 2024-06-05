@@ -22,8 +22,3 @@ services:
     volumes:
       - ${WEBAPP_STORAGE_HOME}/config.js:/usr/share/nginx/html/assets/config.js
       - ${WEBAPP_STORAGE_HOME}/nginx.conf:/etc/nginx/conf.d/default.conf
-
-  echo-server:
-    image: ealen/echo-server
-    ports:
-      - 8080:80
