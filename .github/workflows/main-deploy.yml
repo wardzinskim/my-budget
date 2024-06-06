@@ -246,6 +246,11 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: Multi line step
+        run: |
+          pwd
+          ls -la
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
