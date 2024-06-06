@@ -255,6 +255,6 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}.api:${{ github.sha }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}.identity:${{ github.sha }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}.fronted:${{ github.sha }}
-          configuration-file: "docker-compose.yml"
+          configuration-file: "./docker-compose.yml"
         env:
           AZURE_WEBAPP_CONTAINER_WORKER_TYPE: "compose"
