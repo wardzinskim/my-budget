@@ -56,8 +56,6 @@ jobs:
 
   docker_build_api:
     needs: [build_backend]
-    if: ${{always() && needs.build_backend.result == 'success'}}
-
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -119,8 +117,6 @@ jobs:
 
   docker_build_identity:
     needs: [build_backend]
-    if: ${{always() && needs.build_backend.result == 'success'}}
-
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -182,8 +178,6 @@ jobs:
 
   docker_build_frontend:
     needs: [build_frontend]
-    if: ${{always() && needs.build_frontend.result == 'success'}}
-
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -245,8 +239,6 @@ jobs:
 
   deploy:
     needs: [docker_build_frontend, docker_build_identity, docker_build_api]
-    if: ${{always() && needs.*.result == 'success'}}
-
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -262,6 +254,6 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}.api:${{ github.sha }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}.identity:${{ github.sha }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}.fronted:${{ github.sha }}
-          multi-container-config-file: "docker-compose.yml"
+          configuration-file: "./docker-compose.yml"
         env:
           AZURE_WEBAPP_CONTAINER_WORKER_TYPE: "compose"
