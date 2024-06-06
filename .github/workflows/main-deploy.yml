@@ -239,7 +239,7 @@ jobs:
 
   deploy:
     needs: [docker_build_frontend, docker_build_identity, docker_build_api]
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Azure Login with secrets.AZURE_CREDENTIALS
