@@ -240,20 +240,15 @@ jobs:
   deploy:
     needs: [docker_build_frontend, docker_build_identity, docker_build_api]
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Azure Login with secrets.AZURE_CREDENTIALS
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      
-      - name: Multi line step
-        run: |
-          pwd
-          ls -la
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
