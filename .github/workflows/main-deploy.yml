@@ -239,7 +239,7 @@ jobs:
 
   deploy:
     needs: [docker_build_frontend, docker_build_identity, docker_build_api]
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Deploy to Azure Web App
