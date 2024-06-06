@@ -95,7 +95,7 @@ jobs:
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
-            type=sha,enable=true,priority=100,prefix=,suffix=,format=short
+            type=sha,enable=true,priority=100,prefix=,suffix=
 
       - name: Build and push Docker image
         id: build-and-push
@@ -156,7 +156,7 @@ jobs:
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
-            type=sha,enable=true,priority=100,prefix=,suffix=,format=short
+            type=sha,enable=true,priority=100,prefix=,suffix=
 
       - name: Build and push Docker image
         id: build-and-push
@@ -217,7 +217,7 @@ jobs:
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
-            type=sha,enable=true,priority=100,prefix=,suffix=,format=short
+            type=sha,enable=true,priority=100,prefix=,suffix=
 
       - name: Build and push Docker image
         id: build-and-push
@@ -240,9 +240,6 @@ jobs:
   deploy:
     needs: [docker_build_frontend, docker_build_identity, docker_build_api]
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./.github
 
     steps:
       - name: Deploy to Azure Web App
@@ -254,6 +251,6 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}.api:${{ github.sha }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}.identity:${{ github.sha }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}.fronted:${{ github.sha }}
-          configuration-file: "docker-compose.yml"
+          configuration-file: "./.github/docker-compose.yml"
         env:
           AZURE_WEBAPP_CONTAINER_WORKER_TYPE: "compose"
