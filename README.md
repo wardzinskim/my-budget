@@ -36,6 +36,7 @@ myBudget is an open-source web application to manage personal budgets.
     - [x] pie chart
 - [x] User registration
 - [x] Workflow definition
+- [ ] Integration with banking account
 
 ## Screenshots
 
