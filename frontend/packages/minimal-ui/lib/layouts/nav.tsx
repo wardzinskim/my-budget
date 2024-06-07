@@ -40,11 +40,11 @@ interface NavProps extends PropsWithChildren {
   openNav: boolean;
   onCloseNav: () => void;
   account?: Account;
+  logoSrc?: string;
 }
 
 export const Nav: React.FC<NavProps> = (props) => {
   const pathname = usePathname();
-
   const upLg = useResponsive(Query.UP, 'lg');
 
   useEffect(() => {
@@ -102,7 +102,7 @@ export const Nav: React.FC<NavProps> = (props) => {
         },
       }}
     >
-      <Logo sx={{ mt: 3, ml: 4 }} />
+      <Logo sx={{ mt: 3, ml: 3, mr: 3 }} src={props.logoSrc} />
 
       {props.account && renderAccount}
       {props.children}

@@ -10,10 +10,11 @@ import { RouterLink } from '../../routes/components';
 interface LogoProps {
   disabledLink?: boolean;
   sx: SxProps<Theme>;
+  src?: string;
 }
 
 export const Logo = forwardRef<unknown, LogoProps>(
-  ({ disabledLink = false, sx, ...other }: LogoProps, ref) => {
+  ({ disabledLink = false, sx, src, ...other }: LogoProps, ref) => {
     const theme = useTheme();
 
     const PRIMARY_LIGHT = theme.palette.primary.light;
@@ -22,17 +23,9 @@ export const Logo = forwardRef<unknown, LogoProps>(
 
     const PRIMARY_DARK = theme.palette.primary.dark;
 
-    // OR using local (public folder)
-    // -------------------------------------------------------
-    // const logo = (
-    //   <Box
-    //     component="img"
-    //     src="/logo/logo_single.svg" => your path
-    //     sx={{ width: 40, height: 40, cursor: 'pointer', ...sx }}
-    //   />
-    // );
-
-    const logo = (
+    const logo = src ? (
+      <Box component="img" src={src} sx={{ cursor: 'pointer', ...sx }} />
+    ) : (
       <Box
         ref={ref}
         component="div"

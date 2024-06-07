@@ -13,6 +13,7 @@ interface LayoutProps extends React.PropsWithChildren {
   navItemChildren?: React.ReactNode;
   account?: Account;
   headerRightContent?: React.ReactNode;
+  logoSrc?: string;
 }
 
 export const Layout: React.FC<LayoutProps> = (props) => {
@@ -37,6 +38,7 @@ export const Layout: React.FC<LayoutProps> = (props) => {
           openNav={openNav}
           onCloseNav={() => setOpenNav(false)}
           items={props.navigationItems}
+          logoSrc={props.logoSrc}
         >
           {props.navItemChildren}
         </Nav>

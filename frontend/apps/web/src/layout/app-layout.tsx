@@ -26,6 +26,7 @@ export const AppLayout = () => {
           <BudgetContextPicker />
         </Stack>
       }
+      logoSrc="assets/logo.svg"
     >
       <Suspense>
         <Outlet />
