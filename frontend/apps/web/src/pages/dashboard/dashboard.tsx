@@ -7,7 +7,7 @@ export default function DashboardPage() {
   return (
     <>
       <Helmet>
-        <title> Dashboard | MyBudget </title>
+        <title> Dashboard | myBudget </title>
       </Helmet>
       <DashboardView />
     </>

@@ -5,7 +5,7 @@ const BudgetNewPage = () => {
   return (
     <>
       <Helmet>
-        <title> New Budget | MyBudget </title>
+        <title> New Budget | myBudget </title>
       </Helmet>
 
       <BudgetNewView />

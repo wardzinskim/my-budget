@@ -7,7 +7,7 @@ const TransfersEditPage: React.FC<TransfersEditPageParams> = () => {
   return (
     <>
       <Helmet>
-        <title> Edit Transfer | MyBudget </title>
+        <title> Edit Transfer | myBudget </title>
       </Helmet>
 
       <TransferEditView />

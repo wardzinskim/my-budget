@@ -10,7 +10,7 @@ const TransfersNewPage: React.FC<TransfersNewPageParams> = ({ type }) => {
   return (
     <>
       <Helmet>
-        <title> New Budget | MyBudget </title>
+        <title> New Budget | myBudget </title>
       </Helmet>
 
       <TransferNewView type={type} />

@@ -5,7 +5,7 @@ const TransfersPage = () => {
   return (
     <>
       <Helmet>
-        <title> Transfers | MyBudget </title>
+        <title> Transfers | myBudget </title>
       </Helmet>
 
       <TransfersView />

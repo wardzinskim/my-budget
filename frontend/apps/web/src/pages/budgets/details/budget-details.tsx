@@ -5,7 +5,7 @@ const BudgetDetailsPage = () => {
   return (
     <>
       <Helmet>
-        <title> Budget details | MyBudget </title>
+        <title> Budget details | myBudget </title>
       </Helmet>
 
       <BudgetDetailsView />
