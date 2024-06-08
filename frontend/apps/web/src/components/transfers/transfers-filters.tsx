@@ -6,6 +6,7 @@ import {
   MenuItem,
   Select,
   Stack,
+  Tooltip,
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import { TransferDTOType } from '@repo/api-client';
@@ -117,9 +118,11 @@ export const TransferFilters: React.FC<TransferFiltersProps> = () => {
           }}
         />
       </FormControl>
-      <IconButton size="large" type="submit" color="inherit">
-        <Iconify icon="eva:search-fill" />
-      </IconButton>
+      <Tooltip title="Search">
+        <IconButton size="large" type="submit" color="inherit">
+          <Iconify icon="eva:search-fill" />
+        </IconButton>
+      </Tooltip>
     </Stack>
   );
 };

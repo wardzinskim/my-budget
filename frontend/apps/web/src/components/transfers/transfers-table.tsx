@@ -77,12 +77,19 @@ const TransferTableColumnsBuilder: (
     sortable: false,
     render: (item: BudgetDTO) => (
       <>
-        <IconButton component={RouterLink} href={`/transfers/${item.id}/edit`}>
-          <Iconify icon="solar:pen-bold" />
-        </IconButton>
-        <IconButton color="error" onClick={() => deleteAction(item.id!)}>
-          <Iconify icon="solar:trash-bin-minimalistic-bold" />
-        </IconButton>
+        <Tooltip title="Edit">
+          <IconButton
+            component={RouterLink}
+            href={`/transfers/${item.id}/edit`}
+          >
+            <Iconify icon="solar:pen-bold" />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Delete">
+          <IconButton color="error" onClick={() => deleteAction(item.id!)}>
+            <Iconify icon="solar:trash-bin-minimalistic-bold" />
+          </IconButton>
+        </Tooltip>
       </>
     ),
   },

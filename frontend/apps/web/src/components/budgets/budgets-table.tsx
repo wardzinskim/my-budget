@@ -1,4 +1,4 @@
-import { IconButton } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import { BudgetDTO, BudgetDTOStatus } from '@repo/api-client';
 import {
   ColumnDefinition,
@@ -52,9 +52,11 @@ const BudgetTableColumns: Array<ColumnDefinition<BudgetDTO>> = [
     align: 'right',
     sortable: false,
     render: (item: BudgetDTO) => (
-      <IconButton component={RouterLink} href={`/budgets/${item.id}`}>
-        <Iconify icon="carbon:view-filled" />
-      </IconButton>
+      <Tooltip title="Details" placement="left">
+        <IconButton component={RouterLink} href={`/budgets/${item.id}`}>
+          <Iconify icon="carbon:view-filled" />
+        </IconButton>
+      </Tooltip>
     ),
   },
 ];

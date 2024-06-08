@@ -1,4 +1,4 @@
-import { IconButton, List, ListItem } from '@mui/material';
+import { IconButton, List, ListItem, Tooltip } from '@mui/material';
 import { CategoryDTO, CategoryDTOStatus } from '@repo/api-client';
 import { Iconify, Label } from '@repo/minimal-ui';
 import { useFetcher } from 'react-router-dom';
@@ -33,9 +33,11 @@ export const BudgetCategoryList: React.FC<BudgetCategoryListProps> = ({
           key={category.name}
           secondaryAction={
             category.status === CategoryDTOStatus.Active && (
-              <IconButton sx={{ mr: 1 }} onClick={() => archive(category)}>
-                <Iconify icon="eva:archive-outline" />
-              </IconButton>
+              <Tooltip title="Archive">
+                <IconButton sx={{ mr: 1 }} onClick={() => archive(category)}>
+                  <Iconify icon="eva:archive-outline" />
+                </IconButton>
+              </Tooltip>
             )
           }
         >
