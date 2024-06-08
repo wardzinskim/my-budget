@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.HttpOverrides;
 using MyBudget.Infrastructure.Abstractions.Installer;
 using Serilog;
 
@@ -21,6 +20,15 @@ public class Program
         builder.Services.AddHostedService<Worker>();
 
         var app = builder.Build();
+
+        var basePath = app.Configuration["BasePath"];
+
+        if (!string.IsNullOrWhiteSpace(basePath))
+        {
+            app.UsePathBase(basePath);
+        }
+
+        app.UseForwardedHeaders();
 
         app.UseSerilogRequestLogging();
         app.UseHttpsRedirection();

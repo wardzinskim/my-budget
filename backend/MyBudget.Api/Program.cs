@@ -20,6 +20,17 @@ public class Program
             .Install(typeof(RepositoryInstaller).Assembly);
 
         var app = builder.Build();
+
+
+        var basePath = app.Configuration["BasePath"];
+
+        if (!string.IsNullOrWhiteSpace(basePath))
+        {
+            app.UsePathBase(basePath);
+        }
+
+        app.UseForwardedHeaders();
+
         app.UseSerilogRequestLogging();
         app.UseHttpsRedirection();
         app.Use(typeof(Program).Assembly)
