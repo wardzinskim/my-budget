@@ -18,27 +18,30 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
 
         var client = await manager.FindByClientIdAsync("MyBudget.Frontend");
 
-        if (client is not null)
-        {
-            await manager.DeleteAsync(client);
-        }
+        //if (client is not null)
+        //{
+        //    await manager.DeleteAsync(client);
+        //    client = null;
+        //}
 
-        await manager.CreateAsync(new OpenIddictApplicationDescriptor
+        if (client is null)
         {
-            ClientId = "MyBudget.Frontend",
-            ConsentType = ConsentTypes.Explicit,
-            DisplayName = "MyBudget Frontend Application",
-            ClientType = ClientTypes.Public,
-            ApplicationType = ApplicationTypes.Web,
-            PostLogoutRedirectUris = {
-                new Uri("http://localhost:5173"), 
-                new Uri("https://my-budget-app.azurewebsites.net")
-            },
-            RedirectUris = {
+            await manager.CreateAsync(new OpenIddictApplicationDescriptor
+            {
+                ClientId = "MyBudget.Frontend",
+                ConsentType = ConsentTypes.Explicit,
+                DisplayName = "MyBudget Frontend Application",
+                ClientType = ClientTypes.Public,
+                ApplicationType = ApplicationTypes.Web,
+                PostLogoutRedirectUris = {
                 new Uri("http://localhost:5173"),
                 new Uri("https://my-budget-app.azurewebsites.net")
             },
-            Permissions =
+                RedirectUris = {
+                new Uri("http://localhost:5173"),
+                new Uri("https://my-budget-app.azurewebsites.net")
+            },
+                Permissions =
             {
                 Permissions.Endpoints.Authorization,
                 Permissions.Endpoints.Logout,
@@ -51,25 +54,31 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
                 Permissions.Scopes.Roles,
                 Permissions.Prefixes.Scope + "MyBudget"
             },
-            Requirements = {Requirements.Features.ProofKeyForCodeExchange}
-        });
+                Requirements = { Requirements.Features.ProofKeyForCodeExchange }
+            });
+        }
 
 
         client = await manager.FindByClientIdAsync("MyBudget.Backend");
 
-        if (client is not null)
-        {
-            await manager.DeleteAsync(client);
-        }
+        //if (client is not null)
+        //{
+        //    await manager.DeleteAsync(client);
+        //    client = null;
+        //}
 
-        await manager.CreateAsync(new OpenIddictApplicationDescriptor
+        if (client is null)
         {
-            ClientId = "MyBudget.Backend",
-            ClientSecret = "846B62D0-DEF9-4215-A99D-86E6B8DAB342",
-            DisplayName = "MyBudget Backend Application",
-            ApplicationType = ApplicationTypes.Web,
-            Permissions = {Permissions.Endpoints.Introspection},
-        });
+
+            await manager.CreateAsync(new OpenIddictApplicationDescriptor
+            {
+                ClientId = "MyBudget.Backend",
+                ClientSecret = "846B62D0-DEF9-4215-A99D-86E6B8DAB342",
+                DisplayName = "MyBudget Backend Application",
+                ApplicationType = ApplicationTypes.Web,
+                Permissions = { Permissions.Endpoints.Introspection },
+            });
+        }
     }
 
 
@@ -81,7 +90,8 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
         {
             await manager.CreateAsync(new OpenIddictScopeDescriptor
             {
-                Name = "MyBudget", Resources = {"MyBudget.Backend"}
+                Name = "MyBudget",
+                Resources = { "MyBudget.Backend" }
             });
         }
     }
