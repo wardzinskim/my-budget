@@ -22,7 +22,15 @@ export const DashboardView: React.FC = () => {
       <DashboardContextPicker />
 
       <Grid container paddingTop={2} spacing={3}>
-        <Grid container item xs={4} alignSelf="flex-start" spacing={3}>
+        <Grid
+          container
+          item
+          xs={12}
+          sm={6}
+          md={4}
+          alignSelf="flex-start"
+          spacing={3}
+        >
           <Grid item xs={12}>
             <TotalsViewer
               type={TransferDTOType.Income}
@@ -37,7 +45,7 @@ export const DashboardView: React.FC = () => {
           </Grid>
         </Grid>
 
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={6} md={4}>
           <BalanceViewer
             value={
               (loaderData.totals.incomes ?? 0) -
@@ -46,7 +54,7 @@ export const DashboardView: React.FC = () => {
           />
         </Grid>
 
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={6} md={4}>
           <ExpensesToIncomesRatio
             expenses={loaderData.totals.expenses ?? 0}
             incomes={loaderData.totals.incomes ?? 0}

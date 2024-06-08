@@ -55,7 +55,7 @@ export const TransferFilters: React.FC<TransferFiltersProps> = () => {
       alignItems="center"
       justifyContent="space-between"
       margin={2}
-      direction="row"
+      direction={{ xs: 'column', sm: 'row' }}
       component={Form}
       method="post"
       onSubmit={formik.handleSubmit}
