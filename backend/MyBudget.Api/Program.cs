@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.HttpOverrides;
 using MyBudget.Infrastructure.Abstractions.Installer;
 using MyBudget.Infrastructure.Installers;
 using Serilog;
@@ -23,13 +24,18 @@ public class Program
 
 
         var basePath = app.Configuration["BasePath"];
-
         if (!string.IsNullOrWhiteSpace(basePath))
         {
             app.UsePathBase(basePath);
         }
 
-        app.UseForwardedHeaders();
+        var forwardingOptions = new ForwardedHeadersOptions()
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+        };
+        forwardingOptions.KnownNetworks.Clear(); // Loopback by default, this should be temporary
+        forwardingOptions.KnownProxies.Clear(); // Update to include
+        app.UseForwardedHeaders(forwardingOptions);
 
         app.UseSerilogRequestLogging();
         app.UseHttpsRedirection();
