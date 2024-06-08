@@ -22,16 +22,6 @@ public class Program
 
         var app = builder.Build();
 
-        var forwardingOptions = new ForwardedHeadersOptions()
-        {
-            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-        };
-        forwardingOptions.KnownNetworks.Clear(); // Loopback by default, this should be temporary
-        forwardingOptions.KnownProxies.Clear(); // Update to include
-
-        app.UseForwardedHeaders(forwardingOptions);
-
-        app.UsePathBase("/identity");
         app.UseSerilogRequestLogging();
         app.UseHttpsRedirection();
 

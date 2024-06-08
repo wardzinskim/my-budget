@@ -20,7 +20,6 @@ public class Program
             .Install(typeof(RepositoryInstaller).Assembly);
 
         var app = builder.Build();
-        app.UsePathBase("/api");
         app.UseSerilogRequestLogging();
         app.UseHttpsRedirection();
         app.Use(typeof(Program).Assembly)
