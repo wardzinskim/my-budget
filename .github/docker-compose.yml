@@ -6,13 +6,14 @@ services:
     environment:
       - ASPNETCORE_HTTP_PORTS=8080
     volumes:
-        - ${WEBAPP_STORAGE_HOME}/appsettings.api.json:/app/appsettings.json
+      - ${WEBAPP_STORAGE_HOME}/appsettings.api.json:/app/appsettings.json
 
   mybudget.identity:
     image: ghcr.io/wardzinskim/my-budget.identity:main
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
+    volumes:
+      - ${WEBAPP_STORAGE_HOME}/appsettings.identity.json:/app/appsettings.json
 
   mybudget.frontend:
     image: ghcr.io/wardzinskim/my-budget.frontend:main
