@@ -72,7 +72,7 @@ Application is available on [https://my-budget-app.azurewebsites.net](https://my
 * password: Demo!23
 
 > [!WARNING]
-> Application is hosted on Azure Service App Free Plan, so it is possible that you have to wait for a minute to application start.
+> Application is hosted on Azure Service App Free Plan, so it is possible that you have to wait a moment for application start.
 
 ## Goals
 
