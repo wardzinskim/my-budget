@@ -58,11 +58,21 @@ myBudget is an open-source web application to manage personal budgets.
     <img src="docs/architecture.png" alt="architecture" style="border-radius: 25px">
 </div>
 
-The project consists of 3 component
+The project consists of 3 components
 
 1. <b>my-budget.frontend</b> - react app
 1. <b>my-budget.api</b> - dotnet app
 1. <b>my-budget.identity</b> - dotnet identity server. It implements the OpenIdConnect standard using OpenIddict library
+
+## Demo
+
+Application is available on [https://my-budget-app.azurewebsites.net](https://my-budget-app.azurewebsites.net)
+
+* username: demo@mybudget.pl
+* password: Demo!23
+
+> [!WARNING]
+> Application is hosted on Azure Service App Free Plan, so it is possible that you have to wait for a minute to application start.
 
 ## Goals
 
