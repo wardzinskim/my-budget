@@ -1,0 +1,8 @@
+repositories:
+ - name: postgres-operator-charts
+   url: https://opensource.zalando.com/postgres-operator/charts/postgres-operator
+
+releases:
+- name: postgres-operator
+  namespace: db
+  chart: postgres-operator-charts/postgres-operator
