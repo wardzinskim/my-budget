@@ -2,4 +2,4 @@
 
 namespace MyBudget.Domain.Budgets.Transfers.Events;
 
-public record TransferCreatedEvent(Guid BudgetId, Guid TransferId) : DomainEventBase;
+public record TransferCreatedEvent(BudgetId BudgetId, TransferId TransferId) : DomainEventBase;

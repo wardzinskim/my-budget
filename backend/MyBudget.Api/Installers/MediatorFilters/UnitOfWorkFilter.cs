@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using MyBudget.Application.Abstraction;
 using MyBudget.Infrastructure.Abstractions.Features;
 using MyBudget.SharedKernel;
 

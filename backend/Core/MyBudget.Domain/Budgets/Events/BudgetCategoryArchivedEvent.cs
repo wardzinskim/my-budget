@@ -2,6 +2,6 @@
 
 namespace MyBudget.Domain.Budgets.Events;
 
-public record BudgetCategoryArchivedEvent(Guid BudgetId, string Name) : DomainEventBase
+public record BudgetCategoryArchivedEvent(BudgetId BudgetId, string Name) : DomainEventBase
 {
 }

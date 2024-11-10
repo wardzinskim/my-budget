@@ -1,7 +1,8 @@
-﻿using MyBudget.SharedKernel;
+﻿using MyBudget.Domain.Shared;
+using MyBudget.SharedKernel;
 
 namespace MyBudget.Domain.Budgets.Events;
 
-public record BudgetCreatedEvent(Guid BudgetId, Guid UserId) : DomainEventBase
+public record BudgetCreatedEvent(BudgetId BudgetId, UserId UserId) : DomainEventBase
 {
 }

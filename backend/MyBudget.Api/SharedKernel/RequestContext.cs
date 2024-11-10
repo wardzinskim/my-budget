@@ -1,4 +1,4 @@
-﻿using MyBudget.SharedKernel;
+﻿using MyBudget.Application.Abstraction;
 using OpenIddict.Abstractions;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 

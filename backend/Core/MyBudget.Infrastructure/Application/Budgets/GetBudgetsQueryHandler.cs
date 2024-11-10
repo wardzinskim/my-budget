@@ -1,9 +1,7 @@
-﻿using MassTransit.Mediator;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MyBudget.Application.Budgets.GetBudgets;
 using MyBudget.Application.Budgets.Model;
 using MyBudget.Infrastructure.Database;
-using MyBudget.SharedKernel;
 
 namespace MyBudget.Infrastructure.Application.Budgets;
 

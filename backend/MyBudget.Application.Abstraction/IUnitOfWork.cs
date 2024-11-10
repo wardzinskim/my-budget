@@ -1,4 +1,4 @@
-﻿namespace MyBudget.SharedKernel;
+﻿namespace MyBudget.Application.Abstraction;
 
 public interface IUnitOfWork
 {

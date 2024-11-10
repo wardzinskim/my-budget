@@ -16,7 +16,8 @@ public record Money : ValueObject
 
     public static Result<Money> Of(decimal value, string currency)
     {
-        var result = CheckRules(new MoneyMustHavePositiveValue(value),
+        var result = CheckRules(
+            new MoneyMustHavePositiveValue(value),
             new MoneyMustHaveCurrency(currency));
 
         if (result.IsFailure)

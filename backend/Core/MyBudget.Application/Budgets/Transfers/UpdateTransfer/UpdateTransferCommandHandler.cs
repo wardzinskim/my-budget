@@ -1,7 +1,7 @@
-﻿using MassTransit.Mediator;
+﻿using MyBudget.Application.Budgets.Services;
 using MyBudget.Domain.Budgets;
+using MyBudget.Domain.Budgets.Transfers;
 using MyBudget.Infrastructure.Abstractions.Features;
-using MyBudget.SharedKernel;
 
 namespace MyBudget.Application.Budgets.Transfers.UpdateTransfer;
 
@@ -16,24 +16,28 @@ public record UpdateTransferCommand(
 )
     : Request<Result>, ICommand;
 
-public sealed class UpdateTransferCommandHandler(IBudgetRepository budgetRepository, IRequestContext requestContext)
+public sealed class UpdateTransferCommandHandler(
+    IBudgetRepository budgetRepository,
+    IBudgetAccessValidator budgetAccessValidator,
+    ITransferRepository transferRepository
+)
     : MediatorRequestHandler<UpdateTransferCommand, Result>
 {
     protected override async Task<Result> Handle(UpdateTransferCommand request, CancellationToken cancellationToken)
     {
         var budget = await budgetRepository
-            .GetAsync(request.BudgetId, x => x.Id == request.TransferId, cancellationToken).ConfigureAwait(false);
-        if (budget is null)
-            return BudgetsErrors.BudgetNotFound;
+            .GetAsync(request.BudgetId, cancellationToken)
+            .ConfigureAwait(false);
+        if (budget is null) return BudgetsErrors.BudgetNotFound;
 
-        var access = budget.HasAccess(requestContext.UserId);
-        if (access.IsFailure)
-        {
-            return access.Error;
-        }
+        var access = budgetAccessValidator.HasUserAccess(budget);
+        if (access.IsFailure) return access.Error;
 
-        var result = budget.UpdateTransfer(request.TransferId,
-            new(request.Name, request.Value, request.Currency, request.Date, request.Category));
+        var transfer = await transferRepository.GetAsync(request.BudgetId, request.TransferId, cancellationToken);
+        if (transfer is null) return BudgetsErrors.TransferNotFound;
+
+        var result =
+            transfer.Update(new(request.Name, request.Value, request.Currency, request.Date, request.Category));
         if (result.IsFailure) return result;
 
         return Result.Success();

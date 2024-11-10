@@ -30,6 +30,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{04
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBudget.Identity", "Identity\MyBudget.Identity\MyBudget.Identity.csproj", "{B05416B1-602B-4AB0-9653-8943E368EE30}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBudget.Application.Abstraction", "MyBudget.Application.Abstraction\MyBudget.Application.Abstraction.csproj", "{092C32E9-4FA1-46D3-9CF9-1A5086A8A719}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,10 @@ Global
 		{B05416B1-602B-4AB0-9653-8943E368EE30}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B05416B1-602B-4AB0-9653-8943E368EE30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B05416B1-602B-4AB0-9653-8943E368EE30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{092C32E9-4FA1-46D3-9CF9-1A5086A8A719}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{092C32E9-4FA1-46D3-9CF9-1A5086A8A719}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{092C32E9-4FA1-46D3-9CF9-1A5086A8A719}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{092C32E9-4FA1-46D3-9CF9-1A5086A8A719}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

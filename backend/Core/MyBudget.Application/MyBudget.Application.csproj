@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\MyBudget.Application.Abstraction\MyBudget.Application.Abstraction.csproj" />
     <ProjectReference Include="..\..\MyBudget.Infrastructure.Abstractions\MyBudget.Infrastructure.Abstractions.csproj" />
     <ProjectReference Include="..\..\MyBudget.SharedKernel\MyBudget.SharedKernel.csproj" />
     <ProjectReference Include="..\MyBudget.Domain\MyBudget.Domain.csproj" />

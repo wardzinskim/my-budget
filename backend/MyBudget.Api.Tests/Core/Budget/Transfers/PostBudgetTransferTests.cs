@@ -42,10 +42,9 @@ public class PostBudgetTransferTests(IntegrationTestWebAppFactory application) :
         Assert.NotNull(response);
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
-        var transfer = await _dbContext.Budgets
+        var transfer = await _dbContext.Transfers
             .AsNoTracking()
             .Where(x => x.Id == budgetId)
-            .Select(x => x.Transfers.FirstOrDefault())
             .FirstOrDefaultAsync();
 
         Assert.NotNull(transfer);

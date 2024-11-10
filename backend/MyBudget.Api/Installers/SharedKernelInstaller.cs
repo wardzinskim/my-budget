@@ -1,4 +1,5 @@
 ﻿using MyBudget.Api.SharedKernel;
+using MyBudget.Application.Abstraction;
 using MyBudget.Infrastructure.Abstractions.Installer;
 using MyBudget.SharedKernel;
 

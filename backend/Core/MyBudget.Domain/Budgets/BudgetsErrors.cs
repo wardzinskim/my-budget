@@ -14,5 +14,5 @@ public static class BudgetsErrors
         new ForbiddenError(nameof(BudgetAccessDenied), "You do not have access to specified budget.");
 
     public static readonly Error TransferNotFound =
-        new NotFoundError(nameof(TransferNotFound), "Transfer with this id already exists.");
+        new NotFoundError(nameof(TransferNotFound), "Transfer with this id not exists.");
 }

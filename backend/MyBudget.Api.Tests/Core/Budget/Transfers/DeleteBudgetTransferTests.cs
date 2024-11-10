@@ -105,11 +105,14 @@ public class DeleteBudgetTransferTests(IntegrationTestWebAppFactory application)
 
         budget = await _dbContext.Budgets
             .AsNoTracking()
-            .Include(x => x.Transfers)
             .SingleOrDefaultAsync(x => x.Id == budgetId);
 
+        var transfers = await _dbContext.Transfers
+            .Where(x => x.BudgetId == budgetId)
+            .ToListAsync();
+
         Assert.NotNull(budget);
-        Assert.Single(budget.Transfers);
-        Assert.NotEqual(transferId, budget.Transfers.Single().Id);
+        Assert.Single(transfers);
+        Assert.NotEqual(transferId, transfers.Single().Id);
     }
 }

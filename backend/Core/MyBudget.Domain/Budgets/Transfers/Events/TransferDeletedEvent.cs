@@ -3,4 +3,5 @@ using MyBudget.SharedKernel;
 
 namespace MyBudget.Domain.Budgets.Transfers.Events;
 
-public record TransferDeletedEvent(Guid BudgetId, Guid TransferId, TransferType Type, Money Value) : DomainEventBase;
+public record TransferDeletedEvent(BudgetId BudgetId, TransferId TransferId, TransferType Type, Money Value)
+    : DomainEventBase;

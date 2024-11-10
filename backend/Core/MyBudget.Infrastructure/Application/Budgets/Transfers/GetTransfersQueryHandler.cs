@@ -1,17 +1,16 @@
-﻿using MassTransit.Mediator;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MyBudget.Application.Budgets.Model;
+using MyBudget.Application.Budgets.Services;
 using MyBudget.Application.Budgets.Transfers.GetTransfers;
 using MyBudget.Domain.Budgets;
 using MyBudget.Domain.Budgets.Transfers;
 using MyBudget.Infrastructure.Database;
-using MyBudget.SharedKernel;
 
 namespace MyBudget.Infrastructure.Application.Budgets.Transfers;
 
 public sealed class GetTransfersQueryHandler(
     BudgetContext dbContext,
-    IRequestContext context,
+    IBudgetAccessValidator budgetAccessValidator,
     IDateTimeProvider timeProvider
 ) : MediatorRequestHandler<GetTransfersQuery, Result<TransfersQueryResponse>>
 {
@@ -28,33 +27,30 @@ public sealed class GetTransfersQueryHandler(
 
         var budget = await dbContext.Budgets.AsNoTracking()
             .Where(x => x.Id == request.BudgetId)
-            .Include(x => x.Transfers.Where(t =>
-                t.TransferDate >= dateFrom && t.TransferDate <= dateTo && (type == null || t.Type == type))
-            )
             .SingleOrDefaultAsync(cancellationToken)
             .ConfigureAwait(false);
 
-        if (budget is null)
-            return BudgetsErrors.BudgetNotFound;
+        if (budget is null) return BudgetsErrors.BudgetNotFound;
 
-        var access = budget.HasAccess(context.UserId);
-        if (access.IsFailure)
-        {
-            return access.Error;
-        }
+        var access = budgetAccessValidator.HasUserAccess(budget);
+        if (access.IsFailure) return access.Error;
+
+        var transfers = dbContext.Transfers
+            .Where(x => x.BudgetId == request.BudgetId && x.Type == type)
+            .Where(x => x.TransferDate >= dateFrom && x.TransferDate <= dateTo);
 
         return new TransfersQueryResponse(
             dateFrom,
             dateTo,
-            budget.Transfers
-            .OrderByDescending(x => x.TransferDate)
-            .Select(x => new TransferDTO(
-                x.Id,
-                x.TransferDate,
-                x.Value.Value,
-                x.Value.Currency,
-                (TransferDTOType)x.Type,
-                x.Name,
-                x.Category)));
+            transfers
+                .OrderByDescending(x => x.TransferDate)
+                .Select(x => new TransferDTO(
+                    x.Id,
+                    x.TransferDate,
+                    x.Value.Value,
+                    x.Value.Currency,
+                    (TransferDTOType)x.Type,
+                    x.Name,
+                    x.Category)));
     }
 }

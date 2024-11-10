@@ -1,10 +1,11 @@
-﻿using MyBudget.SharedKernel;
+﻿using MyBudget.Domain.Shared;
+using MyBudget.SharedKernel;
 
 namespace MyBudget.Domain.Budgets.Rules;
 
 internal class BudgetNameMustBeUniqueForUser(
     string name,
-    Guid userId,
+    UserId userId,
     IBudgetNameUniquenessChecker budgetNameUniquenessChecker
 ) : IAsyncBusinessRule
 {

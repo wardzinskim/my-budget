@@ -88,7 +88,8 @@ public class PutBudgetTransferTests(IntegrationTestWebAppFactory application) : 
         var budgetId = Guid.NewGuid();
         var transferId = Guid.NewGuid();
         var requestBody =
-            new UpdateTransferRequest(faker.Random.String2(10), Math.Round(faker.Random.Decimal(), 2), "PLN", DateTime.UtcNow,
+            new UpdateTransferRequest(faker.Random.String2(10), Math.Round(faker.Random.Decimal(), 2), "PLN",
+                DateTime.UtcNow,
                 "CATEGORY");
 
         var budget =
@@ -114,16 +115,18 @@ public class PutBudgetTransferTests(IntegrationTestWebAppFactory application) : 
 
         budget = await _dbContext.Budgets
             .AsNoTracking()
-            .Include(x => x.Transfers)
             .SingleOrDefaultAsync(x => x.Id == budgetId);
 
+        var transfers = await _dbContext.Transfers.Where(x => x.BudgetId == budgetId)
+            .ToListAsync();
+
         Assert.NotNull(budget);
-        Assert.Single(budget.Transfers);
-        Assert.Equal(transferId, budget.Transfers.Single().Id);
-        Assert.Equal(requestBody.Name, budget.Transfers.Single().Name);
-        Assert.Equal(requestBody.Value, budget.Transfers.Single().Value.Value);
-        Assert.Equal(requestBody.Currency, budget.Transfers.Single().Value.Currency);
-        Assert.Equal(requestBody.Date, budget.Transfers.Single().TransferDate, TimeSpan.FromSeconds(1.0));
-        Assert.Equal(requestBody.Category, budget.Transfers.Single().Category);
+        Assert.Single(transfers);
+        Assert.Equal(transferId, transfers.Single().Id);
+        Assert.Equal(requestBody.Name, transfers.Single().Name);
+        Assert.Equal(requestBody.Value, transfers.Single().Value.Value);
+        Assert.Equal(requestBody.Currency, transfers.Single().Value.Currency);
+        Assert.Equal(requestBody.Date, transfers.Single().TransferDate, TimeSpan.FromSeconds(1.0));
+        Assert.Equal(requestBody.Category, transfers.Single().Category);
     }
 }

@@ -3,7 +3,7 @@ using MyBudget.SharedKernel;
 
 namespace MyBudget.Domain.Budgets.Rules;
 
-internal class TransferMustExists(IEnumerable<Transfer> transfers, Guid transferId) : IBusinessRule
+internal class TransferMustExists(IEnumerable<Transfer> transfers, TransferId transferId) : IBusinessRule
 {
     public Result Validate()
     {

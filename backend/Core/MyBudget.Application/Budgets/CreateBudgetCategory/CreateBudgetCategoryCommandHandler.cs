@@ -1,7 +1,6 @@
-﻿using MassTransit.Mediator;
+﻿using MyBudget.Application.Budgets.Services;
 using MyBudget.Domain.Budgets;
 using MyBudget.Infrastructure.Abstractions.Features;
-using MyBudget.SharedKernel;
 
 namespace MyBudget.Application.Budgets.CreateBudgetCategory;
 
@@ -9,7 +8,7 @@ public record CreateBudgetCategoryCommand(Guid BudgetId, string Name) : Request<
 
 public sealed class CreateBudgetCategoryCommandHandler(
     IBudgetRepository budgetRepository,
-    IRequestContext requestContext
+    IBudgetAccessValidator budgetAccessValidator
 )
     : MediatorRequestHandler<CreateBudgetCategoryCommand, Result>
 {
@@ -19,21 +18,13 @@ public sealed class CreateBudgetCategoryCommandHandler(
     )
     {
         var budget = await budgetRepository.GetAsync(request.BudgetId, cancellationToken).ConfigureAwait(false);
+        if (budget is null) return BudgetsErrors.BudgetNotFound;
 
-        if (budget is null)
-        {
-            return BudgetsErrors.BudgetNotFound;
-        }
-
-        var access = budget.HasAccess(requestContext.UserId);
-        if (access.IsFailure)
-        {
-            return access.Error;
-        }
+        var access = budgetAccessValidator.HasUserAccess(budget);
+        if (access.IsFailure) return access.Error;
 
         var result = budget.AddTransferCategory(request.Name);
-        if (result.IsFailure)
-            return result.Error;
+        if (result.IsFailure) return result.Error;
 
         return Result.Success();
     }

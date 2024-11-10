@@ -1,6 +1,8 @@
-﻿namespace MyBudget.Domain.Budgets;
+﻿using MyBudget.Domain.Shared;
+
+namespace MyBudget.Domain.Budgets;
 
 public interface IBudgetNameUniquenessChecker
 {
-    Task<bool> IsUniqueAsync(Guid ownerId, string name, CancellationToken cancellationToken = default);
+    Task<bool> IsUniqueAsync(UserId ownerId, string name, CancellationToken cancellationToken = default);
 }

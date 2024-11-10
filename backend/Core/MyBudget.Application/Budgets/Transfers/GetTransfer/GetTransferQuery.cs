@@ -1,6 +1,4 @@
-﻿using MassTransit.Mediator;
-using MyBudget.Application.Budgets.Model;
-using MyBudget.SharedKernel;
+﻿using MyBudget.Application.Budgets.Model;
 
 namespace MyBudget.Application.Budgets.Transfers.GetTransfer;
 
