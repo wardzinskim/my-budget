@@ -10,7 +10,7 @@ public class TransferEntityTypeConfiguration : IEntityTypeConfiguration<Transfer
 {
     public void Configure(EntityTypeBuilder<Transfer> builder)
     {
-        builder.ToTable("Transfers", SchemaName.Budget);
+        builder.ToTable("transfers", SchemaName.Budget);
 
         builder.Property(x => x.Id)
             .ValueGeneratedNever();
@@ -45,11 +45,13 @@ public class TransferEntityTypeConfiguration : IEntityTypeConfiguration<Transfer
         builder.OwnsOne(x => x.Value, m =>
         {
             m.Property(x => x.Currency)
-                .HasColumnName(nameof(Money.Currency))
+                .HasColumnName(nameof(Money.Currency).ToLower())
                 .HasMaxLength(8);
 
             m.Property(x => x.Value)
-                .HasColumnName(nameof(Money.Value));
+                .HasColumnName(nameof(Money.Value).ToLower());
         });
+
+        builder.HasQueryFilter(x => x.Status != TransferStatus.Deleted);
     }
 }

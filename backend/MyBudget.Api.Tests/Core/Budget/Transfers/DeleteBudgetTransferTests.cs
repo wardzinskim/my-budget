@@ -84,13 +84,17 @@ public class DeleteBudgetTransferTests(IntegrationTestWebAppFactory application)
         var budget =
             FakeBudgetBuilder.Build(budgetId, _application.UserId, faker.Random.String2(10));
 
-        budget.AddTransfer(new IdGeneratorMock(transferId), TransferType.Income,
-            new(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.UtcNow));
-        budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Income,
-            new(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.UtcNow));
-
+        var transfers =
+            new[]
+            {
+                budget.AddTransfer(new IdGeneratorMock(transferId), TransferType.Income,
+                    new(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.UtcNow)),
+                budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Income,
+                    new(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.UtcNow))
+            }.Select(x => x.Value).ToList();
 
         await _dbContext.Budgets.AddAsync(budget);
+        await _dbContext.Transfers.AddRangeAsync(transfers);
         await _dbContext.SaveChangesAsync();
         _dbContext.ChangeTracker.Clear();
 
@@ -107,7 +111,7 @@ public class DeleteBudgetTransferTests(IntegrationTestWebAppFactory application)
             .AsNoTracking()
             .SingleOrDefaultAsync(x => x.Id == budgetId);
 
-        var transfers = await _dbContext.Transfers
+        transfers = await _dbContext.Transfers
             .Where(x => x.BudgetId == budgetId)
             .ToListAsync();
 

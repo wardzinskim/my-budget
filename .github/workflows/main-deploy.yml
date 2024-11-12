@@ -237,28 +237,28 @@ jobs:
           DIGEST: ${{ steps.build-and-push.outputs.digest }}
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
 
-  deploy:
-    needs: [docker_build_frontend, docker_build_identity, docker_build_api]
-    runs-on: ubuntu-latest
+  # deploy:
+  #   needs: [docker_build_frontend, docker_build_identity, docker_build_api]
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
 
-      - name: Azure Login with secrets.AZURE_CREDENTIALS
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+  #     - name: Azure Login with secrets.AZURE_CREDENTIALS
+  #       uses: azure/login@v1
+  #       with:
+  #         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: my-budget-app
-          images: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}.api:${{ github.sha }}
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}.identity:${{ github.sha }}
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}.frontend:${{ github.sha }}
-          resource-group-name: my-budget
-          configuration-file: "./.github/docker-compose.yml"
-        env:
-          AZURE_WEBAPP_CONTAINER_WORKER_TYPE: "compose"
+  #     - name: Deploy to Azure Web App
+  #       uses: azure/webapps-deploy@v2
+  #       with:
+  #         app-name: my-budget-app
+  #         images: |
+  #           ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}.api:${{ github.sha }}
+  #           ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}.identity:${{ github.sha }}
+  #           ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}.frontend:${{ github.sha }}
+  #         resource-group-name: my-budget
+  #         configuration-file: "./.github/docker-compose.yml"
+  #       env:
+  #         AZURE_WEBAPP_CONTAINER_WORKER_TYPE: "compose"

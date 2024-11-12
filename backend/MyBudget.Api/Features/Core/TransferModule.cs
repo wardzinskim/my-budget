@@ -84,7 +84,7 @@ public class BudgetTransferModule : CarterModule
         var result = await mediator.SendRequest(
             new GetTransfersQuery(request.Id, request.Type, request.DateFrom, request.DateTo), cancellationToken);
 
-        return result.Match(x => Results.Ok(x));
+        return result.Match(Results.Ok);
     }
 
     private static async Task<IResult> DeleteTransfer(

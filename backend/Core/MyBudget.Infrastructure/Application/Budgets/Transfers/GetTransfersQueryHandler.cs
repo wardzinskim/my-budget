@@ -35,22 +35,33 @@ public sealed class GetTransfersQueryHandler(
         var access = budgetAccessValidator.HasUserAccess(budget);
         if (access.IsFailure) return access.Error;
 
-        var transfers = dbContext.Transfers
-            .Where(x => x.BudgetId == request.BudgetId && x.Type == type)
-            .Where(x => x.TransferDate >= dateFrom && x.TransferDate <= dateTo);
+        var transfers = await dbContext.Transfers
+            .Where(x => x.BudgetId == request.BudgetId && (type == null || x.Type == type))
+            .Where(x => x.TransferDate >= dateFrom && x.TransferDate <= dateTo)
+            .OrderByDescending(x => x.TransferDate)
+            .Select(x => new
+            {
+                x.Id,
+                x.TransferDate,
+                x.Value.Value,
+                x.Value.Currency,
+                x.Type,
+                x.Name,
+                x.Category
+            }).ToArrayAsync(cancellationToken);
 
         return new TransfersQueryResponse(
             dateFrom,
             dateTo,
-            transfers
-                .OrderByDescending(x => x.TransferDate)
-                .Select(x => new TransferDTO(
+            transfers.Select(
+                x => new TransferDTO(
                     x.Id,
                     x.TransferDate,
-                    x.Value.Value,
-                    x.Value.Currency,
+                    x.Value,
+                    x.Currency,
                     (TransferDTOType)x.Type,
                     x.Name,
-                    x.Category)));
+                    x.Category))
+        );
     }
 }

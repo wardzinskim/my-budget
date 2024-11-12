@@ -2,6 +2,7 @@
 using MyBudget.Api.Tests.Mocks;
 using MyBudget.Application.Budgets.GetBudgetTotals;
 using MyBudget.Domain.Budgets.Transfers;
+using System.Globalization;
 using System.Net.Http.Json;
 
 namespace MyBudget.Api.Tests.Core.Budget;
@@ -63,26 +64,28 @@ public class GetBudgetTotalsTests(IntegrationTestWebAppFactory application) : Bu
         var budget =
             FakeBudgetBuilder.Build(budgetId, _application.UserId, faker.Random.String2(10));
 
-
-        budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Income,
-            new(faker.Random.String2(10), 1, "PLN", new DateTime(2023, 12, 1)));
-        budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Income,
-            new(faker.Random.String2(10), 10, "PLN", new DateTime(2024, 1, 1)));
-        budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Income,
-            new(faker.Random.String2(10), 100, "PLN", new DateTime(2024, 1, 1)));
-        budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Income,
-            new(faker.Random.String2(10), 1000, "PLN", new DateTime(2024, 12, 1)));
-
-        budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Expense,
-            new(faker.Random.String2(10), 1, "PLN", new DateTime(2023, 12, 1)));
-        budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Expense,
-            new(faker.Random.String2(10), 10, "PLN", new DateTime(2024, 1, 1)));
-        budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Expense,
-            new(faker.Random.String2(10), 100, "PLN", new DateTime(2024, 1, 1)));
-        budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Expense,
-            new(faker.Random.String2(10), 1000, "PLN", new DateTime(2024, 12, 1)));
+        var transfers = new[]
+        {
+            budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Income,
+                new(faker.Random.String2(10), 1, "PLN", new DateTime(2023, 12, 1, 0, 0, 0, DateTimeKind.Utc))),
+            budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Income,
+                new(faker.Random.String2(10), 10, "PLN", new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc))),
+            budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Income,
+                new(faker.Random.String2(10), 100, "PLN", new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc))),
+            budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Income,
+                new(faker.Random.String2(10), 1000, "PLN", new DateTime(2024, 12, 1, 0, 0, 0, DateTimeKind.Utc))),
+            budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Expense,
+                new(faker.Random.String2(10), 1, "PLN", new DateTime(2023, 12, 1, 0, 0, 0, DateTimeKind.Utc))),
+            budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Expense,
+                new(faker.Random.String2(10), 10, "PLN", new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc))),
+            budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Expense,
+                new(faker.Random.String2(10), 100, "PLN", new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc))),
+            budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Expense,
+                new(faker.Random.String2(10), 1000, "PLN", new DateTime(2024, 12, 1, 0, 0, 0, DateTimeKind.Utc)))
+        }.Select(x => x.Value).ToList();
 
         await _dbContext.Budgets.AddAsync(budget);
+        await _dbContext.Transfers.AddRangeAsync(transfers);
         await _dbContext.SaveChangesAsync();
 
         Dictionary<string, string?> queryParams = new() {{"year", year?.ToString()}, {"month", month?.ToString()}};

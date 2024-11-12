@@ -11,10 +11,11 @@ public class DatabaseInstaller : IInstaller
         services.AddDbContextPool<ApplicationDbContext>((sp, dbContextOptions) =>
         {
             dbContextOptions
-                .UseSqlServer(configuration.GetConnectionString("Default"), configuration =>
+                .UseNpgsql(configuration.GetConnectionString("Default"), configuration =>
                 {
                     configuration.MigrationsHistoryTable("__EFMigrationsHistory", "identity");
-                });
+                })
+                .UseSnakeCaseNamingConvention();
 
             dbContextOptions.UseOpenIddict();
         });

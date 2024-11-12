@@ -44,7 +44,7 @@ public class PostBudgetTransferTests(IntegrationTestWebAppFactory application) :
 
         var transfer = await _dbContext.Transfers
             .AsNoTracking()
-            .Where(x => x.Id == budgetId)
+            .Where(x => x.BudgetId == budgetId)
             .FirstOrDefaultAsync();
 
         Assert.NotNull(transfer);

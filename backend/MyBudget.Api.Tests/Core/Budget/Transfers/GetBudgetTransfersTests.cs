@@ -53,13 +53,18 @@ public class GetBudgetTransfersTests(IntegrationTestWebAppFactory application) :
         var budget =
             FakeBudgetBuilder.Build(budgetId, _application.UserId, faker.Random.String2(10));
 
-        budget.AddTransfer(new IdGeneratorMock(transfer1), Domain.Budgets.Transfers.TransferType.Expense,
-            new(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.Now.AddDays(-1)));
-        budget.AddTransfer(new IdGeneratorMock(transfer2), Domain.Budgets.Transfers.TransferType.Expense,
-            new(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.Now.AddDays(-40)));
+        var transfers = new[]
+        {
+            budget.AddTransfer(new IdGeneratorMock(transfer1), Domain.Budgets.Transfers.TransferType.Expense,
+                new(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.UtcNow.AddDays(-1))),
+            budget.AddTransfer(new IdGeneratorMock(transfer2), Domain.Budgets.Transfers.TransferType.Expense,
+                new(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.UtcNow.AddDays(-40)))
+        }.Select(x => x.Value);
 
         await _dbContext.Budgets.AddAsync(budget);
+        await _dbContext.Transfers.AddRangeAsync(transfers);
         await _dbContext.SaveChangesAsync();
+        _dbContext.ChangeTracker.Clear();
 
         //act
 
@@ -90,12 +95,16 @@ public class GetBudgetTransfersTests(IntegrationTestWebAppFactory application) :
         var budget =
             FakeBudgetBuilder.Build(budgetId, _application.UserId, faker.Random.String2(10));
 
-        budget.AddTransfer(new IdGeneratorMock(transfer1), Domain.Budgets.Transfers.TransferType.Income,
-            new(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.Now.AddDays(-1)));
-        budget.AddTransfer(new IdGeneratorMock(transfer2), Domain.Budgets.Transfers.TransferType.Expense,
-            new(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.Now.AddDays(-1)));
+        var transfers = new[]
+        {
+            budget.AddTransfer(new IdGeneratorMock(transfer1), Domain.Budgets.Transfers.TransferType.Income,
+                new(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.UtcNow.AddDays(-1))),
+            budget.AddTransfer(new IdGeneratorMock(transfer2), Domain.Budgets.Transfers.TransferType.Expense,
+                new(faker.Random.String2(10), faker.Random.Decimal(), "PLN", DateTime.UtcNow.AddDays(-1)))
+        }.Select(x => x.Value);
 
         await _dbContext.Budgets.AddAsync(budget);
+        await _dbContext.Transfers.AddRangeAsync(transfers);
         await _dbContext.SaveChangesAsync();
 
         //act

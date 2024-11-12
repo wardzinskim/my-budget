@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MyBudget.Api.Tests.Mocks;
 using MyBudget.Infrastructure.Database;
-using Testcontainers.MsSql;
+using Testcontainers.PostgreSql;
 
 namespace MyBudget.Api.Tests;
 
 public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
-    private readonly MsSqlContainer _msSqlContainer = new MsSqlBuilder()
-        .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
+    private readonly PostgreSqlContainer _postgreSqlContainer = new PostgreSqlBuilder()
+        .WithImage("postgres:16.4-alpine3.20")
         .Build();
 
     public Guid UserId { get; set; } = Guid.Parse("261d2b6e-e53d-4d40-b1ec-234016d8f69b");
@@ -29,10 +29,11 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsy
             services.AddDbContextPool<BudgetContext>(dbContextOptions =>
             {
                 dbContextOptions
-                    .UseSqlServer(_msSqlContainer.GetConnectionString(), sqlServerOptions =>
+                    .UseNpgsql(_postgreSqlContainer.GetConnectionString(), postgresoptions =>
                     {
-                        sqlServerOptions.MigrationsAssembly(typeof(BudgetContext).Assembly.FullName);
-                    });
+                        postgresoptions.MigrationsAssembly(typeof(BudgetContext).Assembly.FullName);
+                    })
+                    .UseSnakeCaseNamingConvention();
             });
 
             services.AddAuthentication(options =>
@@ -49,7 +50,7 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsy
 
     public async Task InitializeAsync()
     {
-        await _msSqlContainer.StartAsync();
+        await _postgreSqlContainer.StartAsync();
         using var scope = Services.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<BudgetContext>();
         await dbContext.Database.MigrateAsync();
@@ -57,6 +58,6 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsy
 
     async Task IAsyncLifetime.DisposeAsync()
     {
-        await _msSqlContainer.StopAsync();
+        await _postgreSqlContainer.StopAsync();
     }
 }

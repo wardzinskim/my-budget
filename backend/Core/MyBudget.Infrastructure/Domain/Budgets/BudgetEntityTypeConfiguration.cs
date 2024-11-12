@@ -9,7 +9,7 @@ internal sealed class BudgetEntityTypeConfiguration : IEntityTypeConfiguration<B
 {
     public void Configure(EntityTypeBuilder<Budget> builder)
     {
-        builder.ToTable("Budgets", SchemaName.Budget);
+        builder.ToTable("budgets", SchemaName.Budget);
 
         builder.Property(x => x.Id)
             .ValueGeneratedNever();
@@ -41,7 +41,7 @@ internal sealed class BudgetEntityTypeConfiguration : IEntityTypeConfiguration<B
             b.WithOwner()
                 .HasForeignKey("BudgetId");
 
-            b.ToTable("Categories", SchemaName.Budget);
+            b.ToTable("categories", SchemaName.Budget);
 
             b.Property(x => x.Name)
                 .HasMaxLength(32)

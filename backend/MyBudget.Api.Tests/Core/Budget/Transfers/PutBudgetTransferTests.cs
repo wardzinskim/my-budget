@@ -95,11 +95,12 @@ public class PutBudgetTransferTests(IntegrationTestWebAppFactory application) : 
         var budget =
             FakeBudgetBuilder.Build(budgetId, _application.UserId, faker.Random.String2(10));
 
-        budget.AddTransfer(new IdGeneratorMock(transferId), TransferType.Income,
+        var transfer = budget.AddTransfer(new IdGeneratorMock(transferId), TransferType.Income,
             new(faker.Random.String2(10), faker.Random.Decimal(), "USD", DateTime.UtcNow));
         budget.AddTransferCategory("CATEGORY");
 
         await _dbContext.Budgets.AddAsync(budget);
+        await _dbContext.Transfers.AddAsync(transfer.Value);
         await _dbContext.SaveChangesAsync();
         _dbContext.ChangeTracker.Clear();
 
