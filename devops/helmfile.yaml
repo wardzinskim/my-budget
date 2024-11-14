@@ -1,8 +1,22 @@
 repositories:
- - name: postgres-operator-charts
-   url: https://opensource.zalando.com/postgres-operator/charts/postgres-operator
+  - name: postgres-operator-charts
+    url: https://opensource.zalando.com/postgres-operator/charts/postgres-operator
+  - name: ingress-nginx
+    url: https://kubernetes.github.io/ingress-nginx
 
 releases:
-- name: postgres-operator
-  namespace: db
-  chart: postgres-operator-charts/postgres-operator
+  - name: postgres-operator
+    namespace: db
+    chart: postgres-operator-charts/postgres-operator
+  - name: ingress-external
+    namespace: ingress-external
+    chart: ingress-nginx/ingress-nginx
+    set:
+      - name: controller.replicaCount
+        value: 1
+      - name: controller.ingressClass
+        value: ingress-external
+      - name: controller.image.tag
+        value: 3.7-alpine
+      - name: controller.hostNetwork
+        value: true
