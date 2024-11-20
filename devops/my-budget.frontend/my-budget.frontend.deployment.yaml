@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-budget-frontend
+  namespace: my-budget
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-budget-frontend
+  template:
+    metadata:
+      labels:
+        app: my-budget-frontend
+        app.kubernetes.io/name: my-budget-frontend
+    spec:
+      serviceAccountName: mybudget
+      containers:
+        - name: my-budget-frontend
+          image: ghcr.io/wardzinskim/my-budget.frontend:main
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: secrets
+              mountPath: "/usr/share/nginx/html/assets/config.js"
+              subPath: "config.js"
+              readOnly: true
+            - name: secrets
+              mountPath: "/etc/nginx/conf.d/default.conf"
+              subPath: "nginx.conf"
+              readOnly: true
+      volumes:
+        - name: secrets
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "spc-vault-mybudget-frontend"

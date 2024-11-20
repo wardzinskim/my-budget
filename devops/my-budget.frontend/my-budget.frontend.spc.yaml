@@ -1,0 +1,17 @@
+apiVersion: secrets-store.csi.x-k8s.io/v1
+kind: SecretProviderClass
+metadata:
+  name: spc-vault-mybudget-frontend
+  namespace: my-budget
+spec:
+  provider: vault
+  parameters:
+    vaultAddress: "http://vault.vault.svc.cluster.local:8200"
+    roleName: "mybudget"
+    objects: |
+      - objectName: "config.js"
+        secretPath: "kv/data/app/mybudget.frontend/config.js"
+        secretKey: "config.js"
+      - objectName: "nginx.conf"
+        secretPath: "kv/data/app/mybudget.frontend/nginx.conf"
+        secretKey: "nginx.conf"

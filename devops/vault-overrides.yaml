@@ -60,7 +60,7 @@ server:
     activeService: false
     ingressClassName: ingress-external
     hosts:
-      - host: localhost
+      - host: vault.mybudget.app
     annotations: |
       kubernetes.io/ingress.class: ingress-external
 
@@ -70,3 +70,6 @@ ui:
   serviceType: "LoadBalancer"
   serviceNodePort: null
   externalPort: 8200
+
+csi:
+  enabled: true

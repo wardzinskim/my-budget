@@ -5,6 +5,8 @@ repositories:
     url: https://kubernetes.github.io/ingress-nginx
   - name: hashicorp
     url: https://helm.releases.hashicorp.com
+  - name: secrets-store-csi-driver
+    url: https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
 
 releases:
   - name: postgres-operator
@@ -27,3 +29,9 @@ releases:
     chart: hashicorp/vault
     values:
       - vault-overrides.yaml
+  - name: csi
+    namespace: csi
+    chart: secrets-store-csi-driver/secrets-store-csi-driver
+    set:
+      - name: syncSecret.enabled
+        value: true

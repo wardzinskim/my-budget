@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: my-budget
+  labels:
+    name: my-budget
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mybudget
+  namespace: my-budget
