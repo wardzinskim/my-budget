@@ -3,6 +3,8 @@ repositories:
     url: https://opensource.zalando.com/postgres-operator/charts/postgres-operator
   - name: ingress-nginx
     url: https://kubernetes.github.io/ingress-nginx
+  - name: hashicorp
+    url: https://helm.releases.hashicorp.com
 
 releases:
   - name: postgres-operator
@@ -16,7 +18,12 @@ releases:
         value: 1
       - name: controller.ingressClass
         value: ingress-external
-      - name: controller.image.tag
-        value: 3.7-alpine
+      - name: controller.ingressClassResource.name
+        value: ingress-external
       - name: controller.hostNetwork
         value: true
+  - name: vault
+    namespace: vault
+    chart: hashicorp/vault
+    values:
+      - vault-overrides.yaml

@@ -1,0 +1,72 @@
+global:
+  enabled: true
+  tlsDisable: true
+  resources:
+    limits:
+      memory: 256Mi
+      cpu: 250m
+
+server:
+  # For HA configuration and because we need to manually init the vault,
+  # we need to define custom readiness/liveness Probe settings
+  readinessProbe:
+    enabled: true
+    path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
+  livenessProbe:
+    enabled: true
+    path: "/v1/sys/health?standbyok=true"
+    initialDelaySeconds: 60
+
+  # This configures the Vault Statefulset to create a PVC for audit logs.
+  # See https://www.vaultproject.io/docs/audit/index.html to know more
+  auditStorage:
+    enabled: true
+    size: 1Gi
+
+  standalone:
+    enabled: false
+
+  dataStorage:
+    size: 1Gi
+
+  # Run Vault in "HA" mode.
+  ha:
+    enabled: true
+    replicas: 1
+    raft:
+      enabled: true
+      setNodeId: true
+
+      config: |
+        ui = true
+        cluster_name = "vault-integrated-storage"
+        listener "tcp" {
+          address = "[::]:8200"
+          cluster_address = "[::]:8201"
+          tls_disable = "true"
+        }
+
+        storage "raft" {
+          path = "/vault/data"
+          retry_join {
+            leader_api_addr = "https://vault-0.vault-internal:8200"
+          }
+        }
+
+        service_registration "kubernetes" {}
+
+  ingress:
+    enabled: true
+    activeService: false
+    ingressClassName: ingress-external
+    hosts:
+      - host: localhost
+    annotations: |
+      kubernetes.io/ingress.class: ingress-external
+
+# Vault UI
+ui:
+  enabled: true
+  serviceType: "LoadBalancer"
+  serviceNodePort: null
+  externalPort: 8200
