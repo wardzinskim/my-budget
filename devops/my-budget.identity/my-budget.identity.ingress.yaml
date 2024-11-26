@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: my-budget-frontend-ingress
+  name: my-budget-identity-ingress
   namespace: my-budget
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
@@ -11,14 +11,14 @@ spec:
     - host: my-budget.xyz
       http:
         paths:
-          - path: /
+          - path: /identity
             pathType: Prefix
             backend:
               service:
-                name: my-budget-frontend-service
+                name: my-budget-identity-service
                 port:
                   number: 80
   tls:
     - hosts:
         - my-budget.xyz
-      secretName: my-budget-frontend-tls
+      secretName: my-budget-identity-tls

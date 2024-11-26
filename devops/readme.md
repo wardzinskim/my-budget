@@ -27,7 +27,7 @@ vault auth enable kubernetes
 
 ```bash
 cat <<EOF > /home/vault/mybudget-policy.hcl
-path "kv/app*" {
+path "kv/data/app*" {
   capabilities = ["read"]
 }
 EOF

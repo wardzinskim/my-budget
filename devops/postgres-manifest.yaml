@@ -14,10 +14,8 @@ spec:
     administrator:
       - superuser
       - createdb
-    my_budget_identity_user: []
     my_budget_user: []
   databases:
-    my_budget_identity: my_budget_identity_user
     my_budget: my_budget_user
   postgresql:
     version: "16"

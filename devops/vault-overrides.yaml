@@ -17,17 +17,11 @@ server:
     path: "/v1/sys/health?standbyok=true"
     initialDelaySeconds: 60
 
-  # This configures the Vault Statefulset to create a PVC for audit logs.
-  # See https://www.vaultproject.io/docs/audit/index.html to know more
-  auditStorage:
-    enabled: true
-    size: 1Gi
-
   standalone:
     enabled: false
 
   dataStorage:
-    size: 1Gi
+    size: 10Gi
 
   # Run Vault in "HA" mode.
   ha:
@@ -60,14 +54,19 @@ server:
     activeService: false
     ingressClassName: ingress-external
     hosts:
-      - host: vault.mybudget.app
+      - host: vault.my-budget.xyz
     annotations: |
       kubernetes.io/ingress.class: ingress-external
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    tls:
+      - hosts:
+          - vault.my-budget.xyz
+        secretName: example-tls
 
 # Vault UI
 ui:
   enabled: true
-  serviceType: "LoadBalancer"
+  serviceType: "ClusterIP"
   serviceNodePort: null
   externalPort: 8200
 

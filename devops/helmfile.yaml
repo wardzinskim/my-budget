@@ -7,6 +7,8 @@ repositories:
     url: https://helm.releases.hashicorp.com
   - name: secrets-store-csi-driver
     url: https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
+  - name: jetstack
+    url: https://charts.jetstack.io
 
 releases:
   - name: postgres-operator
@@ -24,6 +26,8 @@ releases:
         value: ingress-external
       - name: controller.hostNetwork
         value: true
+      - name: controller.service.type
+        value: ClusterIP
   - name: vault
     namespace: vault
     chart: hashicorp/vault
@@ -34,4 +38,10 @@ releases:
     chart: secrets-store-csi-driver/secrets-store-csi-driver
     set:
       - name: syncSecret.enabled
+        value: true
+  - name: cert-manager
+    namespace: cert-manager
+    chart: jetstack/cert-manager
+    set:
+      - name: installCRDs
         value: true
