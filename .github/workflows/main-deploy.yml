@@ -248,10 +248,12 @@ jobs:
       - name: Deploy Helm Chart
         uses: deliverybot/helm@v1
         with:
-          kubeconfig: ${{ secrets.KUBECONFIG }}
-          chart: ./devops/chart # Ścieżka do Twojego Helm Charta
-          release: my-budget-api # Nazwa releasu
-          namespace: my-budget
+          helm: "helm3"
+          chart: "./devops/chart"
+          release: "my-budget-api"
+          namespace: "my-budget"
+          version: "${{ github.sha }}"
+          token: '${{ github.token }}'
           values: |
             image.tag: ${{ github.sha }}
           createNamespace: true # Twórz namespace, jeśli nie istnieje
