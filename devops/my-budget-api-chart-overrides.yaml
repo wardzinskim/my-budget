@@ -1,0 +1,55 @@
+namespace: my-budget
+
+nameOverride: my-budget-api
+fullnameOverride: my-budget-api
+
+replicaCount: 1
+
+ingress:
+  enabled: true
+  className: ingress-external
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  hosts:
+    - host: my-budget.xyz
+      paths:
+        - path: /api
+          pathType: Prefix
+  tls:
+    - hosts:
+        - my-budget.xyz
+      secretName: my-budget-api-tls
+
+service:
+  type: ClusterIP
+  port: 80
+  containerPort: 8080
+
+serviceAccount:
+  create: true
+  name: my-budget-api-sa
+
+image:
+  repository: ghcr.io/wardzinskim/my-budget.api
+  pullPolicy: IfNotPresent
+  tag: main
+
+spc:
+  enabled: true
+  provider: vault
+  vaultAddress: http://vault.vault.svc.cluster.local:8200
+  roleName: my-budget-api-sa
+  volumeName: secrets
+  objects:
+    - secretPath: "kv/data/app/mybudget.api/appsettings.json"
+      secretKey: "appsettings.json"
+      mountPath: "/app/appsettings.json"
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+readinessProbe:
+  httpGet:
+    path: /health
+    port: http
