@@ -248,6 +248,36 @@ jobs:
       - name: Deploy Helm Chart
         uses: WyriHaximus/github-action-helm3@v3
         with:
-          exec: helm upgrade my-budget-api ./devops/chart --install --wait --atomic --namespace=my-budget --values=./devops/my-budget-api-chart-overrides.yaml --set image.tag=${{ github.sha }}  --verson=${{ github.sha }}
+          exec: helm upgrade my-budget-api ./devops/chart --install --wait --atomic --namespace=my-budget --values=./devops/my-budget-api-chart-overrides.yaml --set image.tag=${{ github.sha }} --version ${{ github.sha }}
+          kubeconfig: "${{ secrets.KUBECONFIG }}"
+          overrule_existing_kubeconfig: "true"
+
+  deploy-identity:
+    needs: [docker_build_identity]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy Helm Chart
+        uses: WyriHaximus/github-action-helm3@v3
+        with:
+          exec: helm upgrade my-budget-identity ./devops/chart --install --wait --atomic --namespace=my-budget --values=./devops/my-budget-identity-chart-overrides.yaml --set image.tag=${{ github.sha }} --version ${{ github.sha }}
+          kubeconfig: "${{ secrets.KUBECONFIG }}"
+          overrule_existing_kubeconfig: "true"
+
+  deploy-frontend:
+    needs: [docker_build_frontend]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy Helm Chart
+        uses: WyriHaximus/github-action-helm3@v3
+        with:
+          exec: helm upgrade my-budget-frontend ./devops/chart --install --wait --atomic --namespace=my-budget --values=./devops/my-budget-frontend-chart-overrides.yaml --set image.tag=${{ github.sha }} --version ${{ github.sha }}
           kubeconfig: "${{ secrets.KUBECONFIG }}"
           overrule_existing_kubeconfig: "true"
