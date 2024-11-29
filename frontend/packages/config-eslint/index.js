@@ -8,7 +8,7 @@ module.exports = {
     'plugin:react/jsx-runtime',
     'plugin:prettier/recommended',
   ],
-  ignorePatterns: ['dist', 'eslint.config.mjs'],
+  ignorePatterns: ['dist', 'eslint.config.mjs', 'vite.config.ts', 'config.js'],
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh', 'react'],
   rules: {
