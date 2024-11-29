@@ -13,8 +13,8 @@ export const BudgetCategoryList: React.FC<BudgetCategoryListProps> = ({
 }) => {
   const fetcher = useFetcher();
 
-  const archive = (category: CategoryDTO) => {
-    fetcher.submit(
+  const archive = async (category: CategoryDTO) => {
+    await fetcher.submit(
       {
         intent: 'archive',
         name: category.name!,

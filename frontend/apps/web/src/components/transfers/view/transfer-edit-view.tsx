@@ -1,12 +1,12 @@
 import { Container, Stack, Typography } from '@mui/material';
 import { useLoaderData } from 'react-router-dom';
-import { TransferDTO } from '@repo/api-client';
 import { TransferForm } from '../transfer-form';
+import { TransferDTO } from '@repo/api-client';
 
 interface TransferEditViewProps {}
 
 export const TransferEditView: React.FC<TransferEditViewProps> = () => {
-  const budget = useLoaderData() as TransferDTO;
+  const budget = useLoaderData<TransferDTO>();
 
   if (!budget) return <></>;
 

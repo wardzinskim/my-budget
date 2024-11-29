@@ -11,17 +11,20 @@
   "scripts": {
     "generate": "openapi-generator-cli generate --generator-key default",
     "build": "npm run generate && tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "update": "ncu -u"
   },
   "devDependencies": {
-    "@repo/eslint-config": "*",
-    "@repo/typescript-config": "*",
-    "@openapitools/openapi-generator-cli": "^2.13.1",
-    "eslint": "^8.57.0",
-    "typescript": "^5.4.3",
-    "vite": "^5.2.7"
+    "@openapitools/openapi-generator-cli": "^2.15.3",
+    "@repo/eslint-config": "^0.0.0",
+    "@repo/typescript-config": "^0.0.0",
+    "eslint": "^9.15.0",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.1",
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.15.0"
   },
   "peerDependencies": {
-    "axios": "^1.6.8"
+    "axios": "^1.7.8"
   }
 }

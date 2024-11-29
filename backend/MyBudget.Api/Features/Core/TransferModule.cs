@@ -3,6 +3,7 @@ using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
 using MyBudget.Api.Extensions;
+using MyBudget.Application.Budgets.Model;
 using MyBudget.Application.Budgets.Transfers.CreateTransfer;
 using MyBudget.Application.Budgets.Transfers.DeleteTransfer;
 using MyBudget.Application.Budgets.Transfers.GetTransfer;
@@ -54,7 +55,7 @@ public class BudgetTransferModule : CarterModule
 
         app.MapGet("{transferId:guid}", GetTransfer)
             .WithName(nameof(GetTransfer))
-            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status200OK, typeof(TransferDTO))
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status403Forbidden)
             .WithOpenApi();
@@ -127,6 +128,6 @@ public class BudgetTransferModule : CarterModule
         var result = await mediator.SendRequest(
             new GetTransferQuery(id, transferId), cancellationToken);
 
-        return result.Match((x) => Results.Ok(x));
+        return result.Match(Results.Ok);
     }
 }

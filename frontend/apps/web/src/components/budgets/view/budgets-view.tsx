@@ -5,7 +5,7 @@ import { BudgetDTO } from '@repo/api-client';
 import { useLoaderData } from 'react-router-dom';
 
 export const BudgetsView: React.FC = () => {
-  const budgets: BudgetDTO[] = useLoaderData() as BudgetDTO[];
+  const budgets: BudgetDTO[] = useLoaderData();
 
   return (
     <>

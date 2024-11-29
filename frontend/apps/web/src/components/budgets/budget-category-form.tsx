@@ -16,8 +16,8 @@ export const BudgetCategoryForm = () => {
       name: '',
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      fetcher.submit(
+    onSubmit: async (values) => {
+      await fetcher.submit(
         {
           intent: 'create',
           ...values,

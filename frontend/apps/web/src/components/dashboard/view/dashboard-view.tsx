@@ -3,14 +3,14 @@ import { DashboardContextPicker } from '../dashboard-context-picker';
 import { TotalsViewer } from '../widgets/totals-viewer';
 import { TransferDTOType } from '@repo/api-client';
 import { useLoaderData } from 'react-router-dom';
-import { DashboardLoaderResult } from '../../../pages/dashboard/dashboard.loader';
 import { ExpensesByCategoryBarChart } from '../widgets/expenses-by-category-bar-chart';
 import { ExpensesByCategoryPieChart } from '../widgets/expenses-by-category-pie-chart';
 import { BalanceViewer } from '../widgets/balance-viewer';
 import { ExpensesToIncomesRatio } from '../widgets/expenses-to-incomes-ratio';
+import { DashboardLoaderResult } from '../../../pages/dashboard/dashboard.loader';
 
 export const DashboardView: React.FC = () => {
-  const loaderData = useLoaderData() as DashboardLoaderResult;
+  const loaderData = useLoaderData<DashboardLoaderResult>();
   if (loaderData == null) return <></>;
 
   return (

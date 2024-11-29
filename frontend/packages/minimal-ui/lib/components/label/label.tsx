@@ -39,7 +39,7 @@ export const Label = forwardRef<unknown, LabelProps>(
     return (
       <StyledLabel
         ref={ref}
-        component="span"
+        // component="span"
         ownerState={{ color, variant }}
         sx={{
           ...(startIcon && { pl: 0.75 }),

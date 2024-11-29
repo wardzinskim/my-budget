@@ -1,6 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "tasks": {
     "build": {
       "dependsOn": [
         "^build"
@@ -20,7 +20,7 @@
     "watch": {
       "persistent": false,
       "cache": false
-    }
-  },
-  "experimentalUI": false
+    },
+    "update": {}
+  }
 }

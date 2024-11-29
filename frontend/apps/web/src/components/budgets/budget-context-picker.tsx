@@ -12,7 +12,7 @@ export const BudgetContextPicker: React.FC = () => {
 
   useEffect(() => {
     if (fetcher.state === 'idle' && !fetcher.data) {
-      fetcher.load('/budgets');
+      fetcher.load('/budgets').catch(() => {});
     }
   }, [fetcher]);
 

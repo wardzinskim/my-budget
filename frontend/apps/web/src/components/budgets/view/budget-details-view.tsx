@@ -14,7 +14,7 @@ const buildBudgetNavigation: (id: string) => Array<NavItem> = (id: string) => [
 ];
 
 export const BudgetDetailsView: React.FC = () => {
-  const budget: BudgetDTO = useLoaderData() as BudgetDTO;
+  const budget: BudgetDTO = useLoaderData();
 
   const navigation = useMemo<Array<NavItem>>(
     () => buildBudgetNavigation(budget.id!),

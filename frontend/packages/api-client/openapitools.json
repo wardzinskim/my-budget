@@ -2,7 +2,7 @@
   "$schema": "../../node_modules/@openapitools/openapi-generator-cli/config.schema.json",
   "spaces": 2,
   "generator-cli": {
-    "version": "7.4.0",
+    "version": "7.8.0",
     "generators": {
       "default": {
         "generatorName": "typescript-axios",
@@ -17,7 +17,8 @@
           "withSeparateModelsAndApi": true,
           "stringEnums": true,
           "apiPackage": "api",
-          "modelPackage": "model"
+          "modelPackage": "model",
+          "modelPropertyNaming": "camelCase"
         }
       }
     }

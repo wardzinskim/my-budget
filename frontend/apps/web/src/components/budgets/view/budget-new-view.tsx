@@ -34,8 +34,8 @@ export const BudgetNewView: React.FC<BudgetNewViewProps> = () => {
       description: undefined,
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      submit(
+    onSubmit: async (values) => {
+      await submit(
         {
           ...values,
         },

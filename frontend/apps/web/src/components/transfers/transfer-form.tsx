@@ -71,8 +71,8 @@ export const TransferForm: React.FC<TransferFormProps> = ({
           date: null,
         },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      submit(
+    onSubmit: async (values) => {
+      await submit(
         {
           ...values,
           date: values.date?.toJSON() ?? null,

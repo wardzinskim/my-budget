@@ -13,6 +13,7 @@ export default defineConfig({
     react(),
     checker({
       eslint: {
+        useFlatConfig: true,
         lintCommand: 'eslint "./lib/**/*.{js,jsx,ts,tsx}"',
       },
     }),

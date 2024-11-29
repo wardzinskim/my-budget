@@ -2,13 +2,13 @@ import { Button, Card, Container, Stack, Typography } from '@mui/material';
 import { Iconify, RouterLink, fDate } from '@repo/minimal-ui';
 import { useUserContext } from '../../../hooks/user-context';
 import { TransfersTable } from '../transfers-table';
-import { TransfersQueryResponse } from '@repo/api-client';
 import { useLoaderData } from 'react-router-dom';
 import { TransferFilters } from '../transfers-filters';
+import { TransfersQueryResponse } from '@repo/api-client';
 
 export const TransfersView: React.FC = () => {
   const [userContext] = useUserContext();
-  const transfersResponse = useLoaderData() as TransfersQueryResponse;
+  const transfersResponse = useLoaderData<TransfersQueryResponse>();
   return (
     <>
       <Container>

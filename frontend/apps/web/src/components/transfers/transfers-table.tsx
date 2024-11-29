@@ -105,9 +105,9 @@ export const TransfersTable: React.FC<TransfersTableProps> = ({
       alert.show(
         'Delete',
         'Are you sure want to delete?',
-        (result: boolean) => {
+        async (result: boolean) => {
           if (!result) return;
-          submit(
+          await submit(
             {
               intent: 'delete',
               transferId,

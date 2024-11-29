@@ -52,13 +52,13 @@ export const useChart = (options: ApexCharts.ApexOptions) => {
       hover: {
         filter: {
           type: 'lighten',
-          value: 0.04,
+          // value: 0.04,
         },
       },
       active: {
         filter: {
           type: 'darken',
-          value: 0.88,
+          // value: 0.88,
         },
       },
     },
@@ -125,7 +125,7 @@ export const useChart = (options: ApexCharts.ApexOptions) => {
       position: 'top',
       horizontalAlign: 'right',
       markers: {
-        radius: 12,
+        // radius: 12,
       },
       fontWeight: 500,
       itemMargin: {
