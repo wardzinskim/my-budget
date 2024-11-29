@@ -28,6 +28,8 @@ import type { HttpValidationProblemDetails } from '../model';
 // @ts-ignore
 import type { ProblemDetails } from '../model';
 // @ts-ignore
+import type { TransferDTO } from '../model';
+// @ts-ignore
 import type { TransferDTOType } from '../model';
 // @ts-ignore
 import type { TransfersQueryResponse } from '../model';
@@ -310,7 +312,7 @@ export const TransferApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getTransfer(id: string, transferId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async getTransfer(id: string, transferId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TransferDTO>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getTransfer(id, transferId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TransferApi.getTransfer']?.[localVarOperationServerIndex]?.url;
@@ -382,7 +384,7 @@ export const TransferApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTransfer(id: string, transferId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        getTransfer(id: string, transferId: string, options?: RawAxiosRequestConfig): AxiosPromise<TransferDTO> {
             return localVarFp.getTransfer(id, transferId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -445,7 +447,7 @@ export interface TransferApiInterface {
      * @throws {RequiredError}
      * @memberof TransferApiInterface
      */
-    getTransfer(id: string, transferId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    getTransfer(id: string, transferId: string, options?: RawAxiosRequestConfig): AxiosPromise<TransferDTO>;
 
     /**
      * 

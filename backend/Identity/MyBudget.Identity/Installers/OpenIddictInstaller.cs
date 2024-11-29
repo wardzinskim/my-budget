@@ -20,8 +20,8 @@ public class OpenIddictInstaller : IInstaller
                 options
                     .SetAuthorizationEndpointUris("authorize")
                     .SetTokenEndpointUris("token")
-                    .SetLogoutEndpointUris("logout")
-                    .SetUserinfoEndpointUris("userinfo")
+                    .SetEndSessionEndpointUris("endsession")
+                    .SetUserInfoEndpointUris("userinfo")
                     .SetIntrospectionEndpointUris("introspect");
 
                 options
@@ -39,7 +39,7 @@ public class OpenIddictInstaller : IInstaller
                     .DisableTransportSecurityRequirement()
                     .EnableAuthorizationEndpointPassthrough()
                     .EnableTokenEndpointPassthrough()
-                    .EnableLogoutEndpointPassthrough()
+                    .EnableEndSessionEndpointPassthrough()
                     .EnableStatusCodePagesIntegration();
             })
             .AddValidation(options =>
