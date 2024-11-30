@@ -9,9 +9,9 @@ ingress:
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
   hosts:
-    - host: my-budget.xyz
+    - host: identity.my-budget.xyz
       paths:
-        - path: /identity
+        - path: /
           pathType: Prefix
   tls:
     - hosts:
