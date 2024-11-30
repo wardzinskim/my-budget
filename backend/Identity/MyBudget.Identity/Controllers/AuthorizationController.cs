@@ -310,10 +310,10 @@ public class AuthorizationController : Controller
     public IActionResult Deny() => Forbid(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
 
 
-    [HttpGet("endsession")]
+    [HttpGet("~/endsession")]
     public IActionResult EndSession() => View();
 
-    [ActionName(nameof(EndSession)), HttpPost("/endsession"), ValidateAntiForgeryToken]
+    [ActionName(nameof(EndSession)), HttpPost("~/endsession"), ValidateAntiForgeryToken]
     public async Task<IActionResult> LogoutPost(CancellationToken cancellationToken)
     {
         // Ask ASP.NET Core Identity to delete the local and external cookies created

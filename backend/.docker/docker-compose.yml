@@ -5,7 +5,7 @@ services:
       context: ../
       dockerfile: MyBudget.Api/Dockerfile
 
-  mybudget.identity:
+  mybudget.identity.app:
     image: ${DOCKER_REGISTRY-}mybudgetidentity
     build:
       context: ..

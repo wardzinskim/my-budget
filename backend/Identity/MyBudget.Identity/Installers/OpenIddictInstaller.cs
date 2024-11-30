@@ -1,5 +1,6 @@
 ﻿using MyBudget.Identity.Data;
 using MyBudget.Infrastructure.Abstractions.Installer;
+using OpenIddict.Abstractions;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace MyBudget.Identity.Installers;
@@ -34,6 +35,8 @@ public class OpenIddictInstaller : IInstaller
                     .AddDevelopmentEncryptionCertificate()
                     .AddDevelopmentSigningCertificate();
 
+                options.RequireProofKeyForCodeExchange();
+
                 options
                     .UseAspNetCore()
                     .DisableTransportSecurityRequirement()
@@ -41,6 +44,31 @@ public class OpenIddictInstaller : IInstaller
                     .EnableTokenEndpointPassthrough()
                     .EnableEndSessionEndpointPassthrough()
                     .EnableStatusCodePagesIntegration();
+            })
+            .AddClient(options =>
+            {
+                options.AllowAuthorizationCodeFlow();
+
+                options.AddDevelopmentEncryptionCertificate()
+                    .AddDevelopmentSigningCertificate();
+
+                options.UseAspNetCore()
+                    .EnablePostLogoutRedirectionEndpointPassthrough()
+                    .EnableStatusCodePagesIntegration()
+                    .EnableRedirectionEndpointPassthrough();
+
+                options.UseSystemNetHttp()
+                    .SetProductInformation(typeof(Program).Assembly);
+
+                options.UseWebProviders()
+                    .AddGoogle(option =>
+                    {
+                        option
+                            .SetClientId(configuration["ExternalProviders:Google:ClientId"]!)
+                            .SetClientSecret(configuration["ExternalProviders:Google:ClientSecret"]!)
+                            .SetRedirectUri("callback/login/google")
+                            .AddScopes(configuration["ExternalProviders:Google:Scopes"]!.Split(' '));
+                    });
             })
             .AddValidation(options =>
             {
