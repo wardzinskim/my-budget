@@ -15,7 +15,7 @@ ingress:
           pathType: Prefix
   tls:
     - hosts:
-        - my-budget.xyz
+        - identity.my-budget.xyz
       secretName: my-budget-identity-tls
 
 service:

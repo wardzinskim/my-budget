@@ -8,8 +8,8 @@
       "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}/swagger",
       "serviceActions": {
         "mybudget.api": "StartDebugging",
-        "mybudget.identity": "StartDebugging",
-        "mssql": "StartWithoutDebugging",
+        "mybudget.identity.app": "StartDebugging",
+        "postgres": "StartWithoutDebugging",
         "seq": "StartWithoutDebugging"
       }
     }
