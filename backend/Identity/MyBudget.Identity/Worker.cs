@@ -34,14 +34,8 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
                     DisplayName = "MyBudget Frontend Application",
                     ClientType = ClientTypes.Public,
                     ApplicationType = ApplicationTypes.Web,
-                    PostLogoutRedirectUris =
-                    {
-                        new Uri("http://localhost:5173"), new Uri("https://my-budget-app.azurewebsites.net")
-                    },
-                    RedirectUris =
-                    {
-                        new Uri("http://localhost:5173"), new Uri("https://my-budget-app.azurewebsites.net")
-                    },
+                    PostLogoutRedirectUris = {new Uri("http://localhost:5173")},
+                    RedirectUris = {new Uri("http://localhost:5173")},
                     Permissions =
                     {
                         Permissions.Endpoints.Authorization,
@@ -52,14 +46,14 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
                         Permissions.Scopes.Email,
                         Permissions.Scopes.Profile,
                         Permissions.Scopes.Roles,
-                        Permissions.Prefixes.Scope + "MyBudget"
+                        Permissions.Prefixes.Scope + "my_budget.api"
                     },
                     Requirements = {Requirements.Features.ProofKeyForCodeExchange}
                 }, cancellationToken);
         }
 
 
-        client = await manager.FindByClientIdAsync("MyBudget.Backend");
+        client = await manager.FindByClientIdAsync("MyBudget.Backend", cancellationToken);
 
         //if (client is not null)
         //{
@@ -76,7 +70,7 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
                 DisplayName = "MyBudget Backend Application",
                 ApplicationType = ApplicationTypes.Web,
                 Permissions = {Permissions.Endpoints.Introspection},
-            });
+            }, cancellationToken);
         }
     }
 
@@ -85,11 +79,11 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
     {
         var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictScopeManager>();
 
-        if (await manager.FindByNameAsync("MyBudget") is null)
+        if (await manager.FindByNameAsync("my_budget.api") is null)
         {
             await manager.CreateAsync(new OpenIddictScopeDescriptor
             {
-                Name = "MyBudget", Resources = {"MyBudget.Backend"}
+                Name = "my_budget.api", Resources = {"MyBudget.Backend"}
             });
         }
     }
