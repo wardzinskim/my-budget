@@ -42,3 +42,12 @@ spc:
     - secretPath: "kv/data/app/mybudget.identity/appsettings.json"
       secretKey: "appsettings.json"
       mountPath: "/app/appsettings.json"
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: http
+readinessProbe:
+  httpGet:
+    path: /health
+    port: http
