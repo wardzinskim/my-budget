@@ -37,13 +37,18 @@ public class OpenIddictInstaller : IInstaller
 
                 options.RequireProofKeyForCodeExchange();
 
-                options
+                var oiddConfig = options
                     .UseAspNetCore()
-                    .DisableTransportSecurityRequirement()
                     .EnableAuthorizationEndpointPassthrough()
                     .EnableTokenEndpointPassthrough()
                     .EnableEndSessionEndpointPassthrough()
                     .EnableStatusCodePagesIntegration();
+
+                if (hostingEnvironment.IsDevelopment())
+                {
+                    oiddConfig
+                        .DisableTransportSecurityRequirement();
+                }
             })
             .AddClient(options =>
             {

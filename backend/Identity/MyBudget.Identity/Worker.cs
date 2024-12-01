@@ -38,6 +38,7 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
                     RedirectUris = {new Uri("http://localhost:5173")},
                     Permissions =
                     {
+                        Permissions.Endpoints.EndSession,
                         Permissions.Endpoints.Authorization,
                         Permissions.Endpoints.Token,
                         Permissions.GrantTypes.AuthorizationCode,

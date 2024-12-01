@@ -314,7 +314,7 @@ public class AuthorizationController : Controller
     public IActionResult EndSession() => View();
 
     [ActionName(nameof(EndSession)), HttpPost("~/endsession"), ValidateAntiForgeryToken]
-    public async Task<IActionResult> LogoutPost(CancellationToken cancellationToken)
+    public async Task<IActionResult> EndSessionPost(CancellationToken cancellationToken)
     {
         // Ask ASP.NET Core Identity to delete the local and external cookies created
         // when the user agent is redirected from the external identity provider
