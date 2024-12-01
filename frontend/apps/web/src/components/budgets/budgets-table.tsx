@@ -48,6 +48,7 @@ const BudgetTableColumns: Array<ColumnDefinition<BudgetDTO>> = [
     ),
   },
   {
+    id: 'actions',
     label: '',
     align: 'right',
     sortable: false,

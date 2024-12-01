@@ -11,6 +11,7 @@ import {
   IDashboardContextState,
 } from './components/dashboard/hooks/dashboard-context';
 import { hasAuthParams, useAuth } from 'react-oidc-context';
+import { budgetApi } from './configuration/api';
 
 function App() {
   const [userContextState, setUserContextState] = useState<IUserContextState>(
@@ -39,6 +40,19 @@ function App() {
       setHasTriedSignin(true);
     }
   }, [auth, hasTriedSignin]);
+
+  useEffect(() => {
+    budgetApi
+      .getBudgets()
+      .then((response) => {
+        if (response.data.length != 0 && userContextState.budget == undefined) {
+          setUserContextState({
+            budget: response.data[0],
+          });
+        }
+      })
+      .catch(() => {});
+  }, [auth, auth.isAuthenticated, userContextState.budget]);
 
   if (auth.isLoading) {
     return <div>Signing you in/out...</div>;

@@ -10,7 +10,7 @@ import { visuallyHidden } from './utils';
 // ----------------------------------------------------------------------
 
 export interface ColumnDefinition<TItem> {
-  id?: Extract<keyof TItem, string>;
+  id?: Extract<keyof TItem, string> | 'actions';
   label: string;
   align?: 'inherit' | 'left' | 'center' | 'right' | 'justify';
   render?: (item: TItem) => JSX.Element;
@@ -37,7 +37,7 @@ export function MinimalTableHead<TItem>(props: MinimalTableHeadProps<TItem>) {
     <TableHead>
       <TableRow>
         {props.withSelection && (
-          <TableCell padding="checkbox">
+          <TableCell padding="checkbox" key="checkbox">
             <Checkbox
               indeterminate={
                 props.numSelected > 0 && props.numSelected < props.rowCount
@@ -57,7 +57,7 @@ export function MinimalTableHead<TItem>(props: MinimalTableHeadProps<TItem>) {
             sortDirection={props.orderBy === headCell.id ? props.order : false}
             // sx={{ width: headCell.width, minWidth: headCell.minWidth }}
           >
-            {headCell.sortable ? (
+            {headCell.sortable && headCell.id !== 'actions' ? (
               <TableSortLabel
                 hideSortIcon
                 active={props.orderBy === headCell.id}
