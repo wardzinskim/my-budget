@@ -797,6 +797,10 @@
           "expenses": {
             "type": "number",
             "format": "double"
+          },
+          "taxes": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
@@ -989,7 +993,8 @@
       "TransferDTOType": {
         "enum": [
           "Income",
-          "Expense"
+          "Expense",
+          "Tax"
         ],
         "type": "string"
       },

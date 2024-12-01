@@ -13,5 +13,6 @@ public record TransferDTO(
 public enum TransferDTOType
 {
     Income,
-    Expense
+    Expense,
+    Tax
 }

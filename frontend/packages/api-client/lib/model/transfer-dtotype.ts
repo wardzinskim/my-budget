@@ -21,4 +21,5 @@
 export enum TransferDTOType {
   Income = 'Income',
   Expense = 'Expense',
+  Tax = 'Tax',
 }

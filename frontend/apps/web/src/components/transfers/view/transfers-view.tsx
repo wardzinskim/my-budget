@@ -16,6 +16,7 @@ export const TransfersView: React.FC = () => {
           direction="row"
           alignItems="center"
           justifyContent="space-between"
+          sx={{ flexWrap: 'wrap' }}
           mb={5}
         >
           <Typography variant="h4">
@@ -31,6 +32,16 @@ export const TransfersView: React.FC = () => {
               startIcon={<Iconify icon="eva:plus-fill" />}
             >
               Add Income
+            </Button>
+
+            <Button
+              component={RouterLink}
+              href="/transfers/new/tax"
+              variant="contained"
+              color="inherit"
+              startIcon={<Iconify icon="eva:plus-fill" />}
+            >
+              Add Tax
             </Button>
 
             <Button

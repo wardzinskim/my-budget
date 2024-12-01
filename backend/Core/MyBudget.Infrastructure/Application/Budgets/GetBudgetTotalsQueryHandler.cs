@@ -35,6 +35,8 @@ public sealed class GetBudgetTotalsQueryHandler(IBudgetAccessValidator budgetAcc
             totals.FirstOrDefault(x => x.Type == TransferType.Income)?.TotalValue ??
             0,
             totals.FirstOrDefault(x => x.Type == TransferType.Expense)?.TotalValue ??
+            0,
+            totals.FirstOrDefault(x => x.Type == TransferType.Tax)?.TotalValue ??
             0
         );
     }

@@ -16,7 +16,8 @@ export const AppLayout = () => {
         auth && {
           displayName: auth.user?.profile.preferred_username,
           photoUrl:
-            auth.user?.profile.picture ?? 'assets/images/avatars/avatar_25.jpg',
+            auth.user?.profile.picture ??
+            '/assets/images/avatars/avatar_25.jpg',
         }
       }
       headerRightContent={auth?.user && <LogoutButton />}
@@ -26,7 +27,7 @@ export const AppLayout = () => {
           <BudgetContextPicker />
         </Stack>
       }
-      logoSrc="assets/logo.svg"
+      logoSrc="/assets/logo.svg"
     >
       <Suspense>
         <Outlet />

@@ -30,4 +30,10 @@ export interface BudgetTotals {
    * @memberof BudgetTotals
    */
   expenses?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof BudgetTotals
+   */
+  taxes?: number;
 }

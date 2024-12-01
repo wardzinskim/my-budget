@@ -92,6 +92,12 @@ export default function Router() {
           action: transferNewPageAction(userContext),
         },
         {
+          path: '/transfers/new/tax',
+          element: <TransfersNewPage type={TransferDTOType.Tax} />,
+          // errorElement: <TransferErrorPage />,
+          action: transferNewPageAction(userContext),
+        },
+        {
           path: '/transfers/new/expense',
           element: <TransfersNewPage type={TransferDTOType.Expense} />,
           // errorElement: <TransferErrorPage />,

@@ -47,7 +47,7 @@ public class BudgetStatisticsModule : CarterModule
         var result = await mediator.SendRequest(
             new GetBudgetTotalsQuery(id, year, month), cancellationToken);
 
-        return result.Match((x) => Results.Ok(x));
+        return result.Match(Results.Ok);
     }
 
     private static async Task<IResult> GetBudgetTransfersTotalsGropedByCategory(
@@ -62,6 +62,6 @@ public class BudgetStatisticsModule : CarterModule
         var result = await mediator.SendRequest(
             new GetBudgetTransfersTotalsGroupedByCategoryQuery(id, type, year, month), cancellationToken);
 
-        return result.Match((x) => Results.Ok(x));
+        return result.Match(Results.Ok);
     }
 }

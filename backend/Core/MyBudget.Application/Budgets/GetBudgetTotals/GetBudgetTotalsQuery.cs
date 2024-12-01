@@ -3,4 +3,4 @@
 public record GetBudgetTotalsQuery(Guid Id, int? Year = null, int? Month = null)
     : Request<Result<BudgetTotals>>;
 
-public record BudgetTotals(decimal Incomes, decimal Expenses);
+public record BudgetTotals(decimal Incomes, decimal Expenses, decimal Taxes);
