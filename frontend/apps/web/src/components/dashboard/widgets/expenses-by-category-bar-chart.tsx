@@ -36,7 +36,7 @@ export const ExpensesByCategoryBarChart: React.FC<
       show: false,
     },
     xaxis: {
-      categories: categories.map((x) => x.category),
+      categories: categories.map((x) => x.category ?? 'uncategorized'),
     },
     yaxis: {
       title: {

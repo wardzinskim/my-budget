@@ -32,7 +32,7 @@ export const ExpensesByCategoryPieChart: React.FC<
         fontSize: '16px',
       },
     },
-    labels: categories.map((x) => x.category!),
+    labels: categories.map((x) => x.category ?? 'uncategorized'),
     legend: {
       show: true,
       position: 'right',
