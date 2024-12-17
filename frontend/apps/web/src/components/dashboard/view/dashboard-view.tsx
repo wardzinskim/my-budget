@@ -60,10 +60,10 @@ export const DashboardView: React.FC = () => {
 
         <Grid size={{ xs: 12, sm: 6, md: 4 }}>
           <ExpensesToIncomesRatio
-            expenses={
-              (loaderData.totals.expenses ?? 0) - (loaderData.totals.taxes ?? 0)
+            expenses={loaderData.totals.expenses ?? 0}
+            incomes={
+              (loaderData.totals.incomes ?? 0) - (loaderData.totals.taxes ?? 0)
             }
-            incomes={loaderData.totals.incomes ?? 0}
           />
         </Grid>
 
