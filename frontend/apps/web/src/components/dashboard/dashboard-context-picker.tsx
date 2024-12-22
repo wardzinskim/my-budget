@@ -14,7 +14,7 @@ export const DashboardContextPicker: React.FC = () => {
 
   return (
     dashboardContext && (
-      <Stack direction="row-reverse" spacing={3}>
+      <Stack direction="row-reverse" spacing={1}>
         <FormControl size="small">
           <InputLabel>Year</InputLabel>
           <Select

@@ -15,9 +15,14 @@ import { Iconify } from '../components';
 interface HeaderProps {
   onOpenNav: () => void;
   rightContent?: React.ReactNode;
+  centerContent?: React.ReactNode;
 }
 
-export function Header({ onOpenNav, rightContent }: HeaderProps) {
+export function Header({
+  onOpenNav,
+  rightContent,
+  centerContent,
+}: HeaderProps) {
   const theme = useTheme();
 
   const lgUp = useResponsive(Query.UP, 'lg');
@@ -32,7 +37,7 @@ export function Header({ onOpenNav, rightContent }: HeaderProps) {
 
       {/* <Searchbar /> */}
 
-      <Box sx={{ flexGrow: 1 }} />
+      <Box sx={{ flexGrow: 1 }}>{centerContent ?? <></>}</Box>
 
       <Stack direction="row" alignItems="center" spacing={1}>
         {/* <LanguagePopover /> */}

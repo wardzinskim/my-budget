@@ -29,7 +29,7 @@ export const TransfersView: React.FC = () => {
               href="/transfers/new/income"
               variant="contained"
               color="inherit"
-              startIcon={<Iconify icon="eva:plus-fill" />}
+              startIcon={<Iconify icon="game-icons:receive-money" />}
             >
               Add Income
             </Button>
@@ -39,7 +39,7 @@ export const TransfersView: React.FC = () => {
               href="/transfers/new/tax"
               variant="contained"
               color="inherit"
-              startIcon={<Iconify icon="eva:plus-fill" />}
+              startIcon={<Iconify icon="hugeicons:taxes" />}
             >
               Add Tax
             </Button>
@@ -49,7 +49,7 @@ export const TransfersView: React.FC = () => {
               href="/transfers/new/expense"
               variant="contained"
               color="inherit"
-              startIcon={<Iconify icon="eva:plus-fill" />}
+              startIcon={<Iconify icon="game-icons:pay-money" />}
             >
               Add Expense
             </Button>

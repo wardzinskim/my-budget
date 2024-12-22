@@ -6,6 +6,7 @@ import { Outlet } from 'react-router-dom';
 import { useAuth } from 'react-oidc-context';
 import { navigation } from '../routes/navigation-config';
 import { LogoutButton } from './components/logout-button';
+import { Header } from './components/header';
 
 export const AppLayout = () => {
   const auth = useAuth();
@@ -21,6 +22,7 @@ export const AppLayout = () => {
         }
       }
       headerRightContent={auth?.user && <LogoutButton />}
+      headerCenterContent={<Header />}
       navigationItems={navigation}
       navItemChildren={
         <Stack spacing={0.5} sx={{ px: 2, paddingBottom: 2 }}>

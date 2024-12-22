@@ -23,9 +23,7 @@ export const DashboardView: React.FC = () => {
         sx={{ flexWrap: 'wrap' }}
         justifyContent="space-between"
       >
-        <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back 👋
-        </Typography>
+        <Typography variant="h4">Hi, Welcome back 👋</Typography>
 
         <DashboardContextPicker />
       </Stack>

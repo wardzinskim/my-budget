@@ -13,6 +13,7 @@ interface LayoutProps extends React.PropsWithChildren {
   navItemChildren?: React.ReactNode;
   account?: Account;
   headerRightContent?: React.ReactNode;
+  headerCenterContent?: React.ReactNode;
   logoSrc?: string;
 }
 
@@ -24,6 +25,7 @@ export const Layout: React.FC<LayoutProps> = (props) => {
       <Header
         onOpenNav={() => setOpenNav(true)}
         rightContent={props.headerRightContent}
+        centerContent={props.headerCenterContent}
       />
 
       <Box
