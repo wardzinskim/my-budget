@@ -36,7 +36,6 @@ export const ExpensesByCategoryPieChart: React.FC<
     legend: {
       show: true,
       position: 'right',
-      floating: true,
     },
     tooltip: {
       fillSeriesColor: false,
@@ -44,13 +43,24 @@ export const ExpensesByCategoryPieChart: React.FC<
         formatter: (val) => `${fCurrency(val)} PLN`,
       },
     },
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          legend: {
+            show: true,
+            position: 'bottom',
+          },
+        },
+      },
+    ],
   });
 
   return (
     <Card>
       <CardHeader title=""></CardHeader>
 
-      <Box sx={{ p: 3, pb: 1 }}>
+      <Box sx={{ p: 0, pb: 0 }}>
         <Chart
           dir="ltr"
           type="pie"

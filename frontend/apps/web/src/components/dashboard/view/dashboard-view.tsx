@@ -15,7 +15,7 @@ export const DashboardView: React.FC = () => {
   if (loaderData == null) return <></>;
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="xl" sx={{ px: 1 }}>
       <Stack
         direction="row"
         spacing={2}

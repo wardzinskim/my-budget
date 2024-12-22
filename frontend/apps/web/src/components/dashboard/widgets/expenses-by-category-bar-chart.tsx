@@ -52,13 +52,26 @@ export const ExpensesByCategoryBarChart: React.FC<
         formatter: (val) => `${fCurrency(val)} PLN`,
       },
     },
+    responsive: [
+      {
+        breakpoint: 480,
+        options: {
+          chart: {},
+          yaxis: {
+            title: {
+              show: false,
+            },
+          },
+        },
+      },
+    ],
   });
 
   return (
     <Card>
       <CardHeader title="Expenses grouped into categories"></CardHeader>
 
-      <Box sx={{ p: 3, pb: 1 }}>
+      <Box sx={{ p: 0, pb: 0 }}>
         <Chart
           dir="ltr"
           type="bar"
