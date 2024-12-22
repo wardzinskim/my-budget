@@ -7,8 +7,8 @@
     "update": "ncu -u"
   },
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.16.0",
-    "@typescript-eslint/parser": "^8.16.0",
+    "@typescript-eslint/eslint-plugin": "^8.18.1",
+    "@typescript-eslint/parser": "^8.18.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.37.2"
   },
