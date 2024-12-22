@@ -2,7 +2,7 @@ import { Box, Button, Card, Container, Stack, Typography } from '@mui/material';
 import { Helmet } from 'react-helmet-async';
 import { MinimalTable } from '../../lib/components/table';
 import { ColumnDefinition } from '../../lib/components/table/table-head';
-import { Iconify } from '../../lib/components';
+import { Iconify, Label } from '../../lib/components';
 import { NavigationBar } from '../../lib/components/navigation-bar/navigation-bar';
 import { Chart, useChart } from '../../lib/components/chart';
 
@@ -204,6 +204,10 @@ export default function AppPage() {
             items={users}
             withSelection={false}
           ></MinimalTable>
+
+          <Label color="primary" variant="filled">
+            asdf
+          </Label>
 
           {/* <AlertDialog
             open={true}

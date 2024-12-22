@@ -14,7 +14,7 @@ export const ExpensesByCategoryBarChart: React.FC<
   const chartOptions = useChart({
     plotOptions: {
       bar: {
-        columnWidth: '35%',
+        columnWidth: '90%',
         distributed: true,
         dataLabels: {
           position: 'top',
@@ -56,7 +56,6 @@ export const ExpensesByCategoryBarChart: React.FC<
       {
         breakpoint: 480,
         options: {
-          chart: {},
           yaxis: {
             title: {
               show: false,

@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box';
-import { Theme, alpha, styled } from '@mui/material/styles';
+import { alpha, styled, PaletteColor } from '@mui/material/styles';
 
 // ----------------------------------------------------------------------
 
@@ -14,27 +14,23 @@ export type ColorType =
 export type VariantType = 'filled' | 'outlined' | 'ghost' | 'soft';
 
 interface StyledLabelProps {
-  theme: Theme;
-  ownerState: {
-    color: ColorType;
-    variant: VariantType;
-  };
+  color: ColorType;
+  variant: VariantType;
 }
 
-export const StyledLabel = styled(Box)(({
-  theme,
-  ownerState,
-}: StyledLabelProps) => {
+export const StyledLabel = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'color' && prop !== 'variant',
+})<StyledLabelProps>(({ theme, color, variant }) => {
   const lightMode = theme.palette.mode === 'light';
 
-  const filledVariant = ownerState.variant === 'filled';
+  const filledVariant = variant === 'filled';
 
-  const outlinedVariant = ownerState.variant === 'outlined';
+  const outlinedVariant = variant === 'outlined';
 
-  const softVariant = ownerState.variant === 'soft';
+  const softVariant = variant === 'soft';
 
   const defaultStyle = {
-    ...(ownerState.color === 'default' && {
+    ...(color === 'default' && {
       // FILLED
       ...(filledVariant && {
         color: lightMode ? theme.palette.common.white : theme.palette.grey[800],
@@ -54,23 +50,26 @@ export const StyledLabel = styled(Box)(({
     }),
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+  const paletteColor = (theme.palette as any)[color] as PaletteColor;
+
   const colorStyle = {
-    ...(ownerState.color !== 'default' && {
+    ...(color !== 'default' && {
       // FILLED
       ...(filledVariant && {
-        color: theme.palette[ownerState.color].contrastText,
-        backgroundColor: theme.palette[ownerState.color].main,
+        color: paletteColor.contrastText,
+        backgroundColor: paletteColor.main,
       }),
       // OUTLINED
       ...(outlinedVariant && {
         backgroundColor: 'transparent',
-        color: theme.palette[ownerState.color].main,
-        border: `2px solid ${theme.palette[ownerState.color].main}`,
+        color: paletteColor.main,
+        border: `2px solid ${paletteColor.main}`,
       }),
       // SOFT
       ...(softVariant && {
-        color: theme.palette[ownerState.color][lightMode ? 'dark' : 'light'],
-        backgroundColor: alpha(theme.palette[ownerState.color].main, 0.16),
+        color: paletteColor[lightMode ? 'dark' : 'light'],
+        backgroundColor: alpha(paletteColor.main, 0.16),
       }),
     }),
   };
