@@ -1,5 +1,4 @@
-﻿using Grpc.Core;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyBudget.Application.Budgets.Services;
@@ -20,10 +19,6 @@ public class ServicesInstaller : IInstaller
         services.AddGrpcClient<Users.UsersClient>((services, options) =>
         {
             options.Address = new Uri(configuration["MyBudget.Identity:ApiUrl"]!);
-            options.ChannelOptionsActions.Add(channelOptions =>
-            {
-                channelOptions.Credentials = ChannelCredentials.Insecure;
-            });
         });
     }
 }
