@@ -138,6 +138,66 @@
         }
       }
     },
+    "/budget/{id}/share": {
+      "post": {
+        "tags": [
+          "budget"
+        ],
+        "operationId": "ShareBudget",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShareBudgetRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": { }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/budget/{id}/totals": {
       "get": {
         "tags": [
@@ -763,6 +823,10 @@
             "type": "string",
             "nullable": true
           },
+          "ownerId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "status": {
             "$ref": "#/components/schemas/BudgetDTOStatus"
           },
@@ -774,6 +838,13 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CategoryDTO"
+            },
+            "nullable": true
+          },
+          "shares": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ShareDTO"
             },
             "nullable": true
           }
@@ -956,6 +1027,30 @@
           }
         },
         "additionalProperties": { }
+      },
+      "ShareBudgetRequest": {
+        "type": "object",
+        "properties": {
+          "login": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ShareDTO": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "login": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       },
       "TransferDTO": {
         "type": "object",

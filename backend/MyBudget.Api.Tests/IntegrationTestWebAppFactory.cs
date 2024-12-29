@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using MassTransit.Futures.Contracts;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MyBudget.Api.Tests.Mocks;
+using MyBudget.Application.Services;
 using MyBudget.Infrastructure.Database;
 using Testcontainers.PostgreSql;
 
@@ -16,6 +18,7 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsy
         .Build();
 
     public Guid UserId { get; set; } = Guid.Parse("261d2b6e-e53d-4d40-b1ec-234016d8f69b");
+    public UserServiceMock UserService { get; } = new UserServiceMock();
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -44,6 +47,8 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsy
                 })
                 .AddScheme<TestAuthHandlerOptions, TestAuthHandler>(TestAuthHandler.TestAuthScheme,
                     options => { options.UserId = () => UserId; });
+
+            services.AddTransient<IUserService>(_ => UserService);
         });
     }
 

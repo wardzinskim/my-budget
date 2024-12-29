@@ -1,7 +1,6 @@
 ﻿using MyBudget.Domain.Budgets.Events;
 using MyBudget.Domain.Budgets.Rules;
 using MyBudget.Domain.Budgets.Transfers;
-using MyBudget.Domain.Budgets.Transfers.Events;
 using MyBudget.Domain.Shared;
 using MyBudget.SharedKernel;
 
@@ -17,6 +16,7 @@ public class Budget : Entity, IAggregateRoot, IAuditable
         Status = BudgetStatus.Open;
         Description = description;
         _categories = [];
+        _shares = [];
 
         AddDomainEvent(new BudgetCreatedEvent(Id, OwnerId));
     }
@@ -32,6 +32,10 @@ public class Budget : Entity, IAggregateRoot, IAuditable
 
     private readonly List<TransferCategory> _categories;
     public IEnumerable<TransferCategory> Categories => _categories.AsEnumerable();
+
+    private readonly List<BudgetShare> _shares;
+    public IEnumerable<BudgetShare> Shares => _shares.AsEnumerable();
+
 
     public static async Task<Result<Budget>> Create(
         IIdGenerator idGenerator,
@@ -111,5 +115,21 @@ public class Budget : Entity, IAggregateRoot, IAuditable
         if (transfer.IsFailure) return transfer.Error;
 
         return transfer.Value;
+    }
+
+    public Result Share(Guid userId, string userName)
+    {
+        var result = CheckRules(new BudgetMustNotBeSharedToOwner(OwnerId, userId),
+            new BudgetIsAlreadyShared(Shares, userId));
+
+        if (result.IsFailure) return result.Error;
+
+        var share = BudgetShare.Create(userId, userName);
+        if (share.IsFailure) return share.Error;
+
+        _shares.Add(share.Value);
+        AddDomainEvent(new BudgetSharedEvent(Id, share.Value.UserId));
+
+        return Result.Success();
     }
 }

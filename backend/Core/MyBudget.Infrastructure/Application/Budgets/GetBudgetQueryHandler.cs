@@ -28,8 +28,10 @@ public sealed class GetBudgetQueryHandler(
         return new BudgetDTO(budget.Id,
             budget.Name,
             budget.Description,
+            budget.OwnerId,
             (BudgetDTOStatus)budget.Status,
             budget.CreationDate,
-            budget.Categories.Select(x => new CategoryDTO(x.Name, (CategoryDTOStatus)x.Status)));
+            budget.Categories.Select(x => new CategoryDTO(x.Name, (CategoryDTOStatus)x.Status)),
+            budget.Shares.Select(x => new ShareDTO(x.UserId, x.UserName)));
     }
 }

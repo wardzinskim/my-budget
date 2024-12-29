@@ -54,7 +54,10 @@ const BudgetTableColumns: Array<ColumnDefinition<BudgetDTO>> = [
     sortable: false,
     render: (item: BudgetDTO) => (
       <Tooltip title="Details" placement="left">
-        <IconButton component={RouterLink} href={`/budgets/${item.id}`}>
+        <IconButton
+          component={RouterLink}
+          href={`/budgets/${item.id}/categories`}
+        >
           <Iconify icon="carbon:view-filled" />
         </IconButton>
       </Tooltip>

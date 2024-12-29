@@ -54,5 +54,22 @@ internal sealed class BudgetEntityTypeConfiguration : IEntityTypeConfiguration<B
 
             b.HasKey("BudgetId", "Name");
         });
+
+        builder.OwnsMany(x => x.Shares, b =>
+        {
+            b.WithOwner()
+                .HasForeignKey("BudgetId");
+
+            b.ToTable("shares", SchemaName.Budget);
+
+            b.Property(x => x.UserId)
+                .IsRequired();
+
+            b.Property(x => x.UserName)
+                .HasMaxLength(50)
+                .IsRequired();
+
+            b.HasKey("BudgetId", "UserId");
+        });
     }
 }

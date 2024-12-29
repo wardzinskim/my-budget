@@ -5,6 +5,7 @@ import { action as budgetNewPageAction } from '../pages/budgets/new/budget-new.a
 import { action as transferNewPageAction } from '../pages/transfers/new/transfer-new.action';
 import { loader as budgetDetailsPageLoader } from '../pages/budgets/details/budget-details.loader';
 import { action as budgetDetailsPageAction } from '../pages/budgets/details/categories/budget-categories.action';
+import { action as budgetSharesPageAction } from '../pages/budgets/details/shares/budget-shares.action';
 import { action as transfersPageAction } from '../pages/transfers/transfers.action';
 import { loader as transfersPageLoader } from '../pages/transfers/transfers.loader';
 import { loader as transferEditPageLoader } from '../pages/transfers/edit/transfer-edit.loader';
@@ -27,6 +28,9 @@ export const BudgetDetailsPage = lazy(
 export const BudgetDetailsCategoriesPage = lazy(
   () => import('../pages/budgets/details/categories/budget-categories')
 );
+export const BudgetDetailsSharesPage = lazy(
+  () => import('../pages/budgets/details/shares/budget-shares')
+);
 export const TransfersPage = lazy(() => import('../pages/transfers/transfers'));
 export const TransfersNewPage = lazy(
   () => import('../pages/transfers/new/transfer-new')
@@ -39,6 +43,8 @@ export const TransfersEditPage = lazy(
 export const Paths = {
   budgetDetails: '/budgets/:id',
   transferEdit: '/transfers/:id/edit',
+  budgetCategories: '/budgets/:id/categories',
+  budgetShares: '/budgets/:id/shares',
 } as const;
 
 export default function Router() {
@@ -73,8 +79,14 @@ export default function Router() {
           children: [
             {
               index: true,
+              path: Paths.budgetCategories,
               element: <BudgetDetailsCategoriesPage />,
               action: budgetDetailsPageAction,
+            },
+            {
+              path: Paths.budgetShares,
+              element: <BudgetDetailsSharesPage />,
+              action: budgetSharesPageAction,
             },
           ],
         },

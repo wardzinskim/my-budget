@@ -9,6 +9,8 @@ export * from './create-budget-request';
 export * from './create-transfer-request';
 export * from './http-validation-problem-details';
 export * from './problem-details';
+export * from './share-budget-request';
+export * from './share-dto';
 export * from './transfer-dto';
 export * from './transfer-dtotype';
 export * from './transfers-query-response';

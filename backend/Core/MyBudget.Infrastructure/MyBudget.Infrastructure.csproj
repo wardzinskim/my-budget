@@ -7,17 +7,23 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\MyBudget.Infrastructure.Abstractions\MyBudget.Infrastructure.Abstractions.csproj" />
-      <ProjectReference Include="..\MyBudget.Application\MyBudget.Application.csproj" />
-      <ProjectReference Include="..\MyBudget.Domain\MyBudget.Domain.csproj" />
+        <ProjectReference Include="..\..\MyBudget.Infrastructure.Abstractions\MyBudget.Infrastructure.Abstractions.csproj"/>
+        <ProjectReference Include="..\MyBudget.Application\MyBudget.Application.csproj"/>
+        <ProjectReference Include="..\MyBudget.Domain\MyBudget.Domain.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="EFCore.NamingConventions" Version="9.0.0" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.0" />
-      <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0" />
-      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.2" />
+        <PackageReference Include="EFCore.NamingConventions" Version="9.0.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.0"/>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.2"/>
+        <PackageReference Include="Grpc.AspNetCore" Version="2.67.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Protobuf Include="Application\Services\Protos\users.proto" GrpcServices="Client">
+        </Protobuf>
     </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
-﻿using MyBudget.Infrastructure.Abstractions.Installer;
+﻿using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
+using MyBudget.Infrastructure.Abstractions.Installer;
 using OpenIddict.Validation.SystemNetHttp;
 
 namespace MyBudget.Api.Installers;
@@ -19,7 +20,10 @@ public class OpenIddictInstaller : IInstaller
                     .SetClientId(configuration["OpenIddict:ClientId"]!)
                     .SetClientSecret(configuration["OpenIddict:ClientSecret"]!);
 
-                options.UseSystemNetHttp();
+                options.UseSystemNetHttp(builder =>
+                {
+                    builder.ConfigureHttpClient(x => x.DefaultRequestVersion = new Version(2, 0));
+                });
 
                 options.UseAspNetCore();
             });

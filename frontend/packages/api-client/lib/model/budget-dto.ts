@@ -18,6 +18,9 @@ import type { BudgetDTOStatus } from './budget-dtostatus';
 // May contain unused imports in some cases
 // @ts-ignore
 import type { CategoryDTO } from './category-dto';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { ShareDTO } from './share-dto';
 
 /**
  *
@@ -45,6 +48,12 @@ export interface BudgetDTO {
   description?: string | null;
   /**
    *
+   * @type {string}
+   * @memberof BudgetDTO
+   */
+  ownerId?: string;
+  /**
+   *
    * @type {BudgetDTOStatus}
    * @memberof BudgetDTO
    */
@@ -61,4 +70,10 @@ export interface BudgetDTO {
    * @memberof BudgetDTO
    */
   categories?: Array<CategoryDTO> | null;
+  /**
+   *
+   * @type {Array<ShareDTO>}
+   * @memberof BudgetDTO
+   */
+  shares?: Array<ShareDTO> | null;
 }

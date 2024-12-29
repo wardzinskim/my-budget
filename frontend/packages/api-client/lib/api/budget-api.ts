@@ -46,6 +46,8 @@ import type { CreateBudgetRequest } from '../model';
 import type { HttpValidationProblemDetails } from '../model';
 // @ts-ignore
 import type { ProblemDetails } from '../model';
+// @ts-ignore
+import type { ShareBudgetRequest } from '../model';
 /**
  * BudgetApi - axios parameter creator
  * @export
@@ -293,6 +295,70 @@ export const BudgetApiAxiosParamCreator = function (
         options: localVarRequestOptions,
       };
     },
+    /**
+     *
+     * @param {string} id
+     * @param {ShareBudgetRequest} shareBudgetRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    shareBudget: async (
+      id: string,
+      shareBudgetRequest: ShareBudgetRequest,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists('shareBudget', 'id', id);
+      // verify required parameter 'shareBudgetRequest' is not null or undefined
+      assertParamExists(
+        'shareBudget',
+        'shareBudgetRequest',
+        shareBudgetRequest
+      );
+      const localVarPath = `/budget/{id}/share`.replace(
+        `{${'id'}}`,
+        encodeURIComponent(String(id))
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'POST',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Bearer required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        shareBudgetRequest,
+        localVarRequestOptions,
+        configuration
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
   };
 };
 
@@ -446,6 +512,38 @@ export const BudgetApiFp = function (configuration?: Configuration) {
           configuration
         )(axios, localVarOperationServerBasePath || basePath);
     },
+    /**
+     *
+     * @param {string} id
+     * @param {ShareBudgetRequest} shareBudgetRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async shareBudget(
+      id: string,
+      shareBudgetRequest: ShareBudgetRequest,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.shareBudget(
+        id,
+        shareBudgetRequest,
+        options
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['BudgetApi.shareBudget']?.[
+          localVarOperationServerIndex
+        ]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
   };
 };
 
@@ -526,6 +624,22 @@ export const BudgetApiFactory = function (
         .getBudgets_2(options)
         .then((request) => request(axios, basePath));
     },
+    /**
+     *
+     * @param {string} id
+     * @param {ShareBudgetRequest} shareBudgetRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    shareBudget(
+      id: string,
+      shareBudgetRequest: ShareBudgetRequest,
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<void> {
+      return localVarFp
+        .shareBudget(id, shareBudgetRequest, options)
+        .then((request) => request(axios, basePath));
+    },
   };
 };
 
@@ -586,6 +700,20 @@ export interface BudgetApiInterface {
    * @memberof BudgetApiInterface
    */
   getBudgets_2(options?: RawAxiosRequestConfig): AxiosPromise<Array<BudgetDTO>>;
+
+  /**
+   *
+   * @param {string} id
+   * @param {ShareBudgetRequest} shareBudgetRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof BudgetApiInterface
+   */
+  shareBudget(
+    id: string,
+    shareBudgetRequest: ShareBudgetRequest,
+    options?: RawAxiosRequestConfig
+  ): AxiosPromise<void>;
 }
 
 /**
@@ -658,6 +786,24 @@ export class BudgetApi extends BaseAPI implements BudgetApiInterface {
   public getBudgets_2(options?: RawAxiosRequestConfig) {
     return BudgetApiFp(this.configuration)
       .getBudgets_2(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} id
+   * @param {ShareBudgetRequest} shareBudgetRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof BudgetApi
+   */
+  public shareBudget(
+    id: string,
+    shareBudgetRequest: ShareBudgetRequest,
+    options?: RawAxiosRequestConfig
+  ) {
+    return BudgetApiFp(this.configuration)
+      .shareBudget(id, shareBudgetRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }

@@ -1,6 +1,7 @@
 using Grpc.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MyBudget.Identity.Contract;
 
 namespace MyBudget.Identity.grpc.Services;
 

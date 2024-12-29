@@ -7,6 +7,7 @@ using MyBudget.Application.Budgets.CreateBudget;
 using MyBudget.Application.Budgets.GetBudget;
 using MyBudget.Application.Budgets.GetBudgets;
 using MyBudget.Application.Budgets.Model;
+using MyBudget.Application.Budgets.ShareBudget;
 
 namespace MyBudget.Api.Features.Core;
 
@@ -29,17 +30,24 @@ public class BudgetModule : CarterModule
         app.MapGet("", GetBudgets)
             .WithName(nameof(GetBudgets))
             .WithTags("budget")
-            .Produces<IEnumerable<BudgetDTO>>(StatusCodes.Status200OK)
+            .Produces<IEnumerable<BudgetDTO>>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithOpenApi();
 
         app.MapGet("{id:guid}", GetBudget)
             .WithName(nameof(GetBudget))
             .WithTags("budget")
-            .Produces<BudgetDTO>(StatusCodes.Status200OK)
+            .Produces<BudgetDTO>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status403Forbidden)
+            .WithOpenApi();
+
+        app.MapPost("{id:guid}/share", ShareBudget).WithName(nameof(ShareBudget))
+            .Produces(StatusCodes.Status204NoContent)
+            .ProducesProblem(StatusCodes.Status403Forbidden)
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesValidationProblem()
             .WithOpenApi();
     }
 
@@ -62,7 +70,7 @@ public class BudgetModule : CarterModule
     {
         var result = await mediator.SendRequest(new GetBudgetsQuery(), cancellationToken);
 
-        return result.Match(x => Results.Ok(x));
+        return result.Match(Results.Ok);
     }
 
     private static async Task<IResult> GetBudget(
@@ -73,6 +81,18 @@ public class BudgetModule : CarterModule
     {
         var result = await mediator.SendRequest(new GetBudgetQuery(id), cancellationToken);
 
-        return result.Match(x => Results.Ok(x));
+        return result.Match(Results.Ok);
+    }
+
+    private static async Task<IResult> ShareBudget(
+        [FromRoute] Guid id,
+        [FromBody] ShareBudgetRequest request,
+        IMediator mediator,
+        CancellationToken cancellationToken
+    )
+    {
+        var result = await mediator.SendRequest(new ShareBudgetCommand(id, request.Login), cancellationToken);
+
+        return result.Match(Results.NoContent);
     }
 }

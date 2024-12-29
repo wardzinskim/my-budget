@@ -14,6 +14,7 @@ export const NavigationBar: React.FC<NavigationBarProps> = ({ items }) => {
       component="nav"
       direction="row"
       display="inline-flex"
+      spacing={2}
       marginBottom={theme.spacing(2)}
     >
       {items.map((item) => (

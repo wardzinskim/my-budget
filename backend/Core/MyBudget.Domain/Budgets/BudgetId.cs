@@ -1,4 +1,4 @@
-﻿using MyBudget.Domain.Shared.Rules;
+﻿using MyBudget.Domain.Budgets.Rules;
 using MyBudget.SharedKernel;
 
 namespace MyBudget.Domain.Budgets;
@@ -14,7 +14,7 @@ public record BudgetId : ValueObject
 
     public static Result<BudgetId> Of(Guid value)
     {
-        var result = CheckRules(new UserIdMustNotBeEmpty(value));
+        var result = CheckRules(new BudgetIdMustNotBeEmpty(value));
 
         if (result.IsFailure)
         {

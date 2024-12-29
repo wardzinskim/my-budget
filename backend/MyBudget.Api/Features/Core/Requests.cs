@@ -30,3 +30,5 @@ public record GetTransfersRequest(
     [FromQuery(Name = "dateFrom")] DateTime? DateFrom,
     [FromQuery(Name = "dateTo")] DateTime? DateTo
 );
+
+public record ShareBudgetRequest(string Login);

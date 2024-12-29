@@ -7,9 +7,14 @@ import { Outlet, useLoaderData } from 'react-router-dom';
 
 const buildBudgetNavigation: (id: string) => Array<NavItem> = (id: string) => [
   {
-    path: `/budgets/${id}`,
+    path: `/budgets/${id}/categories`,
     title: 'Categories',
     icon: <Iconify icon="material-symbols-light:category-outline" />,
+  },
+  {
+    path: `/budgets/${id}/shares`,
+    title: 'Shares',
+    icon: <Iconify icon="material-symbols-light:share" />,
   },
 ];
 
