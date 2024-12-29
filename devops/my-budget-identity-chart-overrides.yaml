@@ -8,7 +8,6 @@ ingress:
   className: ingress-external
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
   hosts:
     - host: identity.my-budget.xyz
       paths:
