@@ -13,12 +13,11 @@ public class OpenIddictInstaller : IInstaller
             {
                 options.SetIssuer(configuration["OpenIddict:Issuer"]!);
 
-                options.AddAudiences("MyBudget.Backend");
+                options.AddAudiences(configuration["OpenIddict:Audience"]!);
 
                 options.UseIntrospection()
-                    .SetClientId("MyBudget.Backend")
-                    .SetClientSecret("846B62D0-DEF9-4215-A99D-86E6B8DAB342");
-
+                    .SetClientId(configuration["OpenIddict:ClientId"]!)
+                    .SetClientSecret(configuration["OpenIddict:ClientSecret"]!);
 
                 options.UseSystemNetHttp();
 

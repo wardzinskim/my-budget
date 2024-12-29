@@ -26,7 +26,8 @@ public class OpenIddictInstaller : IInstaller
                     .SetIntrospectionEndpointUris("introspect");
 
                 options
-                    .AllowAuthorizationCodeFlow();
+                    .AllowAuthorizationCodeFlow()
+                    .AllowClientCredentialsFlow();
 
                 options
                     .RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles, "my_budget.api");
@@ -78,6 +79,8 @@ public class OpenIddictInstaller : IInstaller
             .AddValidation(options =>
             {
                 options.UseLocalServer();
+                options.SetIssuer(configuration["OpenIddict:Issuer"]!);
+                options.AddAudiences(configuration["OpenIddict:Audience"]!);
                 options.UseAspNetCore();
             });
     }

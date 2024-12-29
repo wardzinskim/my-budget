@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option csharp_namespace = "MyBudget.Identity";
+
+package users;
+
+service Users {
+  rpc FindUser (FindUserRequest) returns (UserDto);
+}
+
+message FindUserRequest {
+  string email = 1;
+}
+
+message UserDto {
+  string email = 1;
+  string id = 2;
+}

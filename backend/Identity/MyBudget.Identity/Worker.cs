@@ -56,6 +56,32 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
 
         client = await manager.FindByClientIdAsync("MyBudget.Backend", cancellationToken);
 
+        // if (client is not null)
+        // {
+        //     await manager.DeleteAsync(client, cancellationToken);
+        //     client = null;
+        // }
+
+        if (client is null)
+        {
+            await manager.CreateAsync(new OpenIddictApplicationDescriptor
+            {
+                ClientId = "MyBudget.Backend",
+                ClientSecret = "846B62D0-DEF9-4215-A99D-86E6B8DAB342",
+                DisplayName = "MyBudget Backend Application",
+                ApplicationType = ApplicationTypes.Web,
+                Permissions =
+                {
+                    Permissions.Endpoints.Introspection,
+                    Permissions.Endpoints.Token,
+                    Permissions.GrantTypes.ClientCredentials,
+                    Permissions.Prefixes.Scope + "my_budget.identity",
+                },
+            }, cancellationToken);
+        }
+
+        client = await manager.FindByClientIdAsync("MyBudget.Identity", cancellationToken);
+
         //if (client is not null)
         //{
         //    await manager.DeleteAsync(client);
@@ -66,11 +92,10 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
         {
             await manager.CreateAsync(new OpenIddictApplicationDescriptor
             {
-                ClientId = "MyBudget.Backend",
-                ClientSecret = "846B62D0-DEF9-4215-A99D-86E6B8DAB342",
-                DisplayName = "MyBudget Backend Application",
+                ClientId = "MyBudget.Identity",
+                ClientSecret = "57e9b95b-7e51-4917-bdde-34d5fa83dbfd",
+                DisplayName = "MyBudget Identity Application",
                 ApplicationType = ApplicationTypes.Web,
-                Permissions = {Permissions.Endpoints.Introspection},
             }, cancellationToken);
         }
     }
@@ -85,6 +110,14 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
             await manager.CreateAsync(new OpenIddictScopeDescriptor
             {
                 Name = "my_budget.api", Resources = {"MyBudget.Backend"}
+            });
+        }
+
+        if (await manager.FindByNameAsync("my_budget.identity") is null)
+        {
+            await manager.CreateAsync(new OpenIddictScopeDescriptor
+            {
+                Name = "my_budget.identity", Resources = {"MyBudget.Identity"}
             });
         }
     }
