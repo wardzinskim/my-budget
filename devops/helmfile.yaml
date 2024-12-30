@@ -28,6 +28,14 @@ releases:
         value: true
       - name: controller.service.type
         value: ClusterIP
+      - name: controller.config.proxy-buffer-size
+        value: 16k
+      - name: controller.config.proxy-buffers
+        value: 4 16k
+      - name: controller.config.proxy-busy-buffers-size
+        value: 32k
+      - name: controller.config.large-client-header-buffers
+        value: 4 16k
   - name: vault
     namespace: vault
     chart: hashicorp/vault
