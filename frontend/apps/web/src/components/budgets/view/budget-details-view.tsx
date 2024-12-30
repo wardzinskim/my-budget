@@ -4,26 +4,40 @@ import { Iconify, NavItem } from '@repo/minimal-ui';
 import { NavigationBar } from '@repo/minimal-ui';
 import { Suspense, useMemo } from 'react';
 import { Outlet, useLoaderData } from 'react-router-dom';
+import { useAuth } from 'react-oidc-context';
 
-const buildBudgetNavigation: (id: string) => Array<NavItem> = (id: string) => [
-  {
-    path: `/budgets/${id}/categories`,
-    title: 'Categories',
-    icon: <Iconify icon="material-symbols-light:category-outline" />,
-  },
-  {
-    path: `/budgets/${id}/shares`,
-    title: 'Shares',
-    icon: <Iconify icon="material-symbols-light:share" />,
-  },
-];
+const buildBudgetNavigation: (
+  budget: BudgetDTO,
+  currentUserId: string | undefined
+) => Array<NavItem> = (
+  budget: BudgetDTO,
+  currentUserId: string | undefined
+) => {
+  const routes = [
+    {
+      path: `/budgets/${budget.id}/categories`,
+      title: 'Categories',
+      icon: <Iconify icon="material-symbols-light:category-outline" />,
+    },
+  ];
+  if (budget.ownerId === currentUserId) {
+    routes.push({
+      path: `/budgets/${budget.id}/shares`,
+      title: 'Shares',
+      icon: <Iconify icon="material-symbols-light:share" />,
+    });
+  }
+
+  return routes;
+};
 
 export const BudgetDetailsView: React.FC = () => {
+  const auth = useAuth();
   const budget: BudgetDTO = useLoaderData();
 
   const navigation = useMemo<Array<NavItem>>(
-    () => buildBudgetNavigation(budget.id!),
-    [budget]
+    () => buildBudgetNavigation(budget, auth.user?.profile?.sub),
+    [budget, auth.user?.profile?.sub]
   );
 
   return (

@@ -12,7 +12,7 @@ public interface IBudgetAccessValidator
 public class BudgetAccessValidator(IRequestContext requestContext) : IBudgetAccessValidator
 {
     public Result IsOwner(Budget budget)
-        => budget.OwnerId != requestContext.UserId ? BudgetsErrors.BudgetAccessDenied : Result.Success();
+        => budget.OwnerId != requestContext.UserId ? BudgetsErrors.OnlyOwnerAccess : Result.Success();
 
     public Result HasUserAccess(Budget budget)
         => budget.OwnerId == requestContext.UserId || budget.Shares.Any(x => x.UserId == requestContext.UserId)

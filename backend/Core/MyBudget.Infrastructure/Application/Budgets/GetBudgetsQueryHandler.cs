@@ -14,7 +14,7 @@ public sealed class GetBudgetsQueryHandler(BudgetContext context, IRequestContex
     )
     {
         var result = await context.Budgets
-            .Where(x => x.OwnerId == requestContext.UserId)
+            .Where(x => x.OwnerId == requestContext.UserId || x.Shares.Any(y => y.UserId == requestContext.UserId))
             .AsNoTracking()
             .ToListAsync(cancellationToken).ConfigureAwait(false);
 

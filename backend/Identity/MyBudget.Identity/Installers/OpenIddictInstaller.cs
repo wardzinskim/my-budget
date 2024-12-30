@@ -30,7 +30,7 @@ public class OpenIddictInstaller : IInstaller
                     .AllowClientCredentialsFlow();
 
                 options
-                    .RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles, "my_budget.api");
+                    .RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles, "my_budget.api", "my_budget.identity");
 
                 options
                     .AddDevelopmentEncryptionCertificate()

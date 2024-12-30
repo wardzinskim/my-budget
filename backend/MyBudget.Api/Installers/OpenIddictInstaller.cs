@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
-using MyBudget.Infrastructure.Abstractions.Installer;
+﻿using MyBudget.Infrastructure.Abstractions.Installer;
+using OpenIddict.Client;
 using OpenIddict.Validation.SystemNetHttp;
 
 namespace MyBudget.Api.Installers;
@@ -20,20 +20,46 @@ public class OpenIddictInstaller : IInstaller
                     .SetClientId(configuration["OpenIddict:ClientId"]!)
                     .SetClientSecret(configuration["OpenIddict:ClientSecret"]!);
 
-                options.UseSystemNetHttp(builder =>
-                {
-                    builder.ConfigureHttpClient(x => x.DefaultRequestVersion = new Version(2, 0));
-                });
-
+                options.UseSystemNetHttp().ConfigureHttpClientHandler(x =>
+                    {
+                        if (hostingEnvironment.IsDevelopment())
+                        {
+                            x.ServerCertificateCustomValidationCallback =
+                                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+                        }
+                    }
+                );
                 options.UseAspNetCore();
-            });
-
-
-        services.AddHttpClient(typeof(OpenIddictValidationSystemNetHttpOptions).Assembly.GetName().Name)
-            .ConfigurePrimaryHttpMessageHandler(_ => new HttpClientHandler
+            })
+            .AddClient(options =>
             {
-                ServerCertificateCustomValidationCallback =
-                    HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+                options.AllowClientCredentialsFlow();
+                options.UseSystemNetHttp()
+                    .ConfigureHttpClientHandler(x =>
+                    {
+                        if (hostingEnvironment.IsDevelopment())
+                        {
+                            x.ServerCertificateCustomValidationCallback =
+                                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+                        }
+                    });
+                options.UseAspNetCore();
+
+                var clientConfiguration = new OpenIddictClientRegistration()
+                {
+                    ClientId = configuration["OpenIddict:ClientId"]!,
+                    ClientSecret = configuration["OpenIddict:ClientSecret"]!,
+                    Issuer = new Uri(configuration["OpenIddict:Issuer"]!, UriKind.Absolute),
+                    ProviderName = "default"
+                };
+
+                
+                foreach (string scope in configuration["OpenIddict:Scopes"]!.Split(" "))
+                {
+                    clientConfiguration.Scopes.Add(scope);
+                }
+
+                options.AddRegistration(clientConfiguration);
             });
     }
 }

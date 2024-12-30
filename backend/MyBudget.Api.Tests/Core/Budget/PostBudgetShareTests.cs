@@ -96,7 +96,13 @@ public class PostBudgetShareTests(IntegrationTestWebAppFactory application) : Bu
         var response =
             await _httpClient.PostAsJsonAsync($"/budget/{budgetId}/share", new ShareBudgetRequest(userLogin));
 
-        await AssertBudgetForbiddenAsync(response);
+        Assert.NotNull(response);
+        Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
+
+        var problemDetail = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+        Assert.NotNull(problemDetail);
+        Assert.Equal(StatusCodes.Status403Forbidden, problemDetail.Status);
+        Assert.Equal("only_owner_access", problemDetail.Extensions["code"]!.ToString());
     }
 
     [Fact]

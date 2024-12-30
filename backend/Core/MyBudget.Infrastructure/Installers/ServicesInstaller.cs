@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyBudget.Application.Budgets.Services;
 using MyBudget.Application.Services;
-using MyBudget.Identity.Contract;
 using MyBudget.Infrastructure.Abstractions.Installer;
 using MyBudget.Infrastructure.Application.Services;
 
@@ -15,10 +14,6 @@ public class ServicesInstaller : IInstaller
     {
         services.AddTransient<IBudgetAccessValidator, BudgetAccessValidator>();
         services.AddTransient<IUserService, UserService>();
-
-        services.AddGrpcClient<Users.UsersClient>((services, options) =>
-        {
-            options.Address = new Uri(configuration["MyBudget.Identity:ApiUrl"]!);
-        });
+        
     }
 }
