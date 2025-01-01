@@ -8,6 +8,7 @@ ingress:
   className: ingress-external
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
   hosts:
     - host: identity.my-budget.xyz
       paths:
@@ -43,11 +44,11 @@ spc:
       secretKey: "appsettings.json"
       mountPath: "/app/appsettings.json"
 
-livenessProbe:
-  httpGet:
-    path: /health
-    port: http
-readinessProbe:
-  httpGet:
-    path: /health
-    port: http
+# livenessProbe:
+#   httpGet:
+#     path: /health
+#     port: http
+# readinessProbe:
+#   httpGet:
+#     path: /health
+#     port: http

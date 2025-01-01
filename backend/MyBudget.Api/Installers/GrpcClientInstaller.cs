@@ -1,6 +1,7 @@
 ﻿using MyBudget.Identity.Contract;
 using MyBudget.Infrastructure.Abstractions.Installer;
 using OpenIddict.Client;
+using System.Net.Security;
 
 namespace MyBudget.Api.Installers;
 
@@ -19,18 +20,30 @@ public class GrpcClientInstaller : IInstaller
                 var result =
                     await tokenService.AuthenticateWithClientCredentialsAsync(new()
                     {
-                        ProviderName = "default", Scopes = registration.Scopes.ToList()
+                        ProviderName = "default",
+                        Scopes = registration.Scopes.ToList()
                     });
 
                 metadata.Add("Authorization", $"Bearer {result.AccessToken}");
             });
 
-        // if (hostingEnvironment.IsDevelopment())
+        if (hostingEnvironment.IsDevelopment())
         {
             grpcClientConfiguration.ConfigurePrimaryHttpMessageHandler(_ => new HttpClientHandler
             {
                 ServerCertificateCustomValidationCallback =
                     HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+            });
+        }
+        else
+        {
+            grpcClientConfiguration.ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
+            {
+                EnableMultipleHttp2Connections = true,
+                SslOptions = new SslClientAuthenticationOptions
+                {
+                    ApplicationProtocols = [SslApplicationProtocol.Http2]
+                }
             });
         }
     }
