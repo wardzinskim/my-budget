@@ -25,7 +25,7 @@ public class GrpcClientInstaller : IInstaller
                 metadata.Add("Authorization", $"Bearer {result.AccessToken}");
             });
 
-        if (hostingEnvironment.IsDevelopment())
+        // if (hostingEnvironment.IsDevelopment())
         {
             grpcClientConfiguration.ConfigurePrimaryHttpMessageHandler(_ => new HttpClientHandler
             {
