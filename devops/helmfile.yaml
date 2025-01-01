@@ -36,6 +36,8 @@ releases:
         value: 32k
       - name: controller.config.large-client-header-buffers
         value: 4 16k
+      - name: controller.config.use-http2
+        value: true
   - name: vault
     namespace: vault
     chart: hashicorp/vault

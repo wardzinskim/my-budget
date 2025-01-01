@@ -1,4 +1,5 @@
-﻿using MyBudget.Identity.Contract;
+﻿using Grpc.Net.Client;
+using MyBudget.Identity.Contract;
 using MyBudget.Infrastructure.Abstractions.Installer;
 using OpenIddict.Client;
 
@@ -31,6 +32,13 @@ public class GrpcClientInstaller : IInstaller
             {
                 ServerCertificateCustomValidationCallback =
                     HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+            });
+        }
+        else
+        {
+            services.Configure<GrpcChannelOptions>(options =>
+            {
+                options.HttpHandler = new SocketsHttpHandler {EnableMultipleHttp2Connections = true};
             });
         }
     }
