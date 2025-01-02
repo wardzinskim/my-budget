@@ -1,7 +1,7 @@
-﻿using MyBudget.Identity.Contract;
+﻿using Grpc.Net.Client.Web;
+using MyBudget.Identity.Contract;
 using MyBudget.Infrastructure.Abstractions.Installer;
 using OpenIddict.Client;
-using System.Net.Security;
 
 namespace MyBudget.Api.Installers;
 
@@ -9,7 +9,7 @@ public class GrpcClientInstaller : IInstaller
 {
     public void Install(IServiceCollection services, IConfiguration configuration, IHostEnvironment hostingEnvironment)
     {
-        var grpcClientConfiguration = services.AddGrpcClient<Users.UsersClient>((_, options) =>
+        services.AddGrpcClient<Users.UsersClient>((_, options) =>
             {
                 options.Address = new Uri(configuration["MyBudget.Identity:ApiUrl"]!);
             })
@@ -20,31 +20,22 @@ public class GrpcClientInstaller : IInstaller
                 var result =
                     await tokenService.AuthenticateWithClientCredentialsAsync(new()
                     {
-                        ProviderName = "default",
-                        Scopes = registration.Scopes.ToList()
+                        ProviderName = "default", Scopes = registration.Scopes.ToList()
                     });
 
                 metadata.Add("Authorization", $"Bearer {result.AccessToken}");
-            });
-
-        if (hostingEnvironment.IsDevelopment())
-        {
-            grpcClientConfiguration.ConfigurePrimaryHttpMessageHandler(_ => new HttpClientHandler
+            })
+            .ConfigureChannel(options =>
             {
-                ServerCertificateCustomValidationCallback =
-                    HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-            });
-        }
-        else
-        {
-            grpcClientConfiguration.ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
-            {
-                EnableMultipleHttp2Connections = true,
-                SslOptions = new SslClientAuthenticationOptions
+                var httpClientHandler = new HttpClientHandler();
+                if (hostingEnvironment.IsDevelopment())
                 {
-                    ApplicationProtocols = [SslApplicationProtocol.Http2]
+                    httpClientHandler.ServerCertificateCustomValidationCallback =
+                        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
                 }
+
+                options.HttpHandler =
+                    new GrpcWebHandler(GrpcWebMode.GrpcWebText, httpClientHandler); // gRPC-Web przez HTTP/1.1
             });
-        }
     }
 }
