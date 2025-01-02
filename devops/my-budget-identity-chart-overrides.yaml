@@ -25,9 +25,9 @@ ingress2:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
   hosts:
-    - host: identity.my-budget.xyz/grpc
+    - host: identity.my-budget.xyz
       paths:
-        - path: /
+        - path: /grpc
           pathType: Prefix
   tls:
     - hosts:
