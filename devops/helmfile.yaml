@@ -31,11 +31,13 @@ releases:
       - name: controller.config.proxy-buffer-size
         value: 16k
       - name: controller.config.proxy-buffers
-        value: 4 16k
+        value: 8 16k
       - name: controller.config.proxy-busy-buffers-size
         value: 32k
       - name: controller.config.large-client-header-buffers
         value: 4 16k
+      - name: controller.config.proxy-buffering
+        value: on
       - name: controller.config.use-http2
         value: true
   - name: vault
@@ -53,5 +55,5 @@ releases:
     namespace: cert-manager
     chart: jetstack/cert-manager
     set:
-      - name: installCRDs
+      - name: crds.enabled
         value: true

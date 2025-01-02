@@ -12,7 +12,10 @@ public class GrpcInstaller : IInstaller
 
     public void Use(WebApplication app)
     {
+        app.UseGrpcWeb();
+        
         app.MapGrpcService<UsersService>()
+            .EnableGrpcWeb()
             .RequireAuthorization("MyBudgetIdentity");
     }
 }
