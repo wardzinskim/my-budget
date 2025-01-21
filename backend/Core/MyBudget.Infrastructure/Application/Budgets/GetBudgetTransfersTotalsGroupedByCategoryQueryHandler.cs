@@ -33,7 +33,7 @@ public class GetBudgetTransfersTotalsGroupedByCategoryQueryHandler(
 
         var results = await budgetTransfersQuery
             .GroupBy(x => x.Category)
-            .Select(x => new CategoryValue(x.Key, x.Sum(x => x.Value.Value)))
+            .Select(x => new CategoryValue(x.Key, x.Sum(t => t.Value.Value)))
             .ToArrayAsync(cancellationToken).ConfigureAwait(false);
 
         return results;

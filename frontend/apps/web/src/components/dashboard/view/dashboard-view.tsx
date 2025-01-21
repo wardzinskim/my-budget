@@ -9,9 +9,12 @@ import { ExpensesToIncomesRatio } from '../widgets/expenses-to-incomes-ratio';
 import { DashboardLoaderResult } from '../../../pages/dashboard/dashboard.loader';
 import { TotalIncomesViewer } from '../widgets/total-incomes-viewer';
 import Grid from '@mui/material/Grid2';
+import { TransfersByCategoryList } from '../widgets/transfers-by-category-list';
+import { TransferDTOType } from '@repo/api-client';
 
 export const DashboardView: React.FC = () => {
   const loaderData = useLoaderData<DashboardLoaderResult>();
+
   if (loaderData == null) return <></>;
 
   return (
@@ -74,6 +77,20 @@ export const DashboardView: React.FC = () => {
         <Grid size={{ xs: 12 }}>
           <ExpensesByCategoryPieChart
             categories={loaderData.incomesGroupedByCategory}
+          />
+        </Grid>
+
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <TransfersByCategoryList
+            categories={loaderData.yearlyExpensesGroupedByCategory}
+            transferType={TransferDTOType.Expense}
+          />
+        </Grid>
+
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <TransfersByCategoryList
+            categories={loaderData.yearlyIncomesGroupedByCategory}
+            transferType={TransferDTOType.Income}
           />
         </Grid>
       </Grid>

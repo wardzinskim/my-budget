@@ -7,6 +7,8 @@ import { IDashboardContextState } from '../../components/dashboard/hooks/dashboa
 export interface DashboardLoaderResult {
   totals: BudgetTotals;
   incomesGroupedByCategory: CategoryValue[];
+  yearlyIncomesGroupedByCategory: CategoryValue[];
+  yearlyExpensesGroupedByCategory: CategoryValue[];
 }
 
 export const loader: (
@@ -15,7 +17,12 @@ export const loader: (
 ) => LoaderFunction = (userContext, dashboardContext) => async () => {
   if (userContext.budget == undefined) return null;
 
-  const [totals, incomesGroupedByCategory] = await Promise.all([
+  const [
+    totals,
+    incomesGroupedByCategory,
+    yearlyIncomesGroupedByCategory,
+    yearlyExpensesGroupedByCategory,
+  ] = await Promise.all([
     fetchTotals(
       userContext.budget.id!,
       dashboardContext.year,
@@ -26,9 +33,24 @@ export const loader: (
       dashboardContext.year,
       dashboardContext.month
     ),
+    fetchTransfersTotalsGroupedByCategory(
+      TransferDTOType.Income,
+      userContext.budget.id!,
+      dashboardContext.year
+    ),
+    fetchTransfersTotalsGroupedByCategory(
+      TransferDTOType.Expense,
+      userContext.budget.id!,
+      dashboardContext.year
+    ),
   ]);
 
-  return { totals, incomesGroupedByCategory } as DashboardLoaderResult;
+  return {
+    totals,
+    incomesGroupedByCategory,
+    yearlyIncomesGroupedByCategory,
+    yearlyExpensesGroupedByCategory,
+  } as DashboardLoaderResult;
 };
 
 const fetchTotals = async (budgetId: string, year?: number, month?: number) => {
@@ -46,6 +68,19 @@ const fetchExpensesTotalsGroupedByCategory = async (
     TransferDTOType.Expense,
     year,
     month
+  );
+  return response.data;
+};
+
+const fetchTransfersTotalsGroupedByCategory = async (
+  transferType: TransferDTOType,
+  budgetId: string,
+  year?: number
+) => {
+  const response = await statisticsApi.getBudgetTransfersTotalsGropedByCategory(
+    budgetId,
+    transferType,
+    year
   );
   return response.data;
 };
