@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.HttpOverrides;
 using MyBudget.Api.Installers;
+using MyBudget.Api.Installers.ExceptionHandlers;
 using MyBudget.Infrastructure.Abstractions.Installer;
 using MyBudget.Infrastructure.Installers;
 using Serilog;
@@ -39,7 +40,7 @@ public class Program
 
         app.UseSerilogRequestLogging();
         app.UseHttpsRedirection();
-        
+        ExceptionHandlersInstaller.Use(app);
         CorsInstaller.Use(app);
         AuthorizationInstaller.Use(app);
         HealthChecksInstaller.Use(app);

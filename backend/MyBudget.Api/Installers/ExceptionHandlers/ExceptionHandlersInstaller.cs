@@ -19,7 +19,7 @@ public sealed class ExceptionHandlersInstaller : IInstaller
         });
     }
 
-    public void Use(WebApplication app)
+    public static void Use(WebApplication app)
     {
         app.UseExceptionHandler();
         app.UseStatusCodePages();
