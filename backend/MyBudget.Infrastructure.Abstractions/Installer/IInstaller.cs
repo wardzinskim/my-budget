@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -12,6 +11,4 @@ public interface IInstaller
         IConfiguration configuration,
         IHostEnvironment hostingEnvironment
     );
-
-    void Use(WebApplication app) { }
 }

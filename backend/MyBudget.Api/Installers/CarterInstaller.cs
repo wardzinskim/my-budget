@@ -10,7 +10,7 @@ public sealed class CarterInstaller : IInstaller
         services.AddCarter();
     }
 
-    public void Use(WebApplication app)
+    public static void Use(WebApplication app)
     {
         app.MapCarter();
     }

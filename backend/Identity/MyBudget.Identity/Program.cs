@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.HttpOverrides;
+using MyBudget.Identity.Installers;
 using MyBudget.Infrastructure.Abstractions.Installer;
 using Serilog;
 
@@ -48,7 +49,11 @@ public class Program
         {
             app.UseExceptionHandler("/Error");
         }
-        app.Use(typeof(Program).Assembly);
+
+        MvcInstaller.Use(app);
+        HealthChecksInstaller.Use(app);
+        GrpcInstaller.Use(app);
+
         app.Run();
     }
 }

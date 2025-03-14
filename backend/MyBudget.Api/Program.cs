@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.HttpOverrides;
+using MyBudget.Api.Installers;
 using MyBudget.Infrastructure.Abstractions.Installer;
 using MyBudget.Infrastructure.Installers;
 using Serilog;
@@ -22,7 +23,6 @@ public class Program
 
         var app = builder.Build();
 
-
         var basePath = app.Configuration["BasePath"];
         if (!string.IsNullOrWhiteSpace(basePath))
         {
@@ -39,9 +39,13 @@ public class Program
 
         app.UseSerilogRequestLogging();
         app.UseHttpsRedirection();
-        app.Use(typeof(Program).Assembly)
-           .Use(typeof(RepositoryInstaller).Assembly);
-
+        
+        CorsInstaller.Use(app);
+        AuthorizationInstaller.Use(app);
+        HealthChecksInstaller.Use(app);
+        SwaggerInstaller.Use(app);
+        CarterInstaller.Use(app);
+        
         app.Run();
     }
 }

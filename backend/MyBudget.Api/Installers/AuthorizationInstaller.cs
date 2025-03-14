@@ -11,10 +11,9 @@ public sealed class AuthorizationInstaller : IInstaller
         services.AddAuthorization();
     }
 
-    public void Use(WebApplication app)
+    public static void Use(WebApplication app)
     {
         app.UseAuthentication();
         app.UseAuthorization();
     }
-
 }

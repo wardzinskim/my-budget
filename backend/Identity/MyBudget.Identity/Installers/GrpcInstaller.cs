@@ -10,7 +10,7 @@ public class GrpcInstaller : IInstaller
         services.AddGrpc();
     }
 
-    public void Use(WebApplication app)
+    public static void Use(WebApplication app)
     {
         app.UseGrpcWeb(new GrpcWebOptions() {DefaultEnabled = true});
 

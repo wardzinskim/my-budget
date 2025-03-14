@@ -11,7 +11,7 @@ public sealed class HealthChecksInstaller : IInstaller
         healthCheckBuilder.AddNpgSql(configuration.GetConnectionString("Default")!);
     }
 
-    public void Use(WebApplication app)
+    public static void Use(WebApplication app)
     {
         app.MapHealthChecks("/health");
     }

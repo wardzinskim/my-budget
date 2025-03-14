@@ -6,6 +6,11 @@ namespace MyBudget.Identity.Installers;
 
 public class MvcInstaller : IInstaller
 {
+    private record CorsConfig
+    {
+        public required string[] AllowedOrigins { get; init; }
+    }
+
     public void Install(IServiceCollection services, IConfiguration configuration, IHostEnvironment hostingEnvironment)
     {
         services.AddAuthorization(x =>
@@ -18,13 +23,14 @@ public class MvcInstaller : IInstaller
             });
         });
 
-        //TODO: for dev purpose only
+        var corsConfig = configuration.GetSection(nameof(CorsConfig)).Get<CorsConfig>();
+
         services.AddCors(options =>
         {
             options.AddDefaultPolicy(policy =>
             {
                 policy
-                    .AllowAnyOrigin()
+                    .WithOrigins(corsConfig!.AllowedOrigins)
                     .AllowAnyMethod()
                     .AllowAnyHeader();
             });
@@ -33,7 +39,7 @@ public class MvcInstaller : IInstaller
         services.AddRazorPages();
     }
 
-    public void Use(WebApplication app)
+    public static void Use(WebApplication app)
     {
         app.UseStaticFiles();
         app.UseRouting();

@@ -59,7 +59,7 @@ public sealed class SwaggerInstaller : IInstaller
         });
     }
 
-    public void Use(WebApplication app)
+    public static void Use(WebApplication app)
     {
         if (app.Environment.IsDevelopment())
         {
