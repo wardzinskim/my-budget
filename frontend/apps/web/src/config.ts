@@ -16,6 +16,7 @@ declare global {
 
 export const oidcConfig: AuthProviderProps = {
   authority: window.MyBudgetConfig?.oidcAuthority,
+  silent_redirect_uri: window.location.origin + '/silent-renew.html',
   automaticSilentRenew: true,
   client_id: window.MyBudgetConfig?.oidcClientId,
   redirect_uri: window.location.origin,
@@ -23,6 +24,8 @@ export const oidcConfig: AuthProviderProps = {
   scope: window.MyBudgetConfig?.oidcScope,
   loadUserInfo: true,
   post_logout_redirect_uri: window.location.origin,
+  checkSessionIntervalInSeconds: 60,
+  monitorSession: true,
   userStore: new WebStorageStateStore({ store: window.localStorage }),
   onSigninCallback: () => {
     window.history.replaceState({}, document.title, window.location.pathname);

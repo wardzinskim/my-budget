@@ -29,7 +29,8 @@ public class OpenIddictInstaller : IInstaller
 
                 options
                     .AllowAuthorizationCodeFlow()
-                    .AllowClientCredentialsFlow();
+                    .AllowClientCredentialsFlow()
+                    .AllowRefreshTokenFlow();
 
                 options
                     .RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles, "my_budget.api", "my_budget.identity");
@@ -40,7 +41,7 @@ public class OpenIddictInstaller : IInstaller
 
                 options.RequireProofKeyForCodeExchange();
 
-                var oiddConfig = options
+                var oidcConfig = options
                     .UseAspNetCore()
                     .EnableAuthorizationEndpointPassthrough()
                     .EnableTokenEndpointPassthrough()
@@ -49,7 +50,7 @@ public class OpenIddictInstaller : IInstaller
 
                 if (hostingEnvironment.IsDevelopment())
                 {
-                    oiddConfig
+                    oidcConfig
                         .DisableTransportSecurityRequirement();
                 }
             })

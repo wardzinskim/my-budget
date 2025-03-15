@@ -35,7 +35,7 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
                     ClientType = ClientTypes.Public,
                     ApplicationType = ApplicationTypes.Web,
                     PostLogoutRedirectUris = {new Uri("http://localhost:5173")},
-                    RedirectUris = {new Uri("http://localhost:5173")},
+                    RedirectUris = {new Uri("http://localhost:5173"), new Uri("http://localhost:5173/silent-renew.html")},
                     Permissions =
                     {
                         Permissions.Endpoints.EndSession,
