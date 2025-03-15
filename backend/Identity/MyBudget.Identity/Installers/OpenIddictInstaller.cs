@@ -1,6 +1,5 @@
 ﻿using MyBudget.Identity.Data;
 using MyBudget.Infrastructure.Abstractions.Installer;
-using OpenIddict.Abstractions;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace MyBudget.Identity.Installers;
@@ -15,6 +14,9 @@ public class OpenIddictInstaller : IInstaller
                 options
                     .UseEntityFrameworkCore()
                     .UseDbContext<ApplicationDbContext>();
+
+                options
+                    .UseQuartz();
             })
             .AddServer(options =>
             {
