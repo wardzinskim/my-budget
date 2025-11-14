@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFramework>net10.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<InvariantGlobalization>false</InvariantGlobalization>
@@ -14,25 +14,25 @@
 
 	<ItemGroup>
 		<PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0" />
-		<PackageReference Include="Carter" Version="10.0.0" />
+		<PackageReference Include="Carter" Version="9.0.0" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
-		<PackageReference Include="Grpc.Net.Client.Web" Version="2.71.0" />
+		<PackageReference Include="Grpc.Net.Client.Web" Version="2.70.0" />
 		<PackageReference Include="Humanizer.Core" Version="2.14.1" />
-		<PackageReference Include="MassTransit" Version="8.5.5" />
-		<PackageReference Include="MassTransit.Analyzers" Version="8.5.5">
+		<PackageReference Include="MassTransit" Version="8.3.7" />
+		<PackageReference Include="MassTransit.Analyzers" Version="8.3.7">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.3" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.3">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
-		<PackageReference Include="OpenIddict.Client.AspNetCore" Version="7.2.0" />
-		<PackageReference Include="OpenIddict.Client.SystemNetHttp" Version="7.2.0" />
-		<PackageReference Include="OpenIddict.Validation.AspNetCore" Version="7.2.0" />
-		<PackageReference Include="OpenIddict.Validation.SystemNetHttp" Version="7.2.0" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.2" />
+		<PackageReference Include="OpenIddict.Client.AspNetCore" Version="6.1.1" />
+		<PackageReference Include="OpenIddict.Client.SystemNetHttp" Version="6.1.1" />
+		<PackageReference Include="OpenIddict.Validation.AspNetCore" Version="6.1.1" />
+		<PackageReference Include="OpenIddict.Validation.SystemNetHttp" Version="6.1.1" />
 		<PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
 		<PackageReference Include="Serilog.Enrichers.CorrelationId" Version="3.0.1" />
 		<PackageReference Include="Serilog.Enrichers.TraceIdentifier" Version="1.0.2" />

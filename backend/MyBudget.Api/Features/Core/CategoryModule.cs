@@ -1,5 +1,4 @@
 ﻿using Carter;
-using Carter.OpenApi;
 using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
@@ -9,28 +8,32 @@ using MyBudget.Application.Budgets.CreateBudgetCategory;
 
 namespace MyBudget.Api.Features.Core;
 
-public class CategoryModule : ICarterModule
+public class CategoryModule : CarterModule
 {
-    public void AddRoutes(IEndpointRouteBuilder app)
+    public CategoryModule() : base("/budget/{id:guid}/category")
     {
-        var group = app.MapGroup("/budget/{id:guid}/category")
-            .WithTags("category")
-            .IncludeInOpenApi()
-            .RequireAuthorization();
+        WithTags("category");
+        IncludeInOpenApi();
+        RequireAuthorization();
+    }
 
-        group.MapPost("", CreateBudgetCategory)
+    public override void AddRoutes(IEndpointRouteBuilder app)
+    {
+        app.MapPost("", CreateBudgetCategory)
             .WithName(nameof(CreateBudgetCategory))
             .Produces(StatusCodes.Status201Created)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status403Forbidden)
-            .ProducesValidationProblem();
+            .ProducesValidationProblem()
+            .WithOpenApi();
 
-        group.MapPut("/{name}/archive", ArchiveBudgetCategory)
+        app.MapPut("/{name}/archive", ArchiveBudgetCategory)
             .WithName(nameof(ArchiveBudgetCategory))
             .Produces(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status403Forbidden)
-            .ProducesValidationProblem();
+            .ProducesValidationProblem()
+            .WithOpenApi();
     }
 
     private static async Task<IResult> CreateBudgetCategory(
