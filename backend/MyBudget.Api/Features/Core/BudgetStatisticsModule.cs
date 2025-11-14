@@ -1,4 +1,5 @@
 ﻿using Carter;
+using Carter.OpenApi;
 using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
@@ -9,30 +10,26 @@ using MyBudget.Application.Budgets.Model;
 
 namespace MyBudget.Api.Features.Core;
 
-public class BudgetStatisticsModule : CarterModule
+public class BudgetStatisticsModule : ICarterModule
 {
-    public BudgetStatisticsModule() : base("/budget/{id:guid}")
+    public void AddRoutes(IEndpointRouteBuilder app)
     {
-        WithTags("budget-statistics");
-        IncludeInOpenApi();
-        RequireAuthorization();
-    }
+        var group = app.MapGroup("/budget/{id:guid}")
+            .WithTags("budget-statistics")
+            .RequireAuthorization()
+            .IncludeInOpenApi();
 
-    public override void AddRoutes(IEndpointRouteBuilder app)
-    {
-        app.MapGet("totals", GetBudgetTotals)
+        group.MapGet("totals", GetBudgetTotals)
             .WithName(nameof(GetBudgetTotals))
             .Produces(StatusCodes.Status200OK, typeof(BudgetTotals))
             .ProducesProblem(StatusCodes.Status404NotFound)
-            .ProducesProblem(StatusCodes.Status403Forbidden)
-            .WithOpenApi();
+            .ProducesProblem(StatusCodes.Status403Forbidden);
 
-        app.MapGet("/totals/grouped-by-category", GetBudgetTransfersTotalsGropedByCategory)
+        group.MapGet("/totals/grouped-by-category", GetBudgetTransfersTotalsGropedByCategory)
             .WithName(nameof(GetBudgetTransfersTotalsGropedByCategory))
             .Produces(StatusCodes.Status200OK, typeof(CategoryValue[]))
             .ProducesProblem(StatusCodes.Status404NotFound)
-            .ProducesProblem(StatusCodes.Status403Forbidden)
-            .WithOpenApi();
+            .ProducesProblem(StatusCodes.Status403Forbidden);
     }
 
 

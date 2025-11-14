@@ -1,4 +1,5 @@
 ﻿using Carter;
+using Carter.OpenApi;
 using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
@@ -12,53 +13,46 @@ using MyBudget.Application.Budgets.Transfers.UpdateTransfer;
 
 namespace MyBudget.Api.Features.Core;
 
-public class BudgetTransferModule : CarterModule
+public class BudgetTransferModule : ICarterModule
 {
-    public BudgetTransferModule() : base("/budget/{id:guid}/transfer")
+    public void AddRoutes(IEndpointRouteBuilder app)
     {
-        WithTags("transfer");
-        IncludeInOpenApi();
-        RequireAuthorization();
-    }
+        var group = app.MapGroup("/budget/{id:guid}/transfer")
+            .WithTags("transfer")
+            .IncludeInOpenApi()
+            .RequireAuthorization();
 
-    public override void AddRoutes(IEndpointRouteBuilder app)
-    {
-        app.MapPost("", AddTransfer)
+        group.MapPost("", AddTransfer)
             .WithName(nameof(AddTransfer))
             .Produces(StatusCodes.Status201Created)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status403Forbidden)
-            .ProducesValidationProblem()
-            .WithOpenApi();
+            .ProducesValidationProblem();
 
-        app.MapGet("", GetTransfers)
+        group.MapGet("", GetTransfers)
             .WithName(nameof(GetTransfers))
             .Produces(StatusCodes.Status200OK, typeof(TransfersQueryResponse))
             .ProducesProblem(StatusCodes.Status404NotFound)
-            .ProducesProblem(StatusCodes.Status403Forbidden)
-            .WithOpenApi();
+            .ProducesProblem(StatusCodes.Status403Forbidden);
 
-        app.MapDelete("{transferId:guid}", DeleteTransfer)
+        group.MapDelete("{transferId:guid}", DeleteTransfer)
             .WithName(nameof(DeleteTransfer))
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
-            .ProducesProblem(StatusCodes.Status403Forbidden)
-            .WithOpenApi();
+            .ProducesProblem(StatusCodes.Status403Forbidden);
 
-        app.MapPut("{transferId:guid}", UpdateTransfer)
+        group.MapPut("{transferId:guid}", UpdateTransfer)
             .WithName(nameof(UpdateTransfer))
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status403Forbidden)
-            .ProducesValidationProblem()
-            .WithOpenApi();
+            .ProducesValidationProblem();
 
-        app.MapGet("{transferId:guid}", GetTransfer)
+        group.MapGet("{transferId:guid}", GetTransfer)
             .WithName(nameof(GetTransfer))
             .Produces(StatusCodes.Status200OK, typeof(TransferDTO))
             .ProducesProblem(StatusCodes.Status404NotFound)
-            .ProducesProblem(StatusCodes.Status403Forbidden)
-            .WithOpenApi();
+            .ProducesProblem(StatusCodes.Status403Forbidden);
     }
 
     private static async Task<IResult> AddTransfer(
