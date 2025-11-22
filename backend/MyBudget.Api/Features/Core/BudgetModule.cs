@@ -1,4 +1,5 @@
 ﻿using Carter;
+using Carter.OpenApi;
 using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;
@@ -11,44 +12,38 @@ using MyBudget.Application.Budgets.ShareBudget;
 
 namespace MyBudget.Api.Features.Core;
 
-public class BudgetModule : CarterModule
+public class BudgetModule : ICarterModule
 {
-    public BudgetModule() : base("budget")
+    public void AddRoutes(IEndpointRouteBuilder app)
     {
-        WithTags("budget");
-        IncludeInOpenApi();
-        RequireAuthorization();
-    }
+        var group = app.MapGroup("budget")
+            .WithTags("budget")
+            .IncludeInOpenApi()
+            .RequireAuthorization();
 
-    public override void AddRoutes(IEndpointRouteBuilder app)
-    {
-        app.MapPost("", CreateBudget).WithName(nameof(CreateBudget))
+        group.MapPost("", CreateBudget).WithName(nameof(CreateBudget))
             .Produces(StatusCodes.Status201Created)
-            .ProducesValidationProblem()
-            .WithOpenApi();
+            .ProducesValidationProblem();
 
-        app.MapGet("", GetBudgets)
+        group.MapGet("", GetBudgets)
             .WithName(nameof(GetBudgets))
             .WithTags("budget")
             .Produces<IEnumerable<BudgetDTO>>()
-            .ProducesProblem(StatusCodes.Status400BadRequest)
-            .WithOpenApi();
+            .ProducesProblem(StatusCodes.Status400BadRequest);
 
-        app.MapGet("{id:guid}", GetBudget)
+        group.MapGet("{id:guid}", GetBudget)
             .WithName(nameof(GetBudget))
             .WithTags("budget")
             .Produces<BudgetDTO>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
-            .ProducesProblem(StatusCodes.Status403Forbidden)
-            .WithOpenApi();
+            .ProducesProblem(StatusCodes.Status403Forbidden);
 
-        app.MapPost("{id:guid}/share", ShareBudget).WithName(nameof(ShareBudget))
+        group.MapPost("{id:guid}/share", ShareBudget).WithName(nameof(ShareBudget))
             .Produces(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status403Forbidden)
             .ProducesProblem(StatusCodes.Status400BadRequest)
-            .ProducesValidationProblem()
-            .WithOpenApi();
+            .ProducesValidationProblem();
     }
 
     private static async Task<IResult> CreateBudget(
