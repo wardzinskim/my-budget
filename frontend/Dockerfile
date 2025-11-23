@@ -1,4 +1,4 @@
-FROM node:20-alpine as build
+FROM node:22-alpine as build
 
 RUN apk update && apk upgrade && apk add openjdk17-jre
 
