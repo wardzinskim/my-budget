@@ -11,9 +11,9 @@ public class DatabaseInstaller : IInstaller
         services.AddDbContextPool<ApplicationDbContext>((sp, dbContextOptions) =>
         {
             dbContextOptions
-                .UseNpgsql(configuration.GetConnectionString("Default"), configuration =>
+                .UseNpgsql(configuration.GetConnectionString("Default"), config =>
                 {
-                    configuration.MigrationsHistoryTable("__EFMigrationsHistory", "identity");
+                    config.MigrationsHistoryTable("__EFMigrationsHistory", "identity");
                 })
                 .UseSnakeCaseNamingConvention();
 

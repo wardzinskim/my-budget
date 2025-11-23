@@ -18,13 +18,13 @@
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="10.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.3">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
-        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0"/>
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0-rc.2" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="10.0.0-rc.1.25458.5" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
         <PackageReference Include="OpenIddict.AspNetCore" Version="7.2.0" />
         <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="7.2.0" />
         <PackageReference Include="OpenIddict.Quartz" Version="7.2.0" />
