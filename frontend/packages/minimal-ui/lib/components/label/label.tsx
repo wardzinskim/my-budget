@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, JSX } from 'react';
 
 import Box from '@mui/material/Box';
 import { SxProps, Theme } from '@mui/material/styles';

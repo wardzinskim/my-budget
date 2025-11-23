@@ -37,7 +37,7 @@ function App() {
     ) {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       auth.signinRedirect();
-      setHasTriedSignin(true);
+      setTimeout(() => setHasTriedSignin(true), 0);
     }
   }, [auth, hasTriedSignin]);
 
@@ -46,9 +46,7 @@ function App() {
       .getBudgets()
       .then((response) => {
         if (response.data.length != 0 && userContextState.budget == undefined) {
-          setUserContextState({
-            budget: response.data[0],
-          });
+          setUserContextState({ budget: response.data[0] });
         }
       })
       .catch(() => {});

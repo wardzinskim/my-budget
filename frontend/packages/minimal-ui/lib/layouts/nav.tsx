@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect } from 'react';
+import React, { JSX, PropsWithChildren, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -12,8 +12,6 @@ import { usePathname } from '../routes/hooks';
 import { RouterLink } from '../routes/components';
 import { NAV } from './config-layout';
 import { Logo, Scrollbar, SvgColor } from '../components';
-import { isElement } from 'react-dom/test-utils';
-
 // ----------------------------------------------------------------------
 
 const icon = (name: string) => (
@@ -111,12 +109,7 @@ export const Nav: React.FC<NavProps> = (props) => {
   );
 
   return (
-    <Box
-      sx={{
-        flexShrink: { lg: 0 },
-        width: { lg: NAV.WIDTH },
-      }}
-    >
+    <Box sx={{ flexShrink: { lg: 0 }, width: { lg: NAV.WIDTH } }}>
       {upLg ? (
         <Box
           sx={{
@@ -132,11 +125,7 @@ export const Nav: React.FC<NavProps> = (props) => {
         <Drawer
           open={props.openNav}
           onClose={props.onCloseNav}
-          PaperProps={{
-            sx: {
-              width: NAV.WIDTH,
-            },
-          }}
+          PaperProps={{ sx: { width: NAV.WIDTH } }}
         >
           {renderContent}
         </Drawer>
@@ -183,7 +172,7 @@ export function NavItem({ item }: NavItemProps) {
         </Box>
       )}
 
-      {isElement(item.icon) && (
+      {React.isValidElement(item.icon) && (
         <Box component="span" sx={{ width: 24, height: 24, mr: 1 }}>
           {item.icon}
         </Box>
