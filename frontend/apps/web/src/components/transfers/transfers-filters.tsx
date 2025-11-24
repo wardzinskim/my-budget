@@ -62,7 +62,7 @@ export const TransferFilters: React.FC<TransferFiltersProps> = () => {
       onSubmit={formik.handleSubmit}
     >
       <FormControl fullWidth={true} variant="outlined">
-        <InputLabel>Category</InputLabel>
+        <InputLabel>Type</InputLabel>
         <Select
           name="type"
           value={formik.values.type}
@@ -71,10 +71,11 @@ export const TransferFilters: React.FC<TransferFiltersProps> = () => {
           error={formik.touched.type && Boolean(formik.errors.type)}
         >
           <MenuItem value={undefined}>
-            <em>Both</em>
+            <em>All</em>
           </MenuItem>
           <MenuItem value={TransferDTOType.Income}>Income</MenuItem>
           <MenuItem value={TransferDTOType.Expense}>Expense</MenuItem>
+          <MenuItem value={TransferDTOType.Tax}>Tax</MenuItem>
         </Select>
         {formik.touched.type && Boolean(formik.errors.type) && (
           <FormHelperText error={true}>
