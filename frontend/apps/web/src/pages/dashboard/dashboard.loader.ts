@@ -9,6 +9,7 @@ export interface DashboardLoaderResult {
   incomesGroupedByCategory: CategoryValue[];
   yearlyIncomesGroupedByCategory: CategoryValue[];
   yearlyExpensesGroupedByCategory: CategoryValue[];
+  yearlyBalancesGroupedByCategory: CategoryValue[];
 }
 
 export const loader: (
@@ -22,6 +23,7 @@ export const loader: (
     incomesGroupedByCategory,
     yearlyIncomesGroupedByCategory,
     yearlyExpensesGroupedByCategory,
+    yearlyTaxesGroupedByCategory,
   ] = await Promise.all([
     fetchTotals(
       userContext.budget.id!,
@@ -43,13 +45,26 @@ export const loader: (
       userContext.budget.id!,
       dashboardContext.year
     ),
+    fetchTransfersTotalsGroupedByCategory(
+      TransferDTOType.Tax,
+      userContext.budget.id!,
+      dashboardContext.year
+    ),
   ]);
+
+  const computedYearlyBalancesGroupedByCategory =
+    computeYearlyBalancesGroupedByCategory(
+      yearlyIncomesGroupedByCategory,
+      yearlyExpensesGroupedByCategory,
+      yearlyTaxesGroupedByCategory
+    );
 
   return {
     totals,
     incomesGroupedByCategory,
     yearlyIncomesGroupedByCategory,
     yearlyExpensesGroupedByCategory,
+    yearlyBalancesGroupedByCategory: computedYearlyBalancesGroupedByCategory,
   } as DashboardLoaderResult;
 };
 
@@ -83,4 +98,36 @@ const fetchTransfersTotalsGroupedByCategory = async (
     year
   );
   return response.data;
+};
+
+const computeYearlyBalancesGroupedByCategory = (
+  yearlyIncomesGroupedByCategory: CategoryValue[],
+  yearlyExpensesGroupedByCategory: CategoryValue[],
+  yearlyTaxesGroupedByCategory: CategoryValue[]
+): CategoryValue[] => {
+  const incomesMap = new Map<string, number>();
+  const expensesMap = new Map<string, number>();
+  const taxesMap = new Map<string, number>();
+
+  for (const cv of yearlyIncomesGroupedByCategory) {
+    if (cv.category) incomesMap.set(cv.category, cv.value ?? 0);
+  }
+  for (const cv of yearlyExpensesGroupedByCategory) {
+    if (cv.category) expensesMap.set(cv.category, cv.value ?? 0);
+  }
+  for (const cv of yearlyTaxesGroupedByCategory) {
+    if (cv.category) taxesMap.set(cv.category, cv.value ?? 0);
+  }
+
+  const commonCategories = Array.from(incomesMap.keys()).filter(
+    (c) => expensesMap.has(c) || taxesMap.has(c)
+  );
+
+  return commonCategories.map((category) => ({
+    category,
+    value:
+      (incomesMap.get(category) ?? 0) -
+      (expensesMap.get(category) ?? 0) -
+      (taxesMap.get(category) ?? 0),
+  }));
 };

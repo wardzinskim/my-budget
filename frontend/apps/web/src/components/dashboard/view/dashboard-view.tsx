@@ -87,11 +87,19 @@ export const DashboardView: React.FC = () => {
           />
         </Grid>
 
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <TransfersByCategoryList
-            categories={loaderData.yearlyIncomesGroupedByCategory}
-            transferType={TransferDTOType.Income}
-          />
+        <Grid size={{ xs: 12, sm: 6 }} spacing={3} container>
+          <Grid size={{ xs: 12 }}>
+            <TransfersByCategoryList
+              categories={loaderData.yearlyIncomesGroupedByCategory}
+              transferType={TransferDTOType.Income}
+            />
+          </Grid>
+          <Grid size={{ xs: 12 }}>
+            <TransfersByCategoryList
+              categories={loaderData.yearlyBalancesGroupedByCategory}
+              title="Yearly Balances grouped by category"
+            />
+          </Grid>
         </Grid>
       </Grid>
     </Container>

@@ -11,15 +11,18 @@ import { fCurrency } from '@repo/minimal-ui';
 
 interface TransfersByCategoryListProps {
   categories: CategoryValue[];
-  transferType: TransferDTOType;
+  transferType?: TransferDTOType;
+  title?: string;
 }
 
 export const TransfersByCategoryList: React.FC<
   TransfersByCategoryListProps
-> = ({ categories, transferType }) => {
+> = ({ categories, transferType, title }) => {
   return (
     <Card>
-      <CardHeader title={<>Yearly {transferType}s grouped by category</>} />
+      <CardHeader
+        title={!title ? <>Yearly {transferType}s grouped by category</> : title}
+      />
 
       <List>
         {categories.map((category) => (
