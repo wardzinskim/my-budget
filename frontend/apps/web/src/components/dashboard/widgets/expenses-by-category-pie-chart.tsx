@@ -18,6 +18,7 @@ export const ExpensesByCategoryPieChart: React.FC<
     stroke: {},
     plotOptions: {
       pie: {
+        expandOnClick: true,
         donut: {
           labels: {
             show: false,
@@ -48,7 +49,7 @@ export const ExpensesByCategoryPieChart: React.FC<
         breakpoint: 480,
         options: {
           legend: {
-            show: true,
+            show: false,
             position: 'bottom',
           },
         },

@@ -57,8 +57,16 @@ export const ExpensesByCategoryBarChart: React.FC<
         breakpoint: 480,
         options: {
           yaxis: {
-            title: {
-              show: false,
+            show: false,
+          },
+          plotOptions: {
+            bar: {
+              columnWidth: '90%',
+              distributed: true,
+              dataLabels: {
+                position: 'top',
+              },
+              borderRadius: 5,
             },
           },
         },
