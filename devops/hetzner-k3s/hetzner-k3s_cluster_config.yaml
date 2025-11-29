@@ -1,7 +1,7 @@
 hetzner_token: 
 cluster_name: my-budget-cluster
 kubeconfig_path: "./kubeconfig"
-k3s_version: v1.31.2+k3s1
+k3s_version: v1.34.2+k3s1
 
 networking:
   ssh:
