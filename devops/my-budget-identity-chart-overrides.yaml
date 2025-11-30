@@ -9,13 +9,13 @@ ingress:
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
   hosts:
-    - host: identity.my-budget.xyz
+    - host: identity.my-budget.site
       paths:
         - path: /
           pathType: Prefix
   tls:
     - hosts:
-        - identity.my-budget.xyz
+        - identity.my-budget.site
       secretName: my-budget-identity-tls
 
 service:

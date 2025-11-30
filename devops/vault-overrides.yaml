@@ -54,13 +54,13 @@ server:
     activeService: false
     ingressClassName: ingress-external
     hosts:
-      - host: vault.my-budget.xyz
+      - host: vault.my-budget.site
     annotations: |
       kubernetes.io/ingress.class: ingress-external
       cert-manager.io/cluster-issuer: "letsencrypt-prod"
     tls:
       - hosts:
-          - vault.my-budget.xyz
+          - vault.my-budget.site
         secretName: example-tls
 
 # Vault UI
