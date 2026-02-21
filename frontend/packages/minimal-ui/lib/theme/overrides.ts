@@ -107,7 +107,6 @@ export function overrides(
       styleOverrides: {
         root: {
           padding: theme.spacing(2, 3),
-          borderBottom: `1px solid ${theme.palette.divider}`,
         },
       },
     },

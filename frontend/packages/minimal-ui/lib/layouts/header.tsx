@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import { NAV, HEADER } from './config-layout';
 import { Query, useResponsive } from '../hooks/use-responsive';
 import { Iconify } from '../components';
+import { bgBlur } from '../theme/css';
 
 // ----------------------------------------------------------------------
 
@@ -53,8 +54,9 @@ export function Header({
         boxShadow: 'none',
         height: HEADER.H_MOBILE,
         zIndex: theme.zIndex.appBar + 1,
-        backgroundColor: theme.palette.background.paper,
-        borderBottom: `1px solid ${theme.palette.divider}`,
+        ...bgBlur({
+          color: theme.palette.background.default,
+        }),
         transition: theme.transitions.create(['height'], {
           duration: theme.transitions.duration.shorter,
         }),

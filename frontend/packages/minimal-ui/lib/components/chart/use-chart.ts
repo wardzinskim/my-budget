@@ -27,16 +27,20 @@ export const useChart = (options: ApexCharts.ApexOptions) => {
   };
 
   const baseOptions: ApexCharts.ApexOptions = {
-    // Colors
+    // Colors — 12 hues spread across the color wheel, all from theme palette
     colors: [
-      theme.palette.primary.main,
-      theme.palette.info.main,
-      theme.palette.success.main,
-      theme.palette.secondary.main,
-      theme.palette.primary.light,
-      theme.palette.info.light,
-      theme.palette.success.light,
-      theme.palette.info.dark,
+      theme.palette.primary.main, // indigo
+      theme.palette.info.main, // cyan
+      theme.palette.success.main, // green
+      theme.palette.warning.main, // amber
+      theme.palette.secondary.main, // violet
+      theme.palette.error.main, // red-orange
+      theme.palette.primary.light, // light indigo
+      theme.palette.info.dark, // dark cyan
+      theme.palette.success.light, // light green
+      theme.palette.warning.dark, // dark amber
+      theme.palette.secondary.light, // light violet
+      theme.palette.error.light, // peach
     ],
 
     // Chart

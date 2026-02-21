@@ -31,7 +31,6 @@ export const ExpensesToIncomesRatio: React.FC<ExpensesToIncomesRatioProps> = ({
           },
         },
         track: {
-          background: 'transparent',
           strokeWidth: '67%',
           margin: 0,
           dropShadow: {

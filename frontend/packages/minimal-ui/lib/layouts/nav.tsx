@@ -117,7 +117,6 @@ export const Nav: React.FC<NavProps> = (props) => {
             position: 'fixed',
             width: NAV.WIDTH,
             borderRight: (theme) => `solid 1px ${theme.palette.divider}`,
-            backgroundColor: 'background.paper',
           }}
         >
           {renderContent}
