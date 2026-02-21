@@ -68,13 +68,13 @@ export const DashboardView: React.FC = () => {
           />
         </Grid>
 
-        <Grid size={{ xs: 12 }}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <ExpensesByCategoryBarChart
             categories={loaderData.incomesGroupedByCategory}
           />
         </Grid>
 
-        <Grid size={{ xs: 12 }}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <ExpensesByCategoryPieChart
             categories={loaderData.incomesGroupedByCategory}
           />

@@ -67,13 +67,13 @@ export const Nav: React.FC<NavProps> = (props) => {
     >
       <Avatar src={props.account?.photoUrl} alt="photoURL" />
 
-      <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle2">
+      <Box sx={{ ml: 2, minWidth: 0, flex: 1, overflow: 'hidden' }}>
+        <Typography variant="subtitle2" noWrap>
           {props.account?.displayName}
         </Typography>
 
         {props.account?.role && (
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
             {props.account?.role}
           </Typography>
         )}
@@ -116,7 +116,8 @@ export const Nav: React.FC<NavProps> = (props) => {
             height: 1,
             position: 'fixed',
             width: NAV.WIDTH,
-            borderRight: (theme) => `dashed 1px ${theme.palette.divider}`,
+            borderRight: (theme) => `solid 1px ${theme.palette.divider}`,
+            backgroundColor: 'background.paper',
           }}
         >
           {renderContent}
@@ -156,10 +157,22 @@ export function NavItem({ item }: NavItemProps) {
         color: 'text.secondary',
         textTransform: 'capitalize',
         fontWeight: 'fontWeightRegular',
+        position: 'relative',
+        overflow: 'hidden',
         ...(active && {
           color: 'primary.main',
           fontWeight: 'fontWeightMedium',
           bgcolor: (theme) => alpha(theme.palette.primary.main, 0.08),
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            left: 0,
+            top: '20%',
+            bottom: '20%',
+            width: 3,
+            borderRadius: '0 3px 3px 0',
+            backgroundColor: 'primary.main',
+          },
           '&:hover': {
             bgcolor: (theme) => alpha(theme.palette.primary.main, 0.16),
           },

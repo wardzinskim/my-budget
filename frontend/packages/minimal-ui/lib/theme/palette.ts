@@ -24,11 +24,9 @@ export const grey: ColorPartial = {
 };
 
 export const primary: SimplePaletteColorOptions = {
-  // lighter: '#D0ECFE',
-  light: '#73BAFB',
-  main: '#1877F2',
-  dark: '#0C44AE',
-  // darker: '#042174',
+  light: '#818CF8',
+  main: '#6366F1',
+  dark: '#4338CA',
   contrastText: '#FFFFFF',
 };
 

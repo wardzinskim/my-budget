@@ -1,7 +1,6 @@
 import { memo } from 'react';
 import { alpha, styled } from '@mui/material/styles';
 import ApexChart from 'react-apexcharts';
-import { bgBlur } from '../../theme/css';
 import { CustomShadows, customShadows } from '../../theme/custom-shadows';
 
 const customShadowsValue: CustomShadows = customShadows();
@@ -11,32 +10,27 @@ export const Chart = memo(
     '& .apexcharts-canvas': {
       // Tooltip
       '& .apexcharts-tooltip': {
-        ...bgBlur({
-          color: theme.palette.background.default,
-        }),
+        backgroundColor: theme.palette.background.paper,
         color: theme.palette.text.primary,
         boxShadow: customShadowsValue.dropdown,
-        borderRadius: theme.shape.borderRadius * 1.25,
+        borderRadius: theme.shape.borderRadius * 1.5,
+        border: `1px solid ${alpha(theme.palette.grey[500], 0.16)}`,
         '&.apexcharts-theme-light': {
-          borderColor: 'transparent',
-          ...bgBlur({
-            color: theme.palette.background.default,
-          }),
+          borderColor: alpha(theme.palette.grey[500], 0.16),
+          backgroundColor: theme.palette.background.paper,
         },
       },
       '& .apexcharts-xaxistooltip': {
-        ...bgBlur({
-          color: theme.palette.background.default,
-        }),
-        borderColor: 'transparent',
+        backgroundColor: theme.palette.background.paper,
+        borderColor: alpha(theme.palette.grey[500], 0.16),
         color: theme.palette.text.primary,
         boxShadow: customShadowsValue.dropdown,
-        borderRadius: theme.shape.borderRadius * 1.25,
+        borderRadius: theme.shape.borderRadius * 1.5,
         '&:before': {
           borderBottomColor: alpha(theme.palette.grey[500], 0.24),
         },
         '&:after': {
-          borderBottomColor: alpha(theme.palette.background.default, 0.8),
+          borderBottomColor: theme.palette.background.paper,
         },
       },
       '& .apexcharts-tooltip-title': {

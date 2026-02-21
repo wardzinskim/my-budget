@@ -1,9 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 :root {
-    --bs-body-bg: rgb(249, 250, 251);
+    --bs-primary: #6366F1;
+    --bs-primary-rgb: 99, 102, 241;
+    --bs-body-font-family: 'Inter', sans-serif;
+    --bs-body-bg: #F9FAFB;
+    --bs-body-color: #212B36;
+    --bs-border-radius: 0.75rem;
+    --bs-border-radius-sm: 0.5rem;
+    --bs-border-radius-lg: 1rem;
+    --bs-link-color: #6366F1;
+    --bs-link-hover-color: #4338CA;
 }
 
 html {
     font-size: 14px;
+    position: relative;
+    min-height: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 @media (min-width: 768px) {
@@ -12,20 +27,74 @@ html {
     }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-    position: relative;
-    min-height: 100%;
-}
-
 body {
-    margin-bottom: 60px;
+    margin-bottom: 0;
 }
 
+/* Focus ring — indigo */
+.btn:focus, .btn:active:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem #fff, 0 0 0 0.25rem rgba(99, 102, 241, 0.4);
+}
+
+/* Login card wrapper */
+.form-signin {
+    background: #ffffff;
+    border-radius: 1.5rem;
+    border: 1px solid rgba(145, 158, 171, 0.12);
+    box-shadow: 0 0 2px rgba(145, 158, 171, 0.2), 0 12px 24px -4px rgba(145, 158, 171, 0.12);
+    padding: 2.5rem;
+    max-width: 420px;
+}
+
+.form-signin img {
+    display: block;
+    margin: 0 auto 1.5rem;
+}
+
+/* Inputs */
 .form-control,
 .form-control:focus {
-    background-color: var(--bs-body-bg);
+    background-color: #F9FAFB;
+    border-color: rgba(145, 158, 171, 0.32);
+    border-radius: 0.75rem;
+}
+
+.form-control:focus {
+    background-color: #ffffff;
+    border-color: #6366F1;
+}
+
+/* Floating label radius fix */
+.form-floating > .form-control {
+    border-radius: 0.75rem;
+}
+
+/* Primary button — indigo */
+.btn-primary {
+    --bs-btn-bg: #6366F1;
+    --bs-btn-border-color: #6366F1;
+    --bs-btn-hover-bg: #4338CA;
+    --bs-btn-hover-border-color: #4338CA;
+    --bs-btn-active-bg: #4338CA;
+    --bs-btn-active-border-color: #4338CA;
+    --bs-btn-focus-shadow-rgb: 99, 102, 241;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-lg {
+    padding: 0.75rem 1.5rem;
+}
+
+/* Links */
+a {
+    color: #6366F1;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #4338CA;
+    text-decoration: underline;
 }

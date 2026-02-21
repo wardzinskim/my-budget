@@ -27,6 +27,9 @@ export const DashboardContextPicker: React.FC = () => {
               })
             }
           >
+            <MenuItem value={2023} key={2023}>
+              2023
+            </MenuItem>
             <MenuItem value={2024} key={2024}>
               2024
             </MenuItem>

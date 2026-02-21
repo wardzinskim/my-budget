@@ -21,29 +21,21 @@ export const ExpensesToIncomesRatio: React.FC<ExpensesToIncomesRatioProps> = ({
         hollow: {
           margin: 0,
           size: '70%',
-          background: '#fff',
+          background: 'transparent',
           image: undefined,
           imageOffsetX: 0,
           imageOffsetY: 0,
           position: 'front',
           dropShadow: {
-            enabled: true,
-            top: 3,
-            left: 0,
-            blur: 4,
-            opacity: 0.24,
+            enabled: false,
           },
         },
         track: {
-          background: '#fff',
+          background: 'transparent',
           strokeWidth: '67%',
-          margin: 0, // margin is in pixels
+          margin: 0,
           dropShadow: {
-            enabled: true,
-            top: -3,
-            left: 0,
-            blur: 4,
-            opacity: 0.35,
+            enabled: false,
           },
         },
         dataLabels: {
@@ -52,7 +44,6 @@ export const ExpensesToIncomesRatio: React.FC<ExpensesToIncomesRatioProps> = ({
             show: false,
           },
           value: {
-            color: '#111',
             fontSize: '36px',
             show: true,
           },
@@ -64,9 +55,9 @@ export const ExpensesToIncomesRatio: React.FC<ExpensesToIncomesRatioProps> = ({
       gradient: {
         shade: 'dark',
         type: 'horizontal',
-        shadeIntensity: 0.5,
-        gradientToColors: ['#ABE5A1'],
-        inverseColors: true,
+        shadeIntensity: 0.3,
+        gradientToColors: ['#818CF8'],
+        inverseColors: false,
         opacityFrom: 1,
         opacityTo: 1,
         stops: [0, 100],

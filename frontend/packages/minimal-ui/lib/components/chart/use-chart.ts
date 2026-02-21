@@ -14,6 +14,7 @@ export const useChart = (options: ApexCharts.ApexOptions) => {
     fontSize: theme.typography.subtitle2.fontSize as string | undefined,
     fontWeight: theme.typography.subtitle2.fontWeight,
     lineHeight: theme.typography.subtitle2.lineHeight,
+    fontFamily: theme.typography.fontFamily,
   };
 
   const LABEL_VALUE = {
@@ -22,27 +23,32 @@ export const useChart = (options: ApexCharts.ApexOptions) => {
     fontSize: theme.typography.h3.fontSize as string | undefined,
     fontWeight: theme.typography.h3.fontWeight,
     lineHeight: theme.typography.h3.lineHeight,
+    fontFamily: theme.typography.fontFamily,
   };
 
   const baseOptions: ApexCharts.ApexOptions = {
     // Colors
     colors: [
       theme.palette.primary.main,
-      theme.palette.warning.main,
       theme.palette.info.main,
-      theme.palette.error.main,
       theme.palette.success.main,
-      theme.palette.warning.dark,
-      //   theme.palette.success.darker,
+      theme.palette.secondary.main,
+      theme.palette.primary.light,
+      theme.palette.info.light,
+      theme.palette.success.light,
       theme.palette.info.dark,
-      //   theme.palette.info.darker,
     ],
 
     // Chart
     chart: {
       toolbar: { show: false },
       zoom: { enabled: false },
-      animations: { enabled: false },
+      animations: {
+        enabled: true,
+        speed: 400,
+        animateGradually: { enabled: false },
+        dynamicAnimation: { speed: 350 },
+      },
       foreColor: theme.palette.text.disabled,
       fontFamily: theme.typography.fontFamily,
     },
@@ -78,6 +84,9 @@ export const useChart = (options: ApexCharts.ApexOptions) => {
     // Datalabels
     dataLabels: {
       enabled: false,
+      style: {
+        colors: [theme.palette.text.primary],
+      },
     },
 
     // Stroke
@@ -89,8 +98,8 @@ export const useChart = (options: ApexCharts.ApexOptions) => {
 
     // Grid
     grid: {
-      strokeDashArray: 3,
-      borderColor: theme.palette.divider,
+      strokeDashArray: 4,
+      borderColor: alpha(theme.palette.divider, 0.6),
       xaxis: {
         lines: {
           show: false,
@@ -124,9 +133,6 @@ export const useChart = (options: ApexCharts.ApexOptions) => {
       fontSize: '13',
       position: 'top',
       horizontalAlign: 'right',
-      markers: {
-        // radius: 12,
-      },
       fontWeight: 500,
       itemMargin: {
         horizontal: 8,

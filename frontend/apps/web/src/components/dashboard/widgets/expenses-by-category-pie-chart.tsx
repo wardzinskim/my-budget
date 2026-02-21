@@ -10,12 +10,10 @@ export const ExpensesByCategoryPieChart: React.FC<
   ExpensesByCategoryPieChartProps
 > = ({ categories }) => {
   const chartOptions = useChart({
-    chart: {
-      sparkline: {
-        enabled: true,
-      },
+    stroke: {
+      width: 2,
+      colors: ['#fff'],
     },
-    stroke: {},
     plotOptions: {
       pie: {
         expandOnClick: true,
@@ -30,7 +28,10 @@ export const ExpensesByCategoryPieChart: React.FC<
       enabled: true,
       formatter: (val) => fPercent(val),
       style: {
-        fontSize: '16px',
+        fontSize: '14px',
+      },
+      dropShadow: {
+        enabled: false,
       },
     },
     labels: categories.map((x) => x.category ?? 'uncategorized'),
@@ -59,7 +60,7 @@ export const ExpensesByCategoryPieChart: React.FC<
 
   return (
     <Card>
-      <CardHeader title=""></CardHeader>
+      <CardHeader title="Expenses distribution by category"></CardHeader>
 
       <Box sx={{ p: 0, pb: 0 }}>
         <Chart

@@ -1,4 +1,4 @@
-import { Box, Card, CardHeader } from '@mui/material';
+import { Box, Card, CardHeader, useTheme } from '@mui/material';
 import { CategoryValue } from '@repo/api-client';
 import { fCurrency } from '@repo/minimal-ui';
 import { Chart, useChart } from '@repo/minimal-ui';
@@ -11,10 +11,12 @@ interface ExpensesByCategoryBarChartProps {
 export const ExpensesByCategoryBarChart: React.FC<
   ExpensesByCategoryBarChartProps
 > = ({ categories }) => {
+  const theme = useTheme();
+
   const chartOptions = useChart({
     plotOptions: {
       bar: {
-        columnWidth: '90%',
+        columnWidth: '70%',
         distributed: true,
         dataLabels: {
           position: 'top',
@@ -28,10 +30,9 @@ export const ExpensesByCategoryBarChart: React.FC<
       offsetY: -20,
       style: {
         fontSize: '12px',
-        colors: ['#304758'],
+        colors: [theme.palette.text.primary],
       },
     },
-
     legend: {
       show: false,
     },
