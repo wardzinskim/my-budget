@@ -1,5 +1,7 @@
 ﻿using MyBudget.Identity.Data;
 using MyBudget.Infrastructure.Abstractions.Installer;
+using OpenIddict.Abstractions;
+using OpenIddict.Client;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace MyBudget.Identity.Installers;
@@ -38,7 +40,6 @@ public class OpenIddictInstaller : IInstaller
                 options
                     .AddDevelopmentEncryptionCertificate()
                     .AddDevelopmentSigningCertificate();
-
                 options.RequireProofKeyForCodeExchange();
 
                 var oidcConfig = options
@@ -78,6 +79,21 @@ public class OpenIddictInstaller : IInstaller
                             .SetRedirectUri("callback/login/google")
                             .AddScopes(configuration["ExternalProviders:Google:Scopes"]!.Split(' '));
                     });
+
+
+                // Ustaw AuthorizationResponseIssParameterSupported = true dla Google
+                // ponieważ Google zwraca 'iss' w callbacku ale nie deklaruje tego w discovery
+                options.AddEventHandler<OpenIddictClientEvents.HandleConfigurationResponseContext>(builder =>
+                    builder.UseInlineHandler(context =>
+                    {
+                        if (context.Registration.ProviderName is
+                            OpenIddict.Client.WebIntegration.OpenIddictClientWebIntegrationConstants.Providers.Google)
+                        {
+                            context.Configuration.AuthorizationResponseIssParameterSupported = true;
+                        }
+
+                        return ValueTask.CompletedTask;
+                    }));
             })
             .AddValidation(options =>
             {
