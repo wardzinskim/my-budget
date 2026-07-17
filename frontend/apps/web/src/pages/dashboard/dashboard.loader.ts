@@ -65,7 +65,7 @@ export const loader: (
     yearlyIncomesGroupedByCategory,
     yearlyExpensesGroupedByCategory,
     yearlyBalancesGroupedByCategory: computedYearlyBalancesGroupedByCategory,
-  } as DashboardLoaderResult;
+  };
 };
 
 const fetchTotals = async (budgetId: string, year?: number, month?: number) => {

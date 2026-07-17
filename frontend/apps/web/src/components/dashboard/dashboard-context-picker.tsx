@@ -23,7 +23,7 @@ export const DashboardContextPicker: React.FC = () => {
             onChange={(x) =>
               setDashboardContext({
                 ...dashboardContext,
-                year: x.target.value as number,
+                year: x.target.value,
               })
             }
           >
@@ -50,7 +50,7 @@ export const DashboardContextPicker: React.FC = () => {
             onChange={(x) =>
               setDashboardContext({
                 ...dashboardContext,
-                month: x.target.value as number,
+                month: x.target.value,
               })
             }
           >

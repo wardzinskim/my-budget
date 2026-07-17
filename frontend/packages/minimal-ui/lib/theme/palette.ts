@@ -1,16 +1,16 @@
 import { PaletteOptions, alpha } from '@mui/material/styles';
-import {
-  ColorPartial,
+import type {
+  Color,
   CommonColors,
   SimplePaletteColorOptions,
   TypeAction,
-} from '@mui/material/styles/createPalette';
+} from '@mui/material/styles';
 
 // ----------------------------------------------------------------------
 
 // SETUP COLORS
 
-export const grey: ColorPartial = {
+export const grey: Partial<Color> = {
   // 0: '#FFFFFF',
   100: '#F9FAFB',
   200: '#F4F6F8',

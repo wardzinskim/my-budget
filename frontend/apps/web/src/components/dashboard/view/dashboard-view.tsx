@@ -8,7 +8,7 @@ import { BalanceViewer } from '../widgets/balance-viewer';
 import { ExpensesToIncomesRatio } from '../widgets/expenses-to-incomes-ratio';
 import { DashboardLoaderResult } from '../../../pages/dashboard/dashboard.loader';
 import { TotalIncomesViewer } from '../widgets/total-incomes-viewer';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import { TransfersByCategoryList } from '../widgets/transfers-by-category-list';
 import { TransferDTOType } from '@repo/api-client';
 

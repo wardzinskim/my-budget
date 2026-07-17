@@ -19,11 +19,7 @@ interface TransfersByCategoryListProps {
 }
 
 type LinearProgressColor =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'warning'
-  | 'error';
+  'primary' | 'secondary' | 'success' | 'warning' | 'error';
 
 const getBarColor = (
   value: number,

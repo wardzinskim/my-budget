@@ -4,9 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import {
   createTheme,
   ThemeProvider as MUIThemeProvider,
-  ThemeOptions,
 } from '@mui/material/styles';
-
 import { palette } from './palette';
 import { shadows } from './shadows';
 import { overrides } from './overrides';
@@ -31,7 +29,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     };
   }, []);
 
-  const theme = createTheme(memoizedValue as ThemeOptions);
+  const theme = createTheme(memoizedValue);
   // @ts-expect-error ignore
   theme.components = overrides(theme, memoizedValue.customShadows);
 

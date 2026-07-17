@@ -13,7 +13,7 @@ export const Chart = memo(
         backgroundColor: theme.palette.background.paper,
         color: theme.palette.text.primary,
         boxShadow: customShadowsValue.dropdown,
-        borderRadius: theme.shape.borderRadius * 1.5,
+        borderRadius: (theme.shape.borderRadius as number) * 1.5,
         border: `1px solid ${alpha(theme.palette.grey[500], 0.16)}`,
         '&.apexcharts-theme-light': {
           borderColor: alpha(theme.palette.grey[500], 0.16),
@@ -25,7 +25,7 @@ export const Chart = memo(
         borderColor: alpha(theme.palette.grey[500], 0.16),
         color: theme.palette.text.primary,
         boxShadow: customShadowsValue.dropdown,
-        borderRadius: theme.shape.borderRadius * 1.5,
+        borderRadius: (theme.shape.borderRadius as number) * 1.5,
         '&:before': {
           borderBottomColor: alpha(theme.palette.grey[500], 0.24),
         },

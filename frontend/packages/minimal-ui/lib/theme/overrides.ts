@@ -92,7 +92,7 @@ export function overrides(
       styleOverrides: {
         root: {
           boxShadow: customShadows.card,
-          borderRadius: theme.shape.borderRadius * 2,
+          borderRadius: (theme.shape.borderRadius as number) * 2,
           border: `1px solid ${alpha(theme.palette.grey[500], 0.12)}`,
           position: 'relative',
           zIndex: 0, // Fix Safari overflow: hidden with border radius
@@ -210,7 +210,7 @@ export function overrides(
     MuiDialog: {
       styleOverrides: {
         paper: {
-          borderRadius: theme.shape.borderRadius * 2,
+          borderRadius: (theme.shape.borderRadius as number) * 2,
         },
       },
     },
