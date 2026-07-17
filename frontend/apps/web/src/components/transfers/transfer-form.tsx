@@ -95,7 +95,7 @@ export const TransferForm: React.FC<TransferFormProps> = ({
       <CardContent>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <FormControl fullWidth={true} variant="outlined">
                 <TextField
                   name="name"
@@ -109,7 +109,7 @@ export const TransferForm: React.FC<TransferFormProps> = ({
               </FormControl>
             </Grid>
 
-            <Grid item md={6} xs={12}>
+            <Grid size={{ md: 6, xs: 12 }}>
               <FormControl fullWidth={true} variant="outlined">
                 <TextField
                   type="number"
@@ -123,7 +123,7 @@ export const TransferForm: React.FC<TransferFormProps> = ({
                 />
               </FormControl>
             </Grid>
-            <Grid item md={6} xs={12}>
+            <Grid size={{ md: 6, xs: 12 }}>
               <FormControl fullWidth={true} variant="outlined">
                 <TextField
                   disabled
@@ -140,7 +140,7 @@ export const TransferForm: React.FC<TransferFormProps> = ({
               </FormControl>
             </Grid>
 
-            <Grid md={6} xs={12} item>
+            <Grid size={{ md: 6, xs: 12 }}>
               <FormControl fullWidth={true} variant="outlined">
                 <InputLabel>Category</InputLabel>
                 <Select
@@ -173,7 +173,7 @@ export const TransferForm: React.FC<TransferFormProps> = ({
               </FormControl>
             </Grid>
 
-            <Grid md={6} xs={12} item>
+            <Grid size={{ md: 6, xs: 12 }}>
               <FormControl fullWidth={true} variant="outlined">
                 <DateTimePicker
                   name="date"
