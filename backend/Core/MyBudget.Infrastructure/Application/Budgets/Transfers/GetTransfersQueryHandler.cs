@@ -35,9 +35,24 @@ public sealed class GetTransfersQueryHandler(
         var access = budgetAccessValidator.HasUserAccess(budget);
         if (access.IsFailure) return access.Error;
 
-        var transfers = await dbContext.Transfers
+        var transfersQuery = dbContext.Transfers
             .Where(x => x.BudgetId == request.BudgetId && (type == null || x.Type == type))
-            .Where(x => x.TransferDate >= dateFrom && x.TransferDate <= dateTo)
+            .Where(x => x.TransferDate >= dateFrom && x.TransferDate <= dateTo);
+
+        if (!string.IsNullOrWhiteSpace(request.Name))
+        {
+            transfersQuery =
+                transfersQuery.Where(x => x.Name.ToLower().Contains(request.Name.ToLowerInvariant()));
+        }
+
+        if (!string.IsNullOrWhiteSpace(request.Category))
+        {
+            transfersQuery =
+                transfersQuery.Where(x =>
+                    x.Category != null && x.Category == request.Category);
+        }
+
+        var transfers = await transfersQuery
             .OrderByDescending(x => x.TransferDate)
             .Select(x => new
             {
@@ -53,15 +68,14 @@ public sealed class GetTransfersQueryHandler(
         return new TransfersQueryResponse(
             dateFrom,
             dateTo,
-            transfers.Select(
-                x => new TransferDTO(
-                    x.Id,
-                    x.TransferDate,
-                    x.Value,
-                    x.Currency,
-                    (TransferDTOType)x.Type,
-                    x.Name,
-                    x.Category))
+            transfers.Select(x => new TransferDTO(
+                x.Id,
+                x.TransferDate,
+                x.Value,
+                x.Currency,
+                (TransferDTOType)x.Type,
+                x.Name,
+                x.Category))
         );
     }
 }

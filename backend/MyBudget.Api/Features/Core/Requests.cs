@@ -27,6 +27,8 @@ public record UpdateTransferRequest(
 public record GetTransfersRequest(
     [FromRoute] Guid Id,
     [FromQuery(Name = "type")] TransferDTOType? Type,
+    [FromQuery(Name = "name")] string? Name,
+    [FromQuery(Name = "category")] string? Category,
     [FromQuery(Name = "dateFrom")] DateTime? DateFrom,
     [FromQuery(Name = "dateTo")] DateTime? DateTo
 );

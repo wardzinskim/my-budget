@@ -232,6 +232,8 @@ export const TransferApiAxiosParamCreator = function (
      *
      * @param {string} id
      * @param {TransferDTOType} [type]
+     * @param {string} [name]
+     * @param {string} [category]
      * @param {Date} [dateFrom]
      * @param {Date} [dateTo]
      * @param {*} [options] Override http request option.
@@ -240,6 +242,8 @@ export const TransferApiAxiosParamCreator = function (
     getTransfers: async (
       id: string,
       type?: TransferDTOType,
+      name?: string,
+      category?: string,
       dateFrom?: Date,
       dateTo?: Date,
       options: RawAxiosRequestConfig = {}
@@ -271,6 +275,14 @@ export const TransferApiAxiosParamCreator = function (
 
       if (type !== undefined) {
         localVarQueryParameter['type'] = type;
+      }
+
+      if (name !== undefined) {
+        localVarQueryParameter['name'] = name;
+      }
+
+      if (category !== undefined) {
+        localVarQueryParameter['category'] = category;
       }
 
       if (dateFrom !== undefined) {
@@ -478,6 +490,8 @@ export const TransferApiFp = function (configuration?: Configuration) {
      *
      * @param {string} id
      * @param {TransferDTOType} [type]
+     * @param {string} [name]
+     * @param {string} [category]
      * @param {Date} [dateFrom]
      * @param {Date} [dateTo]
      * @param {*} [options] Override http request option.
@@ -486,6 +500,8 @@ export const TransferApiFp = function (configuration?: Configuration) {
     async getTransfers(
       id: string,
       type?: TransferDTOType,
+      name?: string,
+      category?: string,
       dateFrom?: Date,
       dateTo?: Date,
       options?: RawAxiosRequestConfig
@@ -498,6 +514,8 @@ export const TransferApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getTransfers(
         id,
         type,
+        name,
+        category,
         dateFrom,
         dateTo,
         options
@@ -616,6 +634,8 @@ export const TransferApiFactory = function (
      *
      * @param {string} id
      * @param {TransferDTOType} [type]
+     * @param {string} [name]
+     * @param {string} [category]
      * @param {Date} [dateFrom]
      * @param {Date} [dateTo]
      * @param {*} [options] Override http request option.
@@ -624,12 +644,14 @@ export const TransferApiFactory = function (
     getTransfers(
       id: string,
       type?: TransferDTOType,
+      name?: string,
+      category?: string,
       dateFrom?: Date,
       dateTo?: Date,
       options?: RawAxiosRequestConfig
     ): AxiosPromise<TransfersQueryResponse> {
       return localVarFp
-        .getTransfers(id, type, dateFrom, dateTo, options)
+        .getTransfers(id, type, name, category, dateFrom, dateTo, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -705,6 +727,8 @@ export interface TransferApiInterface {
    *
    * @param {string} id
    * @param {TransferDTOType} [type]
+   * @param {string} [name]
+   * @param {string} [category]
    * @param {Date} [dateFrom]
    * @param {Date} [dateTo]
    * @param {*} [options] Override http request option.
@@ -714,6 +738,8 @@ export interface TransferApiInterface {
   getTransfers(
     id: string,
     type?: TransferDTOType,
+    name?: string,
+    category?: string,
     dateFrom?: Date,
     dateTo?: Date,
     options?: RawAxiosRequestConfig
@@ -801,6 +827,8 @@ export class TransferApi extends BaseAPI implements TransferApiInterface {
    *
    * @param {string} id
    * @param {TransferDTOType} [type]
+   * @param {string} [name]
+   * @param {string} [category]
    * @param {Date} [dateFrom]
    * @param {Date} [dateTo]
    * @param {*} [options] Override http request option.
@@ -810,12 +838,14 @@ export class TransferApi extends BaseAPI implements TransferApiInterface {
   public getTransfers(
     id: string,
     type?: TransferDTOType,
+    name?: string,
+    category?: string,
     dateFrom?: Date,
     dateTo?: Date,
     options?: RawAxiosRequestConfig
   ) {
     return TransferApiFp(this.configuration)
-      .getTransfers(id, type, dateFrom, dateTo, options)
+      .getTransfers(id, type, name, category, dateFrom, dateTo, options)
       .then((request) => request(this.axios, this.basePath));
   }
 

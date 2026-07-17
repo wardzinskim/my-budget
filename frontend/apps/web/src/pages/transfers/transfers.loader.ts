@@ -11,6 +11,8 @@ export const loader: (context: IUserContextState) => LoaderFunction =
     const result = await transferApi.getTransfers(
       context.budget!.id!,
       searchParams.get('type') as TransferDTOType | undefined,
+      searchParams.get('name') ?? undefined,
+      searchParams.get('category') ?? undefined,
       searchParams.get('dateFrom')
         ? new Date(searchParams.get('dateFrom')!)
         : undefined,

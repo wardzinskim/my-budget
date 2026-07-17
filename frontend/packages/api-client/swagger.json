@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.4",
   "info": {
     "title": "MyBudget API",
     "version": "v1"
@@ -22,12 +22,6 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": { }
-            }
-          },
           "201": {
             "description": "Created"
           },
@@ -45,7 +39,6 @@
       },
       "get": {
         "tags": [
-          "budget",
           "budget"
         ],
         "operationId": "GetBudgets",
@@ -79,7 +72,6 @@
     "/budget/{id}": {
       "get": {
         "tags": [
-          "budget",
           "budget"
         ],
         "operationId": "GetBudget",
@@ -166,12 +158,6 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": { }
-            }
-          },
           "204": {
             "description": "No Content"
           },
@@ -371,12 +357,6 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": { }
-            }
-          },
           "201": {
             "description": "Created"
           },
@@ -439,12 +419,6 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": { }
-            }
-          },
           "204": {
             "description": "No Content"
           },
@@ -509,12 +483,6 @@
           "required": true
         },
         "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": { }
-            }
-          },
           "201": {
             "description": "Created"
           },
@@ -570,6 +538,20 @@
             "in": "query",
             "schema": {
               "$ref": "#/components/schemas/TransferDTOType"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           },
           {
@@ -1144,7 +1126,8 @@
     "securitySchemes": {
       "Bearer": {
         "type": "http",
-        "scheme": "Bearer",
+        "description": "Bearer {token}",
+        "scheme": "bearer",
         "bearerFormat": "JWT"
       }
     }
@@ -1152,6 +1135,20 @@
   "security": [
     {
       "Bearer": [ ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "budget"
+    },
+    {
+      "name": "budget-statistics"
+    },
+    {
+      "name": "category"
+    },
+    {
+      "name": "transfer"
     }
   ]
 }

@@ -77,7 +77,14 @@ public class BudgetTransferModule : ICarterModule
     )
     {
         var result = await mediator.SendRequest(
-            new GetTransfersQuery(request.Id, request.Type, request.DateFrom, request.DateTo), cancellationToken);
+            new GetTransfersQuery(
+                request.Id,
+                request.Type,
+                request.Name,
+                request.Category,
+                request.DateFrom,
+                request.DateTo),
+            cancellationToken);
 
         return result.Match(Results.Ok);
     }

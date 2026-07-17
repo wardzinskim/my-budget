@@ -6,6 +6,7 @@ import {
   MenuItem,
   Select,
   Stack,
+  TextField,
   Tooltip,
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
@@ -13,23 +14,29 @@ import { TransferDTOType } from '@repo/api-client';
 import { Iconify } from '@repo/minimal-ui';
 import { useFormik } from 'formik';
 import { Form, useSearchParams } from 'react-router-dom';
+import { useUserContext } from '../../hooks/user-context';
 
 interface TransferFiltersProps {}
 
 interface TransfersFiltersQueryForm {
   type?: TransferDTOType;
+  name?: string;
+  category?: string;
   dateFrom?: Date;
   dateTo?: Date;
 }
 
 export const TransferFilters: React.FC<TransferFiltersProps> = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [userContext] = useUserContext();
 
   const formik = useFormik<TransfersFiltersQueryForm>({
     initialValues: {
       type: searchParams.get('type')
         ? (searchParams.get('type') as TransferDTOType)
         : undefined,
+      name: searchParams.get('name') ?? undefined,
+      category: searchParams.get('category') ?? undefined,
       dateFrom: searchParams.get('dateFrom')
         ? new Date(searchParams.get('dateFrom')!)
         : undefined,
@@ -40,11 +47,12 @@ export const TransferFilters: React.FC<TransferFiltersProps> = () => {
     onSubmit: (values) => {
       const params = {
         type: values.type?.toString(),
+        name: values.name,
+        category: values.category,
         dateFrom: values.dateFrom?.toISOString(),
         dateTo: values.dateTo?.toISOString(),
       };
 
-      console.log(values, params);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       setSearchParams(JSON.parse(JSON.stringify(params)));
     },
@@ -80,6 +88,41 @@ export const TransferFilters: React.FC<TransferFiltersProps> = () => {
         {formik.touched.type && Boolean(formik.errors.type) && (
           <FormHelperText error={true}>
             {formik.touched.type && formik.errors.type}
+          </FormHelperText>
+        )}
+      </FormControl>
+      <FormControl fullWidth={true} variant="outlined">
+        <TextField
+          name="name"
+          label="Name"
+          value={formik.values.name ?? ''}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.name && Boolean(formik.errors.name)}
+          helperText={formik.touched.name && formik.errors.name}
+        />
+      </FormControl>
+      <FormControl fullWidth={true} variant="outlined">
+        <InputLabel>Category</InputLabel>
+        <Select
+          name="category"
+          value={formik.values.category}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.category && Boolean(formik.errors.category)}
+        >
+          <MenuItem value={undefined}>
+            <em>All</em>
+          </MenuItem>
+          {userContext.budget?.categories?.map((category) => (
+            <MenuItem key={category.name} value={category.name!}>
+              {category.name}
+            </MenuItem>
+          ))}
+        </Select>
+        {formik.touched.category && Boolean(formik.errors.category) && (
+          <FormHelperText error={true}>
+            {formik.touched.category && formik.errors.category}
           </FormHelperText>
         )}
       </FormControl>
