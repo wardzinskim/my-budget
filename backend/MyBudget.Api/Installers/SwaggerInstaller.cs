@@ -1,6 +1,6 @@
 ﻿using Carter.OpenApi;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using MyBudget.Infrastructure.Abstractions.Installer;
 using System.Reflection;
 using System.Text.Json.Serialization;
@@ -20,33 +20,27 @@ public sealed class SwaggerInstaller : IInstaller
             options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 
 
-            options.DocInclusionPredicate((s, description) =>
-            {
-                foreach (var metaData in description.ActionDescriptor.EndpointMetadata)
+            options.DocInclusionPredicate((_, description) =>
+                description.ActionDescriptor.EndpointMetadata
+                    .OfType<IIncludeOpenApi>()
+                    .Any());
+
+            options.AddSecurityDefinition("Bearer",
+                new OpenApiSecurityScheme
                 {
-                    if (metaData is IIncludeOpenApi)
-                    {
-                        return true;
-                    }
-                }
+                    Name = "Authorization",
+                    Description = "Bearer {token}",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT"
+                });
 
-                return false;
-            });
 
-            // Include 'SecurityScheme' to use JWT Authentication
-            var jwtSecurityScheme = new OpenApiSecurityScheme
+            options.AddSecurityRequirement((document) =>
             {
-                BearerFormat = "JWT",
-                Name = "JWT Authentication",
-                In = ParameterLocation.Header,
-                Type = SecuritySchemeType.Http,
-                Scheme = "Bearer",
-                Reference = new OpenApiReference {Id = "Bearer", Type = ReferenceType.SecurityScheme}
-            };
-
-            options.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
-
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement {{jwtSecurityScheme, Array.Empty<string>()}});
+                return new OpenApiSecurityRequirement {[new OpenApiSecuritySchemeReference("Bearer", document)] = []};
+            });
         });
 
         services.ConfigureHttpJsonOptions(options =>

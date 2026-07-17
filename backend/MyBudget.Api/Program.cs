@@ -34,7 +34,7 @@ public class Program
         {
             ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
         };
-        forwardingOptions.KnownNetworks.Clear(); // Loopback by default, this should be temporary
+        forwardingOptions.KnownIPNetworks.Clear(); // Loopback by default, this should be temporary
         forwardingOptions.KnownProxies.Clear(); // Update to include
         app.UseForwardedHeaders(forwardingOptions);
 
