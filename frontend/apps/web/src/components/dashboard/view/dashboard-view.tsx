@@ -12,9 +12,11 @@ import Grid from '@mui/material/Grid';
 import { TransfersByCategoryList } from '../widgets/transfers-by-category-list';
 import { ExpensesByCategoryHeatmap } from '../widgets/expenses-by-category-heatmap';
 import { TransferDTOType } from '@repo/api-client';
+import { useDashboardContext } from '../hooks/dashboard-context';
 
 export const DashboardView: React.FC = () => {
   const loaderData = useLoaderData<DashboardLoaderResult>();
+  const [dashboardContext] = useDashboardContext();
 
   if (loaderData == null) return <></>;
 
@@ -84,6 +86,8 @@ export const DashboardView: React.FC = () => {
         <Grid size={{ xs: 12 }}>
           <ExpensesByCategoryHeatmap
             data={loaderData.yearlyExpensesGroupedByCategoryAndMonth}
+            year={dashboardContext.year}
+            transferType={TransferDTOType.Expense}
           />
         </Grid>
 

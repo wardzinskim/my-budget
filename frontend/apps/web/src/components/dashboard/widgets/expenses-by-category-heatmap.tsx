@@ -1,11 +1,18 @@
 import { Box, Card, CardHeader, useMediaQuery, useTheme } from '@mui/material';
-import { CategoryMonthValue } from '@repo/api-client';
+import { CategoryMonthValue, TransferDTOType } from '@repo/api-client';
 import { Chart, fCurrency, useChart } from '@repo/minimal-ui';
+import { useCallback, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface ExpensesByCategoryHeatmapProps {
   data: CategoryMonthValue[];
+  year: number;
+  transferType?: TransferDTOType;
   title?: string;
 }
+
+// A second click on the same cell within this window counts as a double-click.
+const DOUBLE_CLICK_THRESHOLD_MS = 400;
 
 const MONTH_LABELS = [
   'Jan',
@@ -106,12 +113,88 @@ const HEATMAP_COLOR_SCALE = buildColorScaleRanges();
 
 export const ExpensesByCategoryHeatmap: React.FC<
   ExpensesByCategoryHeatmapProps
-> = ({ data, title = 'Expenses by category and month' }) => {
+> = ({
+  data,
+  year,
+  transferType = TransferDTOType.Expense,
+  title = 'Expenses by category and month',
+}) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const navigate = useNavigate();
 
   const categories = Array.from(
     new Set(data.map((x) => x.category ?? 'uncategorized'))
+  );
+
+  // Tracks the previous click so a second click on the same cell shortly
+  // after can be treated as a double-click (ApexCharts doesn't expose a
+  // native dblclick event for heatmap cells).
+  const lastClickRef = useRef<{
+    seriesIndex: number;
+    dataPointIndex: number;
+    time: number;
+  } | null>(null);
+
+  const navigateToTransfers = useCallback(
+    async (categoryIndex: number, monthIndex: number) => {
+      const category = categories[categoryIndex];
+      if (!category) return;
+
+      const month = monthIndex + 1;
+      const dateFrom = new Date(Date.UTC(year, month - 1, 1));
+      const dateTo = new Date(Date.UTC(year, month, 1));
+
+      const params = new URLSearchParams({
+        type: transferType,
+        category,
+        dateFrom: dateFrom.toISOString(),
+        dateTo: dateTo.toISOString(),
+      });
+
+      await navigate(`/transfers?${params.toString()}`);
+    },
+    [categories, navigate, transferType, year]
+  );
+
+  const handleChartClick = useCallback(
+    async (
+      _event: MouseEvent,
+      _chartContext?: ApexCharts,
+      opts?: { seriesIndex?: number; dataPointIndex?: number }
+    ) => {
+      // ApexCharts reads these from DOM attributes internally and does not
+      // parse them to numbers, so they can arrive as numeric strings (e.g.
+      // "1"). Coerce explicitly, otherwise `monthIndex + 1` further down
+      // would do string concatenation ("1" + 1 = "11") instead of addition.
+      const seriesIndex =
+        opts?.seriesIndex != null ? Number(opts.seriesIndex) : NaN;
+      const dataPointIndex =
+        opts?.dataPointIndex != null ? Number(opts.dataPointIndex) : NaN;
+      if (
+        Number.isNaN(seriesIndex) ||
+        seriesIndex < 0 ||
+        Number.isNaN(dataPointIndex) ||
+        dataPointIndex < 0
+      ) {
+        return;
+      }
+
+      const now = Date.now();
+      const last = lastClickRef.current;
+      if (
+        last &&
+        last.seriesIndex === seriesIndex &&
+        last.dataPointIndex === dataPointIndex &&
+        now - last.time < DOUBLE_CLICK_THRESHOLD_MS
+      ) {
+        lastClickRef.current = null;
+        await navigateToTransfers(seriesIndex, dataPointIndex);
+      } else {
+        lastClickRef.current = { seriesIndex, dataPointIndex, time: now };
+      }
+    },
+    [navigateToTransfers]
   );
 
   // Raw expense values per category/month, kept aside for labels & tooltips
@@ -126,28 +209,23 @@ export const ExpensesByCategoryHeatmap: React.FC<
     })
   );
 
-  // Color intensity is normalized per row (category), because each category
-  // can have a very different min/max — a single global scale would make
-  // small variations within a low-value category invisible.
+  // Color intensity is normalized per row (category) against a fixed lower
+  // bound of 0 (not the category's own minimum), so a month with a small
+  // expense relative to that category's max always looks proportionally
+  // "cooler" instead of being stretched up to full intensity.
   const series = categories.map((category, categoryIndex) => {
     const rowValues = rawValues[categoryIndex];
-    const positiveValues = rowValues.filter((v) => v > 0);
-    const rowMin = positiveValues.length ? Math.min(...positiveValues) : 0;
-    const rowMax = positiveValues.length ? Math.max(...positiveValues) : 0;
+    const rowMax = Math.max(0, ...rowValues);
 
     return {
       name: category,
       data: MONTH_LABELS.map((label, monthIndex) => {
         const raw = rowValues[monthIndex];
-        let normalized = 0;
-        if (raw > 0) {
-          normalized =
-            rowMax === rowMin
-              ? NORMALIZED_MAX
-              : NORMALIZED_MIN +
-                ((raw - rowMin) / (rowMax - rowMin)) *
-                  (NORMALIZED_MAX - NORMALIZED_MIN);
-        }
+        const normalized =
+          raw > 0 && rowMax > 0
+            ? NORMALIZED_MIN +
+              (raw / rowMax) * (NORMALIZED_MAX - NORMALIZED_MIN)
+            : 0;
         return { x: label, y: normalized };
       }),
     };
@@ -158,6 +236,9 @@ export const ExpensesByCategoryHeatmap: React.FC<
   const chartOptions = useChart({
     chart: {
       toolbar: { show: false },
+      events: {
+        click: handleChartClick,
+      },
     },
     legend: {
       show: false,
@@ -220,7 +301,7 @@ export const ExpensesByCategoryHeatmap: React.FC<
     <Card>
       <CardHeader title={title} />
 
-      <Box sx={{ p: { xs: 1, sm: 3 } }}>
+      <Box sx={{ p: 0, pb: 0 }}>
         <Chart
           dir="ltr"
           type="heatmap"
