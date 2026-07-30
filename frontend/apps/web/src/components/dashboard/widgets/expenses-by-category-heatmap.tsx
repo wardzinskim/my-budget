@@ -256,7 +256,8 @@ export const ExpensesByCategoryHeatmap: React.FC<
       formatter: (_val, opts) => {
         const raw =
           rawValues[opts?.seriesIndex ?? -1]?.[opts?.dataPointIndex ?? -1] ?? 0;
-        return raw ? fCurrency(raw) : '';
+        if (!raw) return '';
+        return fCurrency(isMobile ? Math.round(raw) : raw);
       },
     },
     plotOptions: {
