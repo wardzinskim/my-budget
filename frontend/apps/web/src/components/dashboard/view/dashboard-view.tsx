@@ -10,6 +10,7 @@ import { DashboardLoaderResult } from '../../../pages/dashboard/dashboard.loader
 import { TotalIncomesViewer } from '../widgets/total-incomes-viewer';
 import Grid from '@mui/material/Grid';
 import { TransfersByCategoryList } from '../widgets/transfers-by-category-list';
+import { ExpensesByCategoryHeatmap } from '../widgets/expenses-by-category-heatmap';
 import { TransferDTOType } from '@repo/api-client';
 
 export const DashboardView: React.FC = () => {
@@ -77,6 +78,12 @@ export const DashboardView: React.FC = () => {
         <Grid size={{ xs: 12, md: 6 }}>
           <ExpensesByCategoryPieChart
             categories={loaderData.incomesGroupedByCategory}
+          />
+        </Grid>
+
+        <Grid size={{ xs: 12 }}>
+          <ExpensesByCategoryHeatmap
+            data={loaderData.yearlyExpensesGroupedByCategoryAndMonth}
           />
         </Grid>
 

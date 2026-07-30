@@ -1,7 +1,12 @@
 import { LoaderFunction } from 'react-router-dom';
 import { IUserContextState } from '../../hooks/user-context';
 import { statisticsApi } from '../../configuration/api';
-import { BudgetTotals, CategoryValue, TransferDTOType } from '@repo/api-client';
+import {
+  BudgetTotals,
+  CategoryMonthValue,
+  CategoryValue,
+  TransferDTOType,
+} from '@repo/api-client';
 import { IDashboardContextState } from '../../components/dashboard/hooks/dashboard-context';
 
 export interface DashboardLoaderResult {
@@ -10,6 +15,7 @@ export interface DashboardLoaderResult {
   yearlyIncomesGroupedByCategory: CategoryValue[];
   yearlyExpensesGroupedByCategory: CategoryValue[];
   yearlyBalancesGroupedByCategory: CategoryValue[];
+  yearlyExpensesGroupedByCategoryAndMonth: CategoryMonthValue[];
 }
 
 export const loader: (
@@ -24,6 +30,7 @@ export const loader: (
     yearlyIncomesGroupedByCategory,
     yearlyExpensesGroupedByCategory,
     yearlyTaxesGroupedByCategory,
+    yearlyExpensesGroupedByCategoryAndMonth,
   ] = await Promise.all([
     fetchTotals(
       userContext.budget.id!,
@@ -50,6 +57,11 @@ export const loader: (
       userContext.budget.id!,
       dashboardContext.year
     ),
+    fetchTransfersTotalsGroupedByCategoryAndMonth(
+      TransferDTOType.Expense,
+      userContext.budget.id!,
+      dashboardContext.year
+    ),
   ]);
 
   const computedYearlyBalancesGroupedByCategory =
@@ -65,6 +77,7 @@ export const loader: (
     yearlyIncomesGroupedByCategory,
     yearlyExpensesGroupedByCategory,
     yearlyBalancesGroupedByCategory: computedYearlyBalancesGroupedByCategory,
+    yearlyExpensesGroupedByCategoryAndMonth,
   };
 };
 
@@ -97,6 +110,20 @@ const fetchTransfersTotalsGroupedByCategory = async (
     transferType,
     year
   );
+  return response.data;
+};
+
+const fetchTransfersTotalsGroupedByCategoryAndMonth = async (
+  transferType: TransferDTOType,
+  budgetId: string,
+  year: number
+) => {
+  const response =
+    await statisticsApi.getBudgetTransfersTotalsGroupedByCategoryAndMonth(
+      budgetId,
+      transferType,
+      year
+    );
   return response.data;
 };
 

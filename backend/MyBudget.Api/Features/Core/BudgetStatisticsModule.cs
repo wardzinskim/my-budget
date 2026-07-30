@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyBudget.Api.Extensions;
 using MyBudget.Application.Budgets.GetBudgetTotals;
 using MyBudget.Application.Budgets.GetBudgetTransfersTotalsGroupedByCategory;
+using MyBudget.Application.Budgets.GetBudgetTransfersTotalsGroupedByCategoryAndMonth;
 using MyBudget.Application.Budgets.Model;
 
 namespace MyBudget.Api.Features.Core;
@@ -28,6 +29,12 @@ public class BudgetStatisticsModule : ICarterModule
         group.MapGet("/totals/grouped-by-category", GetBudgetTransfersTotalsGropedByCategory)
             .WithName(nameof(GetBudgetTransfersTotalsGropedByCategory))
             .Produces(StatusCodes.Status200OK, typeof(CategoryValue[]))
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .ProducesProblem(StatusCodes.Status403Forbidden);
+
+        group.MapGet("/totals/grouped-by-category-and-month", GetBudgetTransfersTotalsGroupedByCategoryAndMonth)
+            .WithName(nameof(GetBudgetTransfersTotalsGroupedByCategoryAndMonth))
+            .Produces(StatusCodes.Status200OK, typeof(CategoryMonthValue[]))
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status403Forbidden);
     }
@@ -58,6 +65,20 @@ public class BudgetStatisticsModule : ICarterModule
     {
         var result = await mediator.SendRequest(
             new GetBudgetTransfersTotalsGroupedByCategoryQuery(id, type, year, month), cancellationToken);
+
+        return result.Match(Results.Ok);
+    }
+
+    private static async Task<IResult> GetBudgetTransfersTotalsGroupedByCategoryAndMonth(
+        IMediator mediator,
+        [FromRoute] Guid id,
+        [FromQuery] TransferDTOType type,
+        [FromQuery] int year,
+        CancellationToken cancellationToken
+    )
+    {
+        var result = await mediator.SendRequest(
+            new GetBudgetTransfersTotalsGroupedByCategoryAndMonthQuery(id, type, year), cancellationToken);
 
         return result.Match(Results.Ok);
     }

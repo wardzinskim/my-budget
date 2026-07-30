@@ -41,6 +41,8 @@ import {
 // @ts-ignore
 import type { BudgetTotals } from '../model';
 // @ts-ignore
+import type { CategoryMonthValue } from '../model';
+// @ts-ignore
 import type { CategoryValue } from '../model';
 // @ts-ignore
 import type { ProblemDetails } from '../model';
@@ -188,6 +190,84 @@ export const BudgetStatisticsApiAxiosParamCreator = function (
         options: localVarRequestOptions,
       };
     },
+    /**
+     *
+     * @param {string} id
+     * @param {TransferDTOType} type
+     * @param {number} year
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getBudgetTransfersTotalsGroupedByCategoryAndMonth: async (
+      id: string,
+      type: TransferDTOType,
+      year: number,
+      options: RawAxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists(
+        'getBudgetTransfersTotalsGroupedByCategoryAndMonth',
+        'id',
+        id
+      );
+      // verify required parameter 'type' is not null or undefined
+      assertParamExists(
+        'getBudgetTransfersTotalsGroupedByCategoryAndMonth',
+        'type',
+        type
+      );
+      // verify required parameter 'year' is not null or undefined
+      assertParamExists(
+        'getBudgetTransfersTotalsGroupedByCategoryAndMonth',
+        'year',
+        year
+      );
+      const localVarPath =
+        `/budget/{id}/totals/grouped-by-category-and-month`.replace(
+          `{${'id'}}`,
+          encodeURIComponent(String(id))
+        );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = {
+        method: 'GET',
+        ...baseOptions,
+        ...options,
+      };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Bearer required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration);
+
+      if (type !== undefined) {
+        localVarQueryParameter['type'] = type;
+      }
+
+      if (year !== undefined) {
+        localVarQueryParameter['year'] = year;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
   };
 };
 
@@ -276,6 +356,45 @@ export const BudgetStatisticsApiFp = function (configuration?: Configuration) {
           configuration
         )(axios, localVarOperationServerBasePath || basePath);
     },
+    /**
+     *
+     * @param {string} id
+     * @param {TransferDTOType} type
+     * @param {number} year
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getBudgetTransfersTotalsGroupedByCategoryAndMonth(
+      id: string,
+      type: TransferDTOType,
+      year: number,
+      options?: RawAxiosRequestConfig
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string
+      ) => AxiosPromise<Array<CategoryMonthValue>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.getBudgetTransfersTotalsGroupedByCategoryAndMonth(
+          id,
+          type,
+          year,
+          options
+        );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          'BudgetStatisticsApi.getBudgetTransfersTotalsGroupedByCategoryAndMonth'
+        ]?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
   };
 };
 
@@ -334,6 +453,29 @@ export const BudgetStatisticsApiFactory = function (
         )
         .then((request) => request(axios, basePath));
     },
+    /**
+     *
+     * @param {string} id
+     * @param {TransferDTOType} type
+     * @param {number} year
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getBudgetTransfersTotalsGroupedByCategoryAndMonth(
+      id: string,
+      type: TransferDTOType,
+      year: number,
+      options?: RawAxiosRequestConfig
+    ): AxiosPromise<Array<CategoryMonthValue>> {
+      return localVarFp
+        .getBudgetTransfersTotalsGroupedByCategoryAndMonth(
+          id,
+          type,
+          year,
+          options
+        )
+        .then((request) => request(axios, basePath));
+    },
   };
 };
 
@@ -376,6 +518,22 @@ export interface BudgetStatisticsApiInterface {
     month?: number,
     options?: RawAxiosRequestConfig
   ): AxiosPromise<Array<CategoryValue>>;
+
+  /**
+   *
+   * @param {string} id
+   * @param {TransferDTOType} type
+   * @param {number} year
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof BudgetStatisticsApiInterface
+   */
+  getBudgetTransfersTotalsGroupedByCategoryAndMonth(
+    id: string,
+    type: TransferDTOType,
+    year: number,
+    options?: RawAxiosRequestConfig
+  ): AxiosPromise<Array<CategoryMonthValue>>;
 }
 
 /**
@@ -427,6 +585,31 @@ export class BudgetStatisticsApi
   ) {
     return BudgetStatisticsApiFp(this.configuration)
       .getBudgetTransfersTotalsGropedByCategory(id, type, year, month, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   *
+   * @param {string} id
+   * @param {TransferDTOType} type
+   * @param {number} year
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof BudgetStatisticsApi
+   */
+  public getBudgetTransfersTotalsGroupedByCategoryAndMonth(
+    id: string,
+    type: TransferDTOType,
+    year: number,
+    options?: RawAxiosRequestConfig
+  ) {
+    return BudgetStatisticsApiFp(this.configuration)
+      .getBudgetTransfersTotalsGroupedByCategoryAndMonth(
+        id,
+        type,
+        year,
+        options
+      )
       .then((request) => request(this.axios, this.basePath));
   }
 }
