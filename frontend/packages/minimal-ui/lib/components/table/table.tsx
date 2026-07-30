@@ -2,10 +2,18 @@ import Table from '@mui/material/Table';
 import TableContainer from '@mui/material/TableContainer';
 import { ColumnDefinition, MinimalTableHead } from './table-head';
 import { ChangeEvent, useState } from 'react';
-import { TableBody, TablePagination } from '@mui/material';
+import {
+  Stack,
+  TableBody,
+  TableCell,
+  TablePagination,
+  TableRow,
+  Typography,
+} from '@mui/material';
 import { MinimalTableRow } from './table-row';
 import { applyFilter, getComparator } from './utils';
 import { Scrollbar } from '../scrollbar';
+import { Iconify } from '../iconify';
 
 export interface MinimalTableProps<TItem> {
   columns: Array<ColumnDefinition<TItem>>;
@@ -90,7 +98,7 @@ export function MinimalTable<TItem extends { id?: string }>({
     <>
       <Scrollbar>
         <TableContainer sx={{ overflow: 'unset' }}>
-          <Table sx={{ minWidth: 800 }}>
+          <Table stickyHeader sx={{ minWidth: 800 }}>
             <MinimalTableHead<TItem>
               order={order}
               orderBy={orderBy}
@@ -114,6 +122,26 @@ export function MinimalTable<TItem extends { id?: string }>({
                     withSelection={withSelection}
                   />
                 ))}
+
+              {items.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={columns.length + (withSelection ? 1 : 0)}>
+                    <Stack
+                      alignItems="center"
+                      justifyContent="center"
+                      spacing={1}
+                      sx={{ py: 8, color: 'text.secondary' }}
+                    >
+                      <Iconify
+                        icon="solar:inbox-line-linear"
+                        width={40}
+                        sx={{ opacity: 0.6 }}
+                      />
+                      <Typography variant="body2">No data found</Typography>
+                    </Stack>
+                  </TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </TableContainer>

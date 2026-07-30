@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography, alpha } from '@mui/material';
 import { TransferDTOType } from '@repo/api-client';
 import { Iconify, fCurrency } from '@repo/minimal-ui';
 
@@ -9,17 +9,15 @@ interface TotalExpensesViewerProps {
 export const TotalExpensesViewer: React.FC<TotalExpensesViewerProps> = ({
   value,
 }) => {
-  const iconColors = {
-    backgroundColor: 'rgb(183, 110, 0)',
-    color: 'rgb(255, 245, 204)',
-  };
-
   return (
     <Stack
       sx={{
-        background:
-          'linear-gradient(135deg, rgba(255, 214, 102, 0.2), rgba(255, 171, 0, 0.2)) rgb(255, 255, 255)',
-        color: 'rgb(122, 65, 0)',
+        background: (theme) =>
+          `linear-gradient(135deg, ${alpha(theme.palette.warning.light, 0.2)}, ${alpha(
+            theme.palette.warning.main,
+            0.2
+          )}) ${theme.palette.background.paper}`,
+        color: 'text.primary',
         position: 'relative',
       }}
       borderRadius={2}
@@ -29,7 +27,8 @@ export const TotalExpensesViewer: React.FC<TotalExpensesViewerProps> = ({
           component={Iconify}
           icon={'tdesign:arrow-right-up'}
           sx={{
-            ...iconColors,
+            bgcolor: (theme) => alpha(theme.palette.warning.main, 0.16),
+            color: 'warning.dark',
             width: 48,
             height: 48,
             top: 24,

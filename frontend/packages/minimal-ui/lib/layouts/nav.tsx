@@ -151,27 +151,24 @@ export function NavItem({ item }: NavItemProps) {
       href={item.path}
       sx={{
         minHeight: 44,
-        borderRadius: 0.75,
+        borderRadius: 1,
         typography: 'body2',
         color: 'text.secondary',
         textTransform: 'capitalize',
         fontWeight: 'fontWeightRegular',
         position: 'relative',
         overflow: 'hidden',
+        transition: (theme) =>
+          theme.transitions.create(['background-color', 'color'], {
+            duration: theme.transitions.duration.shorter,
+          }),
+        '&:hover': {
+          bgcolor: (theme) => alpha(theme.palette.grey[500], 0.08),
+        },
         ...(active && {
           color: 'primary.main',
           fontWeight: 'fontWeightMedium',
           bgcolor: (theme) => alpha(theme.palette.primary.main, 0.08),
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            left: 0,
-            top: '20%',
-            bottom: '20%',
-            width: 3,
-            borderRadius: '0 3px 3px 0',
-            backgroundColor: 'primary.main',
-          },
           '&:hover': {
             bgcolor: (theme) => alpha(theme.palette.primary.main, 0.16),
           },

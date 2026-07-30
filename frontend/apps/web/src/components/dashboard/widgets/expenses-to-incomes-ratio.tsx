@@ -1,4 +1,4 @@
-import { Box, Card, CardHeader } from '@mui/material';
+import { Box, Card, CardHeader, useTheme } from '@mui/material';
 import { Chart, useChart } from '@repo/minimal-ui';
 
 interface ExpensesToIncomesRatioProps {
@@ -10,6 +10,8 @@ export const ExpensesToIncomesRatio: React.FC<ExpensesToIncomesRatioProps> = ({
   expenses,
   incomes,
 }) => {
+  const theme = useTheme();
+
   const chartOptions = useChart({
     chart: {
       type: 'radialBar',
@@ -55,7 +57,7 @@ export const ExpensesToIncomesRatio: React.FC<ExpensesToIncomesRatioProps> = ({
         shade: 'dark',
         type: 'horizontal',
         shadeIntensity: 0.3,
-        gradientToColors: ['#818CF8'],
+        gradientToColors: [theme.palette.primary.light],
         inverseColors: false,
         opacityFrom: 1,
         opacityTo: 1,

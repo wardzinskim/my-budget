@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import { NAV, HEADER } from './config-layout';
 import { Query, useResponsive } from '../hooks/use-responsive';
 import { Iconify } from '../components';
+import { ColorModeToggle } from '../components/color-mode-toggle';
 import { bgBlur } from '../theme/css';
 
 // ----------------------------------------------------------------------
@@ -43,6 +44,7 @@ export function Header({
         {/* <LanguagePopover /> */}
         {/* <NotificationsPopover /> */}
         {/* <AccountPopover /> */}
+        <ColorModeToggle />
         {rightContent ?? <></>}
       </Stack>
     </>

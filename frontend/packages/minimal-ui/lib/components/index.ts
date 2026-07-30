@@ -7,3 +7,4 @@ export * from './label';
 export * from './navigation-bar';
 export * from './alert-dialog';
 export * from './chart';
+export * from './color-mode-toggle';

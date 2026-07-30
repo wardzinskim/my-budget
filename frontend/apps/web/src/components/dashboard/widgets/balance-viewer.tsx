@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography, alpha } from '@mui/material';
 import { Iconify, fCurrency } from '@repo/minimal-ui';
 
 interface BalanceViewerProps {
@@ -7,18 +7,17 @@ interface BalanceViewerProps {
 
 export const BalanceViewer: React.FC<BalanceViewerProps> = ({ value }) => {
   const isPositive = value >= 0;
-
-  const iconColors = isPositive
-    ? { backgroundColor: 'rgb(0, 96, 83)', color: 'rgb(200, 250, 214)' }
-    : { backgroundColor: 'rgb(183, 0, 0)', color: 'rgb(255, 188, 188)' };
+  const accentColor = isPositive ? 'success' : 'error';
 
   return (
     <Stack
       sx={{
-        background: isPositive
-          ? 'linear-gradient(135deg, rgba(97, 197, 73, 0.4), rgba(70, 120, 25, 0.4)) rgb(255, 255, 255)'
-          : 'linear-gradient(135deg, rgba(255, 102, 102, 0.4), rgba(255, 0, 0, 0.4)) rgb(255, 255, 255)',
-        color: isPositive ? 'rgb(33, 43, 54)' : 'rgb(153, 1, 0)',
+        background: (theme) =>
+          `linear-gradient(135deg, ${alpha(theme.palette[accentColor].light, 0.24)}, ${alpha(
+            theme.palette[accentColor].main,
+            0.24
+          )}) ${theme.palette.background.paper}`,
+        color: isPositive ? 'text.primary' : 'error.dark',
         position: 'relative',
       }}
       borderRadius={2}
@@ -28,7 +27,8 @@ export const BalanceViewer: React.FC<BalanceViewerProps> = ({ value }) => {
           component={Iconify}
           icon={isPositive ? 'fa6-solid:plus' : 'fa6-solid:minus'}
           sx={{
-            ...iconColors,
+            bgcolor: (theme) => alpha(theme.palette[accentColor].main, 0.16),
+            color: `${accentColor}.dark`,
             width: 48,
             height: 48,
             top: 24,

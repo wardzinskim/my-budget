@@ -1,13 +1,17 @@
 import { Shadows, alpha } from '@mui/material/styles';
 
-import { grey } from './palette';
+import { common, grey } from './palette';
+import type { ColorMode } from './color-mode-context';
 
 // ----------------------------------------------------------------------
 
-export function shadows(): Shadows {
-  const transparent1 = alpha(grey[500]!, 0.2);
-  const transparent2 = alpha(grey[500]!, 0.14);
-  const transparent3 = alpha(grey[500]!, 0.12);
+export function shadows(mode: ColorMode = 'light'): Shadows {
+  const shadowColor = mode === 'dark' ? common.black! : grey[500]!;
+  const opacityBoost = mode === 'dark' ? 1.6 : 1;
+
+  const transparent1 = alpha(shadowColor, 0.2 * opacityBoost);
+  const transparent2 = alpha(shadowColor, 0.14 * opacityBoost);
+  const transparent3 = alpha(shadowColor, 0.12 * opacityBoost);
 
   return [
     'none',

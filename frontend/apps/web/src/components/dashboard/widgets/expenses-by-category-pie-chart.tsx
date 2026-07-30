@@ -1,4 +1,4 @@
-import { Box, Card, CardHeader } from '@mui/material';
+import { Box, Card, CardHeader, useTheme } from '@mui/material';
 import { CategoryValue } from '@repo/api-client';
 import { Chart, fCurrency, fPercent, useChart } from '@repo/minimal-ui';
 
@@ -9,10 +9,12 @@ interface ExpensesByCategoryPieChartProps {
 export const ExpensesByCategoryPieChart: React.FC<
   ExpensesByCategoryPieChartProps
 > = ({ categories }) => {
+  const theme = useTheme();
+
   const chartOptions = useChart({
     stroke: {
       width: 2,
-      colors: ['#fff'],
+      colors: [theme.palette.background.paper],
     },
     plotOptions: {
       pie: {

@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Stack, Typography, alpha } from '@mui/material';
 import { TransferDTOType } from '@repo/api-client';
 import { Iconify, fCurrency } from '@repo/minimal-ui';
 
@@ -11,17 +11,15 @@ export const TotalIncomesViewer: React.FC<TotalIncomesViewerProps> = ({
   value,
   tax,
 }) => {
-  const iconColors = {
-    backgroundColor: 'rgb(0, 120, 103)',
-    color: 'rgb(200, 250, 214)',
-  };
-
   return (
     <Stack
       sx={{
-        background:
-          'linear-gradient(135deg, rgba(91, 228, 155, 0.2), rgba(0, 167, 111, 0.2)) rgb(255, 255, 255)',
-        color: 'rgb(33, 43, 54)',
+        background: (theme) =>
+          `linear-gradient(135deg, ${alpha(theme.palette.success.light, 0.2)}, ${alpha(
+            theme.palette.success.main,
+            0.2
+          )}) ${theme.palette.background.paper}`,
+        color: 'text.primary',
         position: 'relative',
       }}
       borderRadius={2}
@@ -31,7 +29,8 @@ export const TotalIncomesViewer: React.FC<TotalIncomesViewerProps> = ({
           component={Iconify}
           icon={'tdesign:arrow-left-down'}
           sx={{
-            ...iconColors,
+            bgcolor: (theme) => alpha(theme.palette.success.main, 0.16),
+            color: 'success.dark',
             width: 48,
             height: 48,
             top: 24,

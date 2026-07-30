@@ -11,6 +11,8 @@ export function overrides(
   theme: Theme,
   customShadows: CustomShadows
 ): Components<Omit<Theme, 'components'>> {
+  const isDark = theme.palette.mode === 'dark';
+
   return {
     MuiCssBaseline: {
       styleOverrides: {
@@ -70,10 +72,18 @@ export function overrides(
       styleOverrides: {
         root: {
           transition:
-            'background-color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
+            'background-color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, transform 0.15s ease',
         },
         contained: {
           borderRadius: 8,
+          '&:hover': {
+            transform: 'translateY(-1px)',
+          },
+        },
+        containedPrimary: {
+          '&:hover': {
+            boxShadow: customShadows.primary,
+          },
         },
         containedInherit: {
           color: theme.palette.common.white,
@@ -93,9 +103,13 @@ export function overrides(
         root: {
           boxShadow: customShadows.card,
           borderRadius: (theme.shape.borderRadius as number) * 2,
-          border: `1px solid ${alpha(theme.palette.grey[500], 0.12)}`,
+          border: `1px solid ${alpha(theme.palette.grey[500], isDark ? 0.2 : 0.12)}`,
+          backgroundImage: 'none',
           position: 'relative',
           zIndex: 0, // Fix Safari overflow: hidden with border radius
+          transition: theme.transitions.create(['box-shadow'], {
+            duration: theme.transitions.duration.shorter,
+          }),
         },
       },
     },
@@ -175,7 +189,9 @@ export function overrides(
       styleOverrides: {
         head: {
           color: theme.palette.text.secondary,
-          backgroundColor: theme.palette.grey[100],
+          backgroundColor: isDark
+            ? alpha(theme.palette.grey[500], 0.08)
+            : theme.palette.grey[100],
           fontWeight: 600,
         },
       },
@@ -187,6 +203,37 @@ export function overrides(
         },
         arrow: {
           color: theme.palette.grey[800],
+        },
+      },
+    },
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          fontWeight: 600,
+          borderRadius: 8,
+        },
+        colorDefault: {
+          backgroundColor: alpha(theme.palette.grey[500], 0.16),
+        },
+      },
+    },
+    MuiAvatar: {
+      styleOverrides: {
+        root: {
+          fontWeight: 600,
+        },
+        colorDefault: {
+          backgroundColor: theme.palette.grey[isDark ? 700 : 300],
+        },
+      },
+    },
+    MuiAppBar: {
+      defaultProps: {
+        elevation: 0,
+      },
+      styleOverrides: {
+        root: {
+          backgroundImage: 'none',
         },
       },
     },
