@@ -1,4 +1,6 @@
-﻿namespace MyBudget.Application.Budgets.Model;
+﻿using System.ComponentModel;
+
+namespace MyBudget.Application.Budgets.Model;
 
 public record TransferDTO(
     Guid Id,
@@ -12,7 +14,12 @@ public record TransferDTO(
 
 public enum TransferDTOType
 {
+    [Description("Money received, increasing the budget balance")]
     Income,
+
+    [Description("Money spent, decreasing the budget balance")]
     Expense,
+
+    [Description("Tax-related transfer, e.g.  VAT, PIT or ZUS payments")]
     Tax
 }

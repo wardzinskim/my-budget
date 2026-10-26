@@ -14,13 +14,14 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
         await context.Database.EnsureCreatedAsync(cancellationToken);
 
         var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
+        var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
         await CreateScopesAsync(scope);
 
         var client = await manager.FindByClientIdAsync("MyBudget.Frontend", cancellationToken);
 
         //if (client is not null)
         //{
-        //    await manager.DeleteAsync(client);
+        //    await manager.DeleteAsync(client, cancellationToken);
         //    client = null;
         //}
 
@@ -35,7 +36,10 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
                     ClientType = ClientTypes.Public,
                     ApplicationType = ApplicationTypes.Web,
                     PostLogoutRedirectUris = {new Uri("http://localhost:5173")},
-                    RedirectUris = {new Uri("http://localhost:5173"), new Uri("http://localhost:5173/silent-renew.html")},
+                    RedirectUris =
+                    {
+                        new Uri("http://localhost:5173"), new Uri("http://localhost:5173/silent-renew.html")
+                    },
                     Permissions =
                     {
                         Permissions.Endpoints.EndSession,
@@ -56,11 +60,11 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
 
         client = await manager.FindByClientIdAsync("MyBudget.Backend", cancellationToken);
 
-        // if (client is not null)
-        // {
-        //     await manager.DeleteAsync(client, cancellationToken);
-        //     client = null;
-        // }
+        //if (client is not null)
+        //{
+        //    await manager.DeleteAsync(client, cancellationToken);
+        //   client = null;
+        //}
 
         if (client is null)
         {
@@ -75,7 +79,7 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
                     Permissions.Endpoints.Introspection,
                     Permissions.Endpoints.Token,
                     Permissions.GrantTypes.ClientCredentials,
-                    Permissions.Prefixes.Scope + "my_budget.identity",
+                    Permissions.Prefixes.Scope + "my_budget.identity"
                 },
             }, cancellationToken);
         }
@@ -84,7 +88,7 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
 
         //if (client is not null)
         //{
-        //    await manager.DeleteAsync(client);
+        //    await manager.DeleteAsync(client, cancellationToken);
         //    client = null;
         //}
 
@@ -98,27 +102,68 @@ public class Worker(IServiceProvider serviceProvider) : IHostedService
                 ApplicationType = ApplicationTypes.Web,
             }, cancellationToken);
         }
+
+        client = await manager.FindByClientIdAsync("MyBudget.MCP", cancellationToken);
+
+        //if (client is not null)
+        //{
+        //    await manager.DeleteAsync(client, cancellationToken);
+        //    client = null;
+        //}
+
+        if (client is null)
+        {
+            await manager.CreateAsync(
+                new OpenIddictApplicationDescriptor
+                {
+                    ClientId = "MyBudget.MCP",
+                    ConsentType = ConsentTypes.Explicit,
+                    DisplayName = "MyBudget MCP Client",
+                    ClientType = ClientTypes.Public,
+                    ApplicationType = ApplicationTypes.Web,
+                    RedirectUris = {new Uri("http://127.0.0.1:6274/oauth/callback")},
+                    Permissions =
+                    {
+                        Permissions.Endpoints.EndSession,
+                        Permissions.Endpoints.Authorization,
+                        Permissions.Endpoints.Token,
+                        Permissions.GrantTypes.AuthorizationCode,
+                        Permissions.GrantTypes.RefreshToken,
+                        Permissions.ResponseTypes.Code,
+                        Permissions.Scopes.Email,
+                        Permissions.Scopes.Profile,
+                        Permissions.Scopes.Roles,
+                        Permissions.Prefixes.Scope + "my_budget.mcp",
+                        Permissions.Prefixes.Resource + configuration["Resources:MCP"]
+                    },
+                    Requirements = {Requirements.Features.ProofKeyForCodeExchange}
+                }, cancellationToken);
+        }
     }
 
 
-    private async Task CreateScopesAsync(AsyncServiceScope scope)
+    private static async Task CreateScopesAsync(AsyncServiceScope scope)
     {
         var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictScopeManager>();
 
-        if (await manager.FindByNameAsync("my_budget.api") is null)
-        {
-            await manager.CreateAsync(new OpenIddictScopeDescriptor
-            {
-                Name = "my_budget.api", Resources = {"MyBudget.Backend"}
-            });
-        }
+        await UpsertScopeAsync(manager, "my_budget.api", "MyBudget.Backend");
+        await UpsertScopeAsync(manager, "my_budget.mcp", "MyBudget.Backend");
+        await UpsertScopeAsync(manager, "my_budget.identity", "MyBudget.Identity");
+    }
 
-        if (await manager.FindByNameAsync("my_budget.identity") is null)
+    private static async Task UpsertScopeAsync(IOpenIddictScopeManager manager, string name, string resource)
+    {
+        var descriptor = new OpenIddictScopeDescriptor {Name = name};
+        descriptor.Resources.Add(resource);
+
+        var existing = await manager.FindByNameAsync(name);
+        if (existing is null)
         {
-            await manager.CreateAsync(new OpenIddictScopeDescriptor
-            {
-                Name = "my_budget.identity", Resources = {"MyBudget.Identity"}
-            });
+            await manager.CreateAsync(descriptor);
+        }
+        else
+        {
+            await manager.UpdateAsync(existing, descriptor);
         }
     }
 

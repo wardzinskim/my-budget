@@ -1,6 +1,5 @@
 ﻿using MyBudget.Identity.Data;
 using MyBudget.Infrastructure.Abstractions.Installer;
-using OpenIddict.Abstractions;
 using OpenIddict.Client;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
@@ -22,6 +21,8 @@ public class OpenIddictInstaller : IInstaller
             })
             .AddServer(options =>
             {
+                options.RegisterResources(configuration["Resources:MCP"]!);
+
                 options
                     .SetAuthorizationEndpointUris("authorize")
                     .SetTokenEndpointUris("token")

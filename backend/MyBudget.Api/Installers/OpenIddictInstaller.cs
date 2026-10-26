@@ -1,6 +1,5 @@
 ﻿using MyBudget.Infrastructure.Abstractions.Installer;
 using OpenIddict.Client;
-using OpenIddict.Validation.SystemNetHttp;
 
 namespace MyBudget.Api.Installers;
 
@@ -12,7 +11,7 @@ public class OpenIddictInstaller : IInstaller
             .AddOpenIddict()
             .AddValidation(options =>
             {
-                options.SetIssuer(configuration["OpenIddict:Issuer"]!);
+                options.SetIssuer(new Uri(configuration["OpenIddict:Issuer"]!, UriKind.Absolute));
 
                 options.AddAudiences(configuration["OpenIddict:Audience"]!);
 

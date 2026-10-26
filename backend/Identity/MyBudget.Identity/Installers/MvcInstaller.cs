@@ -19,7 +19,9 @@ public class MvcInstaller : IInstaller
             {
                 policy.RequireAuthenticatedUser();
                 policy.AddAuthenticationSchemes(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
-                policy.RequireClaim(OpenIddictConstants.Claims.Private.Scope, "my_budget.identity");
+                policy.RequireAssertion(context =>
+                    context.User.HasScope("my_budget.identity")
+                );
             });
         });
 

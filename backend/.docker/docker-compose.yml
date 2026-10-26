@@ -1,3 +1,5 @@
+name: my-budget
+
 services:
   mybudget.api:
     image: ${DOCKER_REGISTRY-}mybudgetapi
@@ -17,6 +19,7 @@ services:
       - "5341:80"
     environment:
       ACCEPT_EULA: "Y"
+      SEQ_FIRSTRUN_ADMINPASSWORD: "1qaz@WSX"
     restart: unless-stopped
     volumes:
       - seq-data:/data

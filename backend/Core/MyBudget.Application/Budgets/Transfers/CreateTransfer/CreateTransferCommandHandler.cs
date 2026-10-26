@@ -14,7 +14,7 @@ public record CreateTransferCommand(
     string Currency,
     string? Category = null,
     DateTime? Date = null
-) : Request<Result>, ICommand;
+) : Request<Result<TransferDTO>>, ICommand;
 
 public sealed class CreateTransferCommandHandler(
     IBudgetRepository budgetRepository,
@@ -23,9 +23,12 @@ public sealed class CreateTransferCommandHandler(
     IIdGenerator idGenerator,
     IDateTimeProvider dateProvider
 )
-    : MediatorRequestHandler<CreateTransferCommand, Result>
+    : MediatorRequestHandler<CreateTransferCommand, Result<TransferDTO>>
 {
-    protected override async Task<Result> Handle(CreateTransferCommand request, CancellationToken cancellationToken)
+    protected override async Task<Result<TransferDTO>> Handle(
+        CreateTransferCommand request,
+        CancellationToken cancellationToken
+    )
     {
         var budget = await budgetRepository.GetAsync(request.BudgetId, cancellationToken).ConfigureAwait(false);
         if (budget is null) return BudgetsErrors.BudgetNotFound;
@@ -39,6 +42,14 @@ public sealed class CreateTransferCommandHandler(
 
         await transferRepository.AddAsync(transfer.Value, cancellationToken);
 
-        return Result.Success();
+        return new TransferDTO(
+            transfer.Value.Id,
+            transfer.Value.TransferDate,
+            transfer.Value.Value.Value,
+            transfer.Value.Value.Currency,
+            (TransferDTOType)transfer.Value.Type,
+            transfer.Value.Name,
+            transfer.Value.Category
+        );
     }
 }

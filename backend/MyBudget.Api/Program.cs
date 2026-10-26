@@ -46,6 +46,7 @@ public class Program
         HealthChecksInstaller.Use(app);
         SwaggerInstaller.Use(app);
         CarterInstaller.Use(app);
+        MCPInstaller.Use(app);
         
         app.Run();
     }
