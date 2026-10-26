@@ -1,4 +1,5 @@
 ﻿using MassTransit.Futures.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MyBudget.Api.Tests.Mocks;
 using MyBudget.Application.Services;
 using MyBudget.Infrastructure.Database;
+using OpenIddict.Abstractions;
 using Testcontainers.PostgreSql;
 
 namespace MyBudget.Api.Tests;
@@ -47,6 +49,15 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsy
                 })
                 .AddScheme<TestAuthHandlerOptions, TestAuthHandler>(TestAuthHandler.TestAuthScheme,
                     options => { options.UserId = () => UserId; });
+
+            // Production default policy is bound to the OpenIddict scheme; bind it to the test scheme instead.
+            services.AddAuthorization(options =>
+            {
+                options.DefaultPolicy = new AuthorizationPolicyBuilder(TestAuthHandler.TestAuthScheme)
+                    .RequireAuthenticatedUser()
+                    .RequireAssertion(context => context.User.HasScope("my_budget.api"))
+                    .Build();
+            });
 
             services.AddTransient<IUserService>(_ => UserService);
         });

@@ -27,7 +27,12 @@ public class TestAuthHandler : AuthenticationHandler<TestAuthHandlerOptions>
 
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        var claims = new[] {new Claim(Claims.Subject, Options.UserId!().ToString())};
+        var claims = new[]
+        {
+            new Claim(Claims.Subject, Options.UserId!().ToString()),
+            new Claim(Claims.Scope, "my_budget.api"),
+            new Claim("oi_scp", "my_budget.api")
+        };
         var identity = new ClaimsIdentity(claims, "Test");
         var principal = new ClaimsPrincipal(identity);
         var ticket = new AuthenticationTicket(principal, TestAuthScheme);
