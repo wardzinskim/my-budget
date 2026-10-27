@@ -866,18 +866,22 @@
         "properties": {
           "id": {
             "type": "string",
+            "description": "The unique identifier of the budget",
             "format": "uuid"
           },
           "name": {
             "type": "string",
+            "description": "The name of the budget",
             "nullable": true
           },
           "description": {
             "type": "string",
+            "description": "The description of the budget",
             "nullable": true
           },
           "ownerId": {
             "type": "string",
+            "description": "The owner of the budget",
             "format": "uuid"
           },
           "status": {
@@ -892,6 +896,7 @@
             "items": {
               "$ref": "#/components/schemas/CategoryDTO"
             },
+            "description": "Categories of the budget. It can be assigned to transfer",
             "nullable": true
           },
           "shares": {
@@ -934,6 +939,7 @@
         "properties": {
           "name": {
             "type": "string",
+            "description": "The unique name of the category",
             "nullable": true
           },
           "status": {

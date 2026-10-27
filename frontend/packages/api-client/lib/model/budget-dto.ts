@@ -29,25 +29,25 @@ import type { ShareDTO } from './share-dto';
  */
 export interface BudgetDTO {
   /**
-   *
+   * The unique identifier of the budget
    * @type {string}
    * @memberof BudgetDTO
    */
   id?: string;
   /**
-   *
+   * The name of the budget
    * @type {string}
    * @memberof BudgetDTO
    */
   name?: string | null;
   /**
-   *
+   * The description of the budget
    * @type {string}
    * @memberof BudgetDTO
    */
   description?: string | null;
   /**
-   *
+   * The owner of the budget
    * @type {string}
    * @memberof BudgetDTO
    */
@@ -65,7 +65,7 @@ export interface BudgetDTO {
    */
   creationDate?: Date;
   /**
-   *
+   * Categories of the budget. It can be assigned to transfer
    * @type {Array<CategoryDTO>}
    * @memberof BudgetDTO
    */

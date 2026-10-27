@@ -23,7 +23,7 @@ import type { CategoryDTOStatus } from './category-dtostatus';
  */
 export interface CategoryDTO {
   /**
-   *
+   * The unique name of the category
    * @type {string}
    * @memberof CategoryDTO
    */
