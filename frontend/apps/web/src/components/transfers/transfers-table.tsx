@@ -17,6 +17,18 @@ interface TransfersTableProps {
   transfers: Array<TransferDTO>;
 }
 
+const getAmountColor = (type?: TransferDTOType) => {
+  if (type == TransferDTOType.Income) return 'success.main';
+  if (type == TransferDTOType.Savings) return 'primary.main';
+  return null;
+};
+
+const getAmountSign = (type?: TransferDTOType) => {
+  if (type == TransferDTOType.Income) return '+';
+  if (type == TransferDTOType.Savings) return '';
+  return '-';
+};
+
 const TransferTableColumnsBuilder: (
   deleteAction: (transferId: string) => void
 ) => Array<ColumnDefinition<TransferDTO>> = (deleteAction) => [
@@ -32,10 +44,10 @@ const TransferTableColumnsBuilder: (
           fontWeight:
             item.type == TransferDTOType.Income ? 'fontWeightMedium' : null,
           fontSize: 16,
-          color: item.type == TransferDTOType.Income ? 'success.main' : null,
+          color: getAmountColor(item.type),
         }}
       >
-        {item.type == TransferDTOType.Income ? '+' : '-'}
+        {getAmountSign(item.type)}
         {item.value?.toFixed(2)} {item.currency}
       </Typography>
     ),

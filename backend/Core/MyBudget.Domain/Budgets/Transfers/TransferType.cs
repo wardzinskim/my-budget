@@ -4,5 +4,6 @@ public enum TransferType
 {
     Income,
     Expense,
-    Tax
+    Tax,
+    Savings
 }

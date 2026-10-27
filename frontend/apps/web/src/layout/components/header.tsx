@@ -10,7 +10,12 @@ export const Header = () => {
       direction="row"
       sx={{ alignItems: 'center', justifyContent: 'center' }}
     >
-      <Typography variant="h4" component="h1" color="textPrimary">
+      <Typography
+        variant="h4"
+        component="h1"
+        color="textPrimary"
+        sx={{ display: { xs: 'none', sm: 'block' } }}
+      >
         {userContext?.budget?.name}
       </Typography>
 
@@ -33,6 +38,17 @@ export const Header = () => {
           color="default"
         >
           <Iconify icon="hugeicons:taxes" />
+        </IconButton>
+      </Tooltip>
+
+      <Tooltip title="Add Savings" placement="left">
+        <IconButton
+          component={RouterLink}
+          href="/transfers/new/savings"
+          size="large"
+          color="default"
+        >
+          <Iconify icon="vaadin:piggy-bank-coin" />
         </IconButton>
       </Tooltip>
 

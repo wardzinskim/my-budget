@@ -102,4 +102,52 @@ public class GetBudgetTotalsTests(IntegrationTestWebAppFactory application) : Bu
         Assert.Equal(expectedExpenses, response.Expenses);
         Assert.Equal(expectedIncomes, response.Incomes);
     }
+
+    [Theory]
+    [InlineData(null, null, 500)]
+    [InlineData(2024, null, 500)]
+    [InlineData(2024, 1, 200)]
+    [InlineData(2024, 2, 300)]
+    [InlineData(2025, 12, 0)]
+    public async Task GET_budget_totals_returns_savings_without_affecting_other_totals(
+        int? year,
+        int? month,
+        decimal expectedSavings
+    )
+    {
+        //arrange
+        var faker = new Faker();
+        var budgetId = Guid.NewGuid();
+        var budget =
+            FakeBudgetBuilder.Build(budgetId, _application.UserId, faker.Random.String2(10));
+
+        var transfers = new[]
+        {
+            budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Income,
+                new(faker.Random.String2(10), 1000, "PLN", new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc))),
+            budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Savings,
+                new(faker.Random.String2(10), 200, "PLN", new DateTime(2024, 1, 15, 0, 0, 0, DateTimeKind.Utc))),
+            budget.AddTransfer(new IdGeneratorMock(Guid.NewGuid()), TransferType.Savings,
+                new(faker.Random.String2(10), 300, "PLN", new DateTime(2024, 2, 15, 0, 0, 0, DateTimeKind.Utc)))
+        }.Select(x => x.Value).ToList();
+
+        await _dbContext.Budgets.AddAsync(budget);
+        await _dbContext.Transfers.AddRangeAsync(transfers);
+        await _dbContext.SaveChangesAsync();
+
+        Dictionary<string, string?> queryParams = new() {{"year", year?.ToString()}, {"month", month?.ToString()}};
+
+        string url =
+            $"/budget/{budgetId}/totals?{string.Join("&", queryParams.Where(x => x.Value is not null).Select(x => $"{x.Key}={x.Value}"))}";
+
+        //act
+        var response = await _httpClient.GetFromJsonAsync<BudgetTotals>(url);
+
+
+        //assert
+        Assert.NotNull(response);
+        Assert.Equal(expectedSavings, response.Savings);
+        Assert.Equal(0, response.Expenses);
+        Assert.Equal(0, response.Taxes);
+    }
 }

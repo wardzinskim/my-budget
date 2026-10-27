@@ -116,6 +116,11 @@ export default function Router() {
           action: transferNewPageAction(userContext),
         },
         {
+          path: '/transfers/new/savings',
+          element: <TransfersNewPage type={TransferDTOType.Savings} />,
+          action: transferNewPageAction(userContext),
+        },
+        {
           path: Paths.transferEdit,
           element: <TransfersEditPage />,
           loader: transferEditPageLoader(userContext),

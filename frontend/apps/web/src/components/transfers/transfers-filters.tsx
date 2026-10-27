@@ -84,6 +84,7 @@ export const TransferFilters: React.FC<TransferFiltersProps> = () => {
           <MenuItem value={TransferDTOType.Income}>Income</MenuItem>
           <MenuItem value={TransferDTOType.Expense}>Expense</MenuItem>
           <MenuItem value={TransferDTOType.Tax}>Tax</MenuItem>
+          <MenuItem value={TransferDTOType.Savings}>Savings</MenuItem>
         </Select>
         {formik.touched.type && Boolean(formik.errors.type) && (
           <FormHelperText error={true}>

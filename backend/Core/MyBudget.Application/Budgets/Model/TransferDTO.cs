@@ -21,5 +21,8 @@ public enum TransferDTOType
     Expense,
 
     [Description("Tax-related transfer, e.g.  VAT, PIT or ZUS payments")]
-    Tax
+    Tax,
+
+    [Description("Money set aside as savings. Tracked separately and does not affect incomes, expenses or taxes")]
+    Savings
 }

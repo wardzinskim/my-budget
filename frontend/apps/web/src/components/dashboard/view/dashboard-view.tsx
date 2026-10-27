@@ -8,6 +8,7 @@ import { BalanceViewer } from '../widgets/balance-viewer';
 import { ExpensesToIncomesRatio } from '../widgets/expenses-to-incomes-ratio';
 import { DashboardLoaderResult } from '../../../pages/dashboard/dashboard.loader';
 import { TotalIncomesViewer } from '../widgets/total-incomes-viewer';
+import { TotalSavingsViewer } from '../widgets/total-savings-viewer';
 import Grid from '@mui/material/Grid';
 import { TransfersByCategoryList } from '../widgets/transfers-by-category-list';
 import { ExpensesByCategoryHeatmap } from '../widgets/expenses-by-category-heatmap';
@@ -52,14 +53,32 @@ export const DashboardView: React.FC = () => {
           </Grid>
         </Grid>
 
-        <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-          <BalanceViewer
-            value={
-              (loaderData.totals.incomes ?? 0) -
-              (loaderData.totals.taxes ?? 0) -
-              (loaderData.totals.expenses ?? 0)
-            }
-          />
+        <Grid
+          container
+          size={{ xs: 12, sm: 6, md: 4 }}
+          alignSelf="flex-start"
+          spacing={3}
+        >
+          <Grid size={{ xs: 12 }}>
+            <BalanceViewer
+              value={
+                (loaderData.totals.incomes ?? 0) -
+                (loaderData.totals.taxes ?? 0) -
+                (loaderData.totals.expenses ?? 0)
+              }
+            />
+          </Grid>
+          {!(
+            (loaderData.totals.savings ?? 0) == 0 &&
+            (loaderData.yearlyTotals.savings ?? 0) == 0
+          ) && (
+            <Grid size={{ xs: 12 }}>
+              <TotalSavingsViewer
+                value={loaderData.totals.savings ?? 0}
+                yearlyValue={loaderData.yearlyTotals.savings ?? 0}
+              />
+            </Grid>
+          )}
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6, md: 4 }}>

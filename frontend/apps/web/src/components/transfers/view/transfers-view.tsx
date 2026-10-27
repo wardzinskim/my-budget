@@ -46,6 +46,16 @@ export const TransfersView: React.FC = () => {
 
             <Button
               component={RouterLink}
+              href="/transfers/new/savings"
+              variant="contained"
+              color="inherit"
+              startIcon={<Iconify icon="vaadin:piggy-bank-coin" />}
+            >
+              Add Savings
+            </Button>
+
+            <Button
+              component={RouterLink}
               href="/transfers/new/expense"
               variant="contained"
               color="inherit"

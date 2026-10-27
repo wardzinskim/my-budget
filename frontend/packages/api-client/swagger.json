@@ -930,6 +930,10 @@
           "taxes": {
             "type": "number",
             "format": "double"
+          },
+          "savings": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
@@ -1166,7 +1170,8 @@
         "enum": [
           "Income",
           "Expense",
-          "Tax"
+          "Tax",
+          "Savings"
         ],
         "type": "string"
       },

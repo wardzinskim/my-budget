@@ -36,4 +36,10 @@ export interface BudgetTotals {
    * @memberof BudgetTotals
    */
   taxes?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof BudgetTotals
+   */
+  savings?: number;
 }

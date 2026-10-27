@@ -11,6 +11,7 @@ import { IDashboardContextState } from '../../components/dashboard/hooks/dashboa
 
 export interface DashboardLoaderResult {
   totals: BudgetTotals;
+  yearlyTotals: BudgetTotals;
   incomesGroupedByCategory: CategoryValue[];
   yearlyIncomesGroupedByCategory: CategoryValue[];
   yearlyExpensesGroupedByCategory: CategoryValue[];
@@ -26,6 +27,7 @@ export const loader: (
 
   const [
     totals,
+    yearlyTotals,
     incomesGroupedByCategory,
     yearlyIncomesGroupedByCategory,
     yearlyExpensesGroupedByCategory,
@@ -37,6 +39,7 @@ export const loader: (
       dashboardContext.year,
       dashboardContext.month
     ),
+    fetchTotals(userContext.budget.id!, dashboardContext.year),
     fetchExpensesTotalsGroupedByCategory(
       userContext.budget.id!,
       dashboardContext.year,
@@ -73,6 +76,7 @@ export const loader: (
 
   return {
     totals,
+    yearlyTotals,
     incomesGroupedByCategory,
     yearlyIncomesGroupedByCategory,
     yearlyExpensesGroupedByCategory,

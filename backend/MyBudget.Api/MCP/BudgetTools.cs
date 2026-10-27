@@ -45,7 +45,7 @@ public class BudgetTools(IMediator mediator)
     public async Task<TransfersQueryResponse> GetTransfers(
         [Description("Id of the budget to retrieve transfers from")]
         Guid budgetId,
-        [Description("Optional filter by transfer type (Income, Expense or Tax). If omitted, all types are returned.")]
+        [Description("Optional filter by transfer type (Income, Expense, Tax or Savings). If omitted, all types are returned.")]
         TransferDTOType? type = null,
         [Description("Optional filter by transfer name. Performs a partial, case-insensitive match.")]
         string? name = null,
@@ -77,7 +77,7 @@ public class BudgetTools(IMediator mediator)
     public async Task<TransferDTO> CreateTransfer(
         [Description("Id of the budget to add the transfer to")]
         Guid budgetId,
-        [Description("Type of the transfer: Income, Expense or Tax")]
+        [Description("Type of the transfer: Income, Expense, Tax or Savings")]
         TransferDTOType type,
         [Description("Name/title of the transfer")]
         string name,

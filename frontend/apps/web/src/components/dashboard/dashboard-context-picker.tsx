@@ -39,6 +39,9 @@ export const DashboardContextPicker: React.FC = () => {
             <MenuItem value={2026} key={2026}>
               2026
             </MenuItem>
+            <MenuItem value={2027} key={2027}>
+              2027
+            </MenuItem>
           </Select>
         </FormControl>
 
