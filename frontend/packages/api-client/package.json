@@ -15,7 +15,7 @@
     "update": "ncu -u"
   },
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.25.2",
+    "@openapitools/openapi-generator-cli": "^2.42.0",
     "@repo/eslint-config": "^0.0.0",
     "@repo/typescript-config": "^0.0.0",
     "eslint": "^9.39.1",
